@@ -1,0 +1,29 @@
+{
+  "title": {
+    "currency": "貨幣",
+    "receive": "接收",
+    "txs": "交易",
+    "send": "發送",
+    "smart_contract": "智能合約",
+    "method": "方法",
+    "tx_count": "交易計數",
+    "date": "日期",
+    "receive_count": "呼叫合同",
+    "send_count": "接收計數",
+    "volume_in_eth": "音量輸入, ETH",
+    "volume_out_eth": "傳入數量, ETH",
+    "day": "天",
+    "volume_eth": "卷, ETH",
+    "transactions_count": "事務計數",
+    "calls_count": "通話次數"
+  },
+  "show_line": "前{count}行顯示 | 前{count}行顯示 | 前{count}行顯示 | 前{count}行顯示 ",
+  "show_line_total": "共{count}行 | 共{count}行 | 共{count}行 | 共{count}行",
+  "loading": "裝載...",
+  "show_more": "展示更多...",
+  "show_query": "顯示查詢",
+  "apply_changes": "應用更改",
+  "close": "關",
+  "fullscreen": "全屏",
+  "exit_fullscreen": "全屏退出"
+}

@@ -1,0 +1,29 @@
+{
+  "title": {
+    "currency": "Валюта",
+    "receive": "Получено",
+    "txs": "Транзакции",
+    "send": "Отправлено",
+    "smart_contract": "Смарт контракт",
+    "method": "Метод",
+    "tx_count": "Количество транзакций",
+    "date": "Дата",
+    "receive_count": "Вызовы контрактов",
+    "send_count": "Количество получателей",
+    "volume_in_eth": "Объем входящих, ETH",
+    "volume_out_eth": "Объем исходящих, ETH",
+    "day": "День",
+    "volume_eth": "Объем, ETH",
+    "transactions_count": "Количество транзакций",
+    "calls_count": "Количество вызовов"
+  },
+  "show_line": "Показаны первые {count} строк | Показана {count} строка | Показаны первые {count} строки | Показаны первые {count} строк",
+  "show_line_total": "Показаны {count} строк | Показана {count} строка | Показаны {count} строки | Показаны {count} строк",
+  "loading": "Загрузка...",
+  "show_more": "Показать больше...",
+  "show_query": "Показать запрос",
+  "apply_changes": "Применить изменения",
+  "close": "Закрыть",
+  "fullscreen": "На весь экран",
+  "exit_fullscreen": "Выход"
+}

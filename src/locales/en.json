@@ -1,0 +1,29 @@
+{
+  "title": {
+    "currency": "Currency",
+    "receive": "Receive",
+    "txs": "Tx's",
+    "send": "Send",
+    "smart_contract": "Smart Contract",
+    "method": "Method",
+    "tx_count": "Tx Count",
+    "date": "Date",
+    "receive_count": "Receive Count",
+    "send_count": "Send Count",
+    "volume_in_eth": "Volume In, ETH",
+    "volume_out_eth": "Volume Out, ETH",
+    "day": "Day",
+    "volume_eth": "Volume, ETH",
+    "transactions_count": "Transactions Count",
+    "calls_count": "Calls Count"
+  },
+  "show_line": "The first {count} row displayed | The first {count} row displayed | The first {count} rows displayed | The first {count} rows displayed",
+  "show_line_total": "Total {count} row | Total {count} row | Total {count} rows | Total {count} rows",
+  "loading": "Loading...",
+  "show_more": "Show more...",
+  "show_query": "Show query",
+  "apply_changes": "Apply Changes",
+  "close": "Close",
+  "fullscreen": "Fullscreen",
+  "exit_fullscreen": "Exit fullscreen"
+}

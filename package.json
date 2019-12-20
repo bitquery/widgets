@@ -1,0 +1,48 @@
+{
+  "name": "widgets",
+  "version": "1.0.10",
+  "description": "",
+  "main": "dist/widgets.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "start": "webpack --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/bloxy/widgets.git"
+  },
+  "keywords": ["bitquery", "widgets"],
+  "author": "BitQuery. Stepanov Andrey",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/bloxy/widgets#readme",
+  "devDependencies": {
+    "css-loader": "^3.2.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^4.2.0",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9",
+    "vue-loader": "^15.7.2",
+    "vue-template-compiler": "^2.6.10",
+    "vue-template-loader": "^1.0.0"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.4.4",
+    "graphiql": "^0.16.0",
+    "graphql": "^14.5.8",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash": "^4.17.15",
+    "numeral": "^2.0.6",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "vis": "^4.21.0-EOL",
+    "vue": "^2.6.10",
+    "vue-google-charts": "^0.3.2",
+    "vue-i18n": "^8.15.0"
+  }
+}
