@@ -1,7 +1,7 @@
 <template>
     <div>
         <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
-        <links obj="transfers_by_time" :link="$t('show_query')" func="transfers_by_time" title="Transfers By Time"></links>
+        <links obj="transfers_by_time" :link="$t('show_query')" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time"></links>
     </div>
 </template>
 <script>

@@ -1,6 +1,13 @@
 @import '~vis/dist/vis.min.css';
 @import '~graphiql/graphiql.css';
 
+.more-text{
+  a:not([href]):not([tabindex]).more-link{
+    color: #007bff;
+    cursor: pointer;
+  }
+}
+
 .widgets-modal-open{
   overflow: hidden;
 }
@@ -40,11 +47,11 @@
     margin: 30px auto;
 
     @media screen and (min-width: 992px){
-      width: 900px;
+      width: 80%;
     }
 
     @media screen and (min-width: 768px) and (max-width: 991px){
-      width: 600px;
+      width: 90%;
     }
 
     .widgets-modal-content{
@@ -97,6 +104,12 @@
         padding-left: 24px;
       }
     }
+  }
+}
+
+.graphiql-container{
+  .doc-explorer-title, .history-title, .docExplorerHide{
+    padding: 0 10px 0 0;
   }
 }
 
