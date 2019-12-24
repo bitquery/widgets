@@ -53,3 +53,7 @@ node_modules/.bin/webpack --watch
 >You can check out the full license [here](https://github.com/bitquery/widgets/blob/master/LICENSE)
 
 This project is licensed under the terms of the **MIT** license.
+
+## Credits
+
+The project is developing with the [Binance](https://binance.com) support on fellowship program.
