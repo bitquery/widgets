@@ -27,7 +27,8 @@
                 });
                 csv = csv+rows.join("\n");
                 let a = this._vnode.elm.querySelector('a');
-                a.href = "data:text/csv;base64," + btoa(csv);
+                let data = new Blob([csv]);
+                a.href = URL.createObjectURL(data);
             },
         }
     }
