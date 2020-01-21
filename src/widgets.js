@@ -105,7 +105,20 @@ let props = {
     locale: 'en',
     currentScriptPath: currentScriptPath.join('/')+'/',
     widgetsGraphiq: true,
-    callbacks: {}
+    callbacks: {},
+    theme: 'light',
+    themes: {
+        'light': {
+            html_class: '',
+            text: '#343a40',
+            background: '#ffffff'
+        },
+        'dark': {
+            html_class: 'dark',
+            text: '#ffffff',
+            background: 'transparent'
+        }
+    }
 };
 
 export function init(url, apikey, options = {}){

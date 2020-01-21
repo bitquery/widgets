@@ -1,7 +1,7 @@
 <template>
     <span v-if="defined">
         <a class="badge badge-secondary" v-on:click="showWidgetsModal">{{ link }}</a>
-        <div class="widgets-modal" :id="'widgets-modal-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
+        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
             <div class="widgets-modal-dialog">
                 <div class="widgets-modal-content">
                     <div class="widgets-modal-header">
@@ -27,6 +27,10 @@
         name: 'modal-graphiql',
         props: ['title', 'obj', 'link'],
         computed: {
+            theme_class: function(){
+                let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
+                return theme.html_class
+            },
             defined: function () {
                 return this.$root.$options.context.widgetsGraphiq
             }

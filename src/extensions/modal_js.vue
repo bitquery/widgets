@@ -1,7 +1,7 @@
 <template>
     <span>
         <a class="badge badge-secondary" v-on:click="showWidgetsModal">{{ link }}</a>
-        <div class="widgets-modal" :id="'widgets-modal-js-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
+        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-js-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
             <div class="widgets-modal-dialog">
                 <div class="widgets-modal-content">
                     <div class="widgets-modal-header">
@@ -11,7 +11,7 @@
                     <div class="widgets-modal-body">
 <textarea style="width: 100%; height: 100%;">
 <script>
-    widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}'});
+    widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}
     }`);
 </script>
@@ -37,6 +37,10 @@
         name: 'modal-js',
         props: ['title', 'obj', 'link', 'func'],
         computed: {
+            theme_class: function(){
+                let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
+                return theme.html_class
+            },
             context: function() {
                 return this.$root.$options.context;
             },

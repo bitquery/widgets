@@ -8,13 +8,20 @@
     export default {
         name: 'calls_by_time',
         data () {
+            let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
             return {
                 data: this.$parent._data,
                 variables: this.$parent.$options.context.variables,
                 chartOptions: {
+                    legendTextStyle: {
+                        color: theme.text
+                    },
+                    backgroundColor: {
+                        fill: theme.background
+                    },
                     height: 400,
                     animation: {
-                        duration: 700
+                        duration: 400
                     },
                     isStacked: true,
                     legend: {
@@ -27,7 +34,10 @@
                             title: this._i18n.t("title.calls_count"),
                             format: '#,###',
                             textStyle: {
-                                color: 'black'
+                                color: theme.text
+                            },
+                            titleTextStyle: {
+                                color: theme.text
                             },
                             viewWindow: {
                                 min: 0
@@ -44,7 +54,15 @@
                         //     }
                         // }
                     },
-                    hAxis: {title: this._i18n.t("title.day")},
+                    hAxis: {
+                        title: this._i18n.t("title.day"),
+                        textStyle: {
+                            color: theme.text
+                        },
+                        titleTextStyle: {
+                            color: theme.text
+                        },
+                    },
                     seriesType: 'bars',
                     series: {
                         '0': { color: 'lightblue' },

@@ -1,6 +1,6 @@
 <template>
     <div class="table-responsive">
-        <table class="table table-striped table-hover table-sm">
+        <table :class="'table table-striped table-hover table-sm widgets-table ' + theme_class">
             <thead>
             <tr>
                 <th>{{ $t("title.smart_contract") }}</th>
@@ -25,6 +25,12 @@
         name: 'calls_smart_contracts',
         data () {
             return this.$parent._data;
+        },
+        computed: {
+            theme_class: function(){
+                let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
+                return theme.html_class
+            }
         }
     }
 </script>

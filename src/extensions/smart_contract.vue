@@ -16,7 +16,6 @@
                 return this.callbacks.smart_contract == undefined ? false : true
             },
             url: function (){
-                console.log(this);
                 //let name = this.smartcontract.annotation == undefined ? this.smartcontract.address : this.smartcontract.annotation
                 return this.callbacks.smart_contract(this.name, this.smartcontract.address.address, this.locale)
             }
