@@ -25,5 +25,7 @@
   "apply_changes": "應用更改",
   "close": "關",
   "fullscreen": "全屏",
-  "exit_fullscreen": "全屏退出"
+  "exit_fullscreen": "全屏退出",
+  "errors": "失误",
+  "network": "网络"
 }

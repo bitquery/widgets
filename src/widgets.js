@@ -153,10 +153,12 @@ export function query(query){
         apollo
             .query({
                 query: it['gql'],
-                variables: it.variables
+                variables: it.variables,
+                errorPolicy: 'all'
             })
             .then(function(result){
                 it.data = result.data;
+                it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];
                 _.each(it.components,function(component){
                     component.render()
                 });

@@ -1,5 +1,6 @@
 <template>
-    <div class="table-responsive">
+    <errors :errors="errors" obj="calls_smart_contracts" func="calls_smart_contracts" :exclude="['csv']" title="Calls Smart Contracts" v-if="error"></errors>
+    <div class="table-responsive" v-else>
         <table :class="'table table-striped table-hover table-sm widgets-table ' + theme_class">
             <thead>
             <tr>
@@ -17,7 +18,7 @@
             </tbody>
         </table>
         <more-text :count="result.length" :load_count="100" :path="path"></more-text>
-        <links obj="calls_smart_contracts" :link="$t('show_query')" func="calls_smart_contracts" title="Calls Smart Contracts"></links>
+        <links obj="calls_smart_contracts" func="calls_smart_contracts" title="Calls Smart Contracts"></links>
     </div>
 </template>
 <script>
@@ -27,6 +28,12 @@
             return this.$parent._data;
         },
         computed: {
+            errors: function(){
+                return this.$root.$options.context.query.errors
+            },
+            error: function(){
+                return Array.isArray(this.errors) && this.errors.length > 0;
+            },
             theme_class: function(){
                 let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
                 return theme.html_class

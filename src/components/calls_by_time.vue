@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <errors :errors="errors" obj="calls_by_time" func="calls_by_time" :exclude="['csv']" title="Calls By Time" v-if="error"></errors>
+    <div v-else>
         <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
-        <links obj="calls_by_time" :link="$t('show_query')" func="calls_by_time" :exclude="['csv']" title="Calls By Time"></links>
+        <links obj="calls_by_time" func="calls_by_time" :exclude="['csv']" title="Calls By Time"></links>
     </div>
 </template>
 <script>
@@ -74,6 +75,12 @@
             };
         },
         computed: {
+            errors: function(){
+                return this.$root.$options.context.query.errors
+            },
+            error: function(){
+                return Array.isArray(this.errors) && this.errors.length > 0;
+            },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.calls_count")]];
                 _.each(this.$parent._data.result, function (item) {

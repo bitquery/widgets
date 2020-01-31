@@ -10,7 +10,7 @@
                 return this.$root.$options.context.callbacks
             },
             name: function(){
-                return (this.smartcontract.address.annotation == undefined ? this.smartcontract.address.address : this.smartcontract.address.annotation)
+                return ((this.smartcontract.address.annotation == undefined || this.smartcontract.address.annotation == '')  ? this.smartcontract.address.address : this.smartcontract.address.annotation)
             },
             defined: function () {
                 return this.callbacks.smart_contract == undefined ? false : true

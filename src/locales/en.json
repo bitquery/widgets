@@ -25,5 +25,7 @@
   "apply_changes": "Apply Changes",
   "close": "Close",
   "fullscreen": "Fullscreen",
-  "exit_fullscreen": "Exit fullscreen"
+  "exit_fullscreen": "Exit fullscreen",
+  "errors": "Errors",
+  "network": "Network"
 }

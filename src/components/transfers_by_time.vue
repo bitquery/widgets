@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <errors :errors="errors" obj="transfers_by_time" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time" v-if="error"></errors>
+    <div v-else>
         <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
-        <links obj="transfers_by_time" :link="$t('show_query')" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time"></links>
+        <links obj="transfers_by_time" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time"></links>
     </div>
 </template>
 <script>
@@ -77,10 +78,16 @@
             };
         },
         computed: {
+            errors: function(){
+                return this.$root.$options.context.query.errors
+            },
+            error: function(){
+                return Array.isArray(this.errors) && this.errors.length > 0;
+            },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.receive_count"), this._i18n.t("title.send_count"), this._i18n.t("title.volume_in_eth"), this._i18n.t("title.volume_out_eth")]];
                 _.each(this.$parent._data.result, function (item) {
-                    data_arr.push([item.date.date, item.count_in, item.count_out, item.sum_in_eth, item.sum_out_eth]);
+                    data_arr.push([item.date.day, item.count_in, item.count_out, item.sum_in, item.sum_out]);
                 });
                 return data_arr;
             }

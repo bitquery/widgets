@@ -25,5 +25,7 @@
   "apply_changes": "Применить изменения",
   "close": "Закрыть",
   "fullscreen": "На весь экран",
-  "exit_fullscreen": "Выход"
+  "exit_fullscreen": "Выход",
+  "errors": "Ошибки",
+  "network": "Сеть"
 }
