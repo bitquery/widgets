@@ -1,5 +1,8 @@
 <template>
-    <div class="search-item">
+    <div v-if="redirect">
+        {{ $t("redirect") }} {{redirect_location}}
+    </div>
+    <div class="search-item" v-else>
         <h4><a :href='url' v-if="defined">{{item.subject.address}}</a><span v-else>{{item.subject.address}}</span></h4>
         <small>{{ $t("network") }}: {{item.network.network}}</small>
         <p>{{item.subject.annotation}}</p>
@@ -8,8 +11,14 @@
 <script>
     export default {
         name: 'search-address',
-        props: ['item'],
+        props: ['item', 'redirect'],
         computed: {
+            redirect_location: function(){
+                if (this.redirect){
+                    location.href = this.url;
+                }
+                return '';
+            },
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },

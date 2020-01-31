@@ -27,5 +27,8 @@
   "fullscreen": "全屏",
   "exit_fullscreen": "全屏退出",
   "errors": "失误",
-  "network": "网络"
+  "network": "网络",
+  "redirect": "找到了. 重新導向...",
+  "not_found": "應要求“{query}”未返回任何結果。",
+  "please": "請指定請求，然後重試。"
 }
