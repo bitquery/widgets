@@ -22,6 +22,7 @@
 </template>
 <script>
     import utils from '../lib/utils'
+    import gql from 'graphql-tag';
 
     export default {
         name: 'modal-graphiql',
@@ -80,7 +81,7 @@
                 _$('body').removeClass('widgets-modal-open');
 
                 let context = this.$root.$options.context;
-                context.query.gql = widgets.gql(context.cache.query);
+                context.query.gql = gql(context.cache.query);
                 context.query.variables = JSON.parse(context.cache.variables);
                 this.$root.$options.context.query.request();
             }
