@@ -1,7 +1,7 @@
 <template>
     <div class="more-text">
-        <div class="more-text-link" ref="moreTextLink" style="display: block">{{ $tc('show_line', count, { count: count }) }}. <a class="more-link" v-on:click="more">{{ $t("show_more") }}</a></div>
-        <div class="more-text-total" ref="moreTextTotal" style="display: none">{{ $tc('show_line_total', count, { count: count }) }}.</div>
+        <div class="more-text-link" ref="moreTextLink" :style="moreTextLinkCount">{{ $tc('show_line', count, { count: count }) }}. <a class="more-link" v-on:click="more">{{ $t("show_more") }}</a></div>
+        <div class="more-text-total" ref="moreTextTotal" :style="moreTextTotalCount">{{ $tc('show_line_total', count, { count: count }) }}.</div>
     </div>
 </template>
 <script>
@@ -11,15 +11,31 @@
         computed: {
             changeOffset: function(){
                 return this.$parent.result;
-            }
+            },
+            moreTextLinkCount: function(){
+                if (this.$root.$options.context.query.variables.offset == 0 && this.$root.$options.context.query.variables.limit > this.count) {
+                    return 'display: none'
+                } else if (this.$root.$options.context.query.variables.offset == 0 && this.$root.$options.context.query.variables.limit <= this.count) {
+                    return 'display: block'
+                } else if (this.$root.$options.context.query.variables.offset != 0){
+                    return 'display: block'
+                }
+            },
+            moreTextTotalCount: function(){
+                if (this.$root.$options.context.query.variables.offset == 0 && this.$root.$options.context.query.variables.limit > this.count) {
+                    return 'display: block'
+                } else if (this.$root.$options.context.query.variables.offset == 0 && this.$root.$options.context.query.variables.limit <= this.count) {
+                    return 'display: none'
+                } else if (this.$root.$options.context.query.variables.offset != 0){
+                    return 'display: none'
+                }
+            },
         },
         watch: {
             changeOffset: function(val){
-                var his = this;
-
-                if (his.$root.$options.context.query.variables.offset == 0){
-                    his.$refs.moreTextLink.style.display = 'block';
-                    his.$refs.moreTextTotal.style.display = 'none';
+                if (this.$root.$options.context.query.variables.offset == 0){
+                    this.$refs.moreTextLink.style.display = 'block';
+                    this.$refs.moreTextTotal.style.display = 'none';
                 }
             }
         },

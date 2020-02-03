@@ -3,9 +3,14 @@
         {{ $t("redirect") }} {{redirect_location}}
     </div>
     <div class="search-item" v-else>
-        <h4><a :href='url' v-if="defined">{{item.subject.address}}</a><span v-else>{{item.subject.address}}</span></h4>
-        <small>{{ $t("network") }}: {{item.network.network}}</small>
-        <p>{{item.subject.annotation}}</p>
+        <div v-if="search_address_snippet" v-html="search_address_snippet">
+            {{search_address_snippet}}
+        </div>
+        <div v-else>
+            <h4><a :href='search_address_address' v-if="search_address_address">{{item.network.network}} address {{item.subject.address}}</a><span v-else>{{item.network.network}} address {{item.subject.address}}</span></h4>
+            <p>{{item.subject.annotation}}</p>
+            <a :href="search_address_address">{{search_address_address}}</a>
+        </div>
     </div>
 </template>
 <script>
@@ -22,12 +27,12 @@
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },
-            defined: function () {
-                return this.callbacks.search_address_address == undefined ? false : true
+            search_address_address: function (){
+                return this.callbacks.search_address_address == undefined ? false : this.callbacks.search_address_address(this.item.network.network, this.item.subject.address, this.$root.locale)
             },
-            url: function (){
-                return this.callbacks.search_address_address(this.item.network.network, this.item.subject.address, this.$root.locale)
-            }
+            search_address_snippet: function(){
+                return  this.callbacks.search_address_snippet == undefined ? false : this.callbacks.search_address_snippet(this.item, this.$root.locale)
+            },
         }
     }
 </script>

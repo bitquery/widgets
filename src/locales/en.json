@@ -30,5 +30,5 @@
   "network": "Network",
   "redirect": "Found. Redirect...",
   "not_found": "On request \"{query}\" returned no results.",
-  "please": "Please specify the request and try again."
+  "please": "Please clarify the request and try again."
 }
