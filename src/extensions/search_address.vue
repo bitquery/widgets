@@ -7,9 +7,9 @@
             {{search_address_snippet}}
         </div>
         <div v-else>
-            <h4><a :href='search_address_address' v-if="search_address_address">{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</a><span v-else>{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</span></h4>
+            <h4><a :href='search_address_path' v-if="search_address_path">{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</a><span v-else>{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</span></h4>
             <p>{{item.subject.annotation}}</p>
-            <a :href="search_address_address">{{search_address_address}}</a>
+            <a :href="search_address_path" v-if="search_address_path">{{search_address_address}}</a>
         </div>
     </div>
 </template>
@@ -20,15 +20,15 @@
         computed: {
             redirect_location: function(){
                 if (this.redirect){
-                    location.href = this.search_address_address;
+                    location.href = this.search_address_path;
                 }
                 return '';
             },
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },
-            search_address_address: function (){
-                return this.callbacks.search_address_address == undefined ? false : this.callbacks.search_address_address(this.item.network.network, this.item.subject.address, this.$root.locale)
+            search_address_path: function (){
+                return this.callbacks.search_address_path == undefined ? false : this.callbacks.search_address_path(this.item.network.network, this.item.subject.address, this.$root.locale)
             },
             search_address_snippet: function(){
                 return  this.callbacks.search_address_snippet == undefined ? false : this.callbacks.search_address_snippet(this.item, this.$root.locale)

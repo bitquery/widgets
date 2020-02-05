@@ -1,5 +1,5 @@
 <template>
-    <a :href='url' v-if="defined">{{name}}</a><span v-else>{{name}}</span>
+    <a :href='smart_contract_path' v-if="smart_contract_path">{{name}}</a><span v-else>{{name}}</span>
 </template>
 <script>
     export default {
@@ -12,12 +12,9 @@
             name: function(){
                 return ((this.smartcontract.address.annotation == undefined || this.smartcontract.address.annotation == '')  ? this.smartcontract.address.address : this.smartcontract.address.annotation)
             },
-            defined: function () {
-                return this.callbacks.smart_contract == undefined ? false : true
-            },
-            url: function (){
-                //let name = this.smartcontract.annotation == undefined ? this.smartcontract.address : this.smartcontract.annotation
-                return this.callbacks.smart_contract(this.name, this.smartcontract.address.address, this.locale)
+
+            smart_contract_path: function (){
+                return  this.callbacks.smart_contract_path == undefined ? false : this.callbacks.smart_contract_path(this.name, this.smartcontract.address.address, this.locale)
             }
         }
     }

@@ -1,5 +1,5 @@
 <template>
-    <a :href='url' v-if="defined">{{count}} <span class="fa fa-list"></span></a>
+    <a :href='transfer_to_path' v-if="transfer_to_path">{{count}} <span class="fa fa-list"></span></a>
     <span v-else>{{parseInt(count) == 0 ? '-' : count}}</span>
 </template>
 <script>
@@ -10,11 +10,8 @@
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },
-            defined: function () {
-                return this.callbacks.transfer_to_address == undefined || parseInt(this.count) == 0 ? false : true
-            },
-            url: function (){
-                return this.callbacks.transfer_to_address(this.currency_id, this.$root.$options.context.query.variables.address, this.locale)
+            transfer_to_path: function (){
+                return  this.callbacks.transfer_to_path == undefined ? false : this.callbacks.transfer_to_path(this.address, this.locale)
             }
         }
     }

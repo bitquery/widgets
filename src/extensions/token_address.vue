@@ -1,5 +1,5 @@
 <template>
-    <a :href='url' v-if="defined">{{name}}</a><span v-else>{{name}}</span>
+    <a :href='token_path' v-if="token_path">{{name}}</a><span v-else>{{name}}</span>
 </template>
 <script>
     export default {
@@ -9,11 +9,8 @@
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },
-            defined: function () {
-                return this.callbacks.token_address == undefined ? false : true
-            },
-            url: function (){
-                return this.callbacks.token_address(this.name, this.addr, this.locale)
+            token_path: function (){
+                return  this.callbacks.token_path == undefined ? false : this.callbacks.token_path(this.name, this.addr, this.locale)
             }
         }
     }

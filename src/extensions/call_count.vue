@@ -1,5 +1,5 @@
 <template>
-    <a :href='url' v-if="defined">{{count}} <span class="fa fa-list"></span></a>
+    <a :href='call_count_path' v-if="call_count_path">{{count}} <span class="fa fa-list"></span></a>
     <span v-else>{{parseInt(count) == 0 ? '-' : count}}</span>
 </template>
 <script>
@@ -10,11 +10,8 @@
             callbacks: function(){
                 return this.$root.$options.context.callbacks
             },
-            defined: function () {
-                return this.callbacks.call_count == undefined || parseInt(this.count) == 0 ? false : true
-            },
-            url: function (){
-                return this.callbacks.transfer_from_address(this.address, this.locale)
+            call_count_path: function (){
+                return  this.callbacks.call_count_path == undefined ? false : this.callbacks.call_count_path(this.address, this.locale)
             }
         }
     }
