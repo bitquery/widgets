@@ -20,7 +20,7 @@
         computed: {
             redirect_location: function(){
                 if (this.redirect){
-                    location.href = this.url;
+                    location.href = this.search_address_address;
                 }
                 return '';
             },
