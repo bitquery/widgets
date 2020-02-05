@@ -10,9 +10,11 @@
         name: 'transfers_by_time',
         data () {
             let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
+            let variables = this.$parent.$options.context.query.variables;
+
             return {
                 data: this.$parent._data,
-                variables: this.$parent.$options.context.variables,
+                variables: variables,
                 chartOptions: {
                     legendTextStyle: {
                         color: theme.text
@@ -45,7 +47,7 @@
                             }
                         },
                         '1': {
-                            title: this._i18n.t("title.volume_eth"),
+                            title: this._i18n.t("title.volume_eth", {currency: variables.currency}),
                             format: 'decimal',
                             textStyle: {
                                 color: theme.text
@@ -85,9 +87,9 @@
                 return Array.isArray(this.errors) && this.errors.length > 0;
             },
             chartData: function(){
-                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.receive_count"), this._i18n.t("title.send_count"), this._i18n.t("title.volume_in_eth"), this._i18n.t("title.volume_out_eth")]];
-                _.each(this.$parent._data.result, function (item) {
-                    data_arr.push([item.date.day, item.count_in, item.count_out, item.sum_in, item.sum_out]);
+                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.receive_count"), this._i18n.t("title.send_count"), this._i18n.t("title.volume_in_eth", {currency: this.variables.currency}), this._i18n.t("title.volume_out_eth", {currency: this.variables.currency})]];
+                _.each(this.data.result, function (item) {
+                    data_arr.push([(item.date.month || item.date.day), item.count_in, item.count_out, item.sum_in, item.sum_out]);
                 });
                 return data_arr;
             }

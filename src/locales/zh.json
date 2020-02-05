@@ -10,10 +10,10 @@
     "date": "日期",
     "receive_count": "呼叫合同",
     "send_count": "接收計數",
-    "volume_in_eth": "音量輸入, ETH",
-    "volume_out_eth": "傳入數量, ETH",
+    "volume_in_eth": "音量輸入, {currency}",
+    "volume_out_eth": "傳入數量, {currency}",
     "day": "天",
-    "volume_eth": "卷, ETH",
+    "volume_eth": "卷, {currency}",
     "transactions_count": "事務計數",
     "calls_count": "通話次數"
   },

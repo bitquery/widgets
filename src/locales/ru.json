@@ -10,10 +10,10 @@
     "date": "Дата",
     "receive_count": "Вызовы контрактов",
     "send_count": "Количество получателей",
-    "volume_in_eth": "Объем входящих, ETH",
-    "volume_out_eth": "Объем исходящих, ETH",
+    "volume_in_eth": "Объем входящих, {currency}",
+    "volume_out_eth": "Объем исходящих, {currency}",
     "day": "День",
-    "volume_eth": "Объем, ETH",
+    "volume_eth": "Объем, {currency}",
     "transactions_count": "Количество транзакций",
     "calls_count": "Количество вызовов"
   },

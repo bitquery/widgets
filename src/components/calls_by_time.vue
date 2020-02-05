@@ -10,9 +10,10 @@
         name: 'calls_by_time',
         data () {
             let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
+            let variables = this.$parent.$options.context.query.variables;
             return {
                 data: this.$parent._data,
-                variables: this.$parent.$options.context.variables,
+                variables: variables,
                 chartOptions: {
                     legendTextStyle: {
                         color: theme.text
@@ -83,8 +84,8 @@
             },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.calls_count")]];
-                _.each(this.$parent._data.result, function (item) {
-                    data_arr.push([item.date.date, item.count]);
+                _.each(this.data.result, function (item) {
+                    data_arr.push([(item.date.month || item.date.day), item.count]);
                 });
                 return data_arr;
             }

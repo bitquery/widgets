@@ -140,6 +140,11 @@ export function query(query){
         gql: gql(query),
         data: {},
         components: [],
+        set: function(query){
+            properties.query = query;
+            properties.gql = gql(query);
+            return properties;
+        },
         request: function(p = {}, thenResult = function(result, it){}){
         var it = this;
 

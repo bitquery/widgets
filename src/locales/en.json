@@ -10,10 +10,10 @@
     "date": "Date",
     "receive_count": "Receive Count",
     "send_count": "Send Count",
-    "volume_in_eth": "Volume In, ETH",
-    "volume_out_eth": "Volume Out, ETH",
+    "volume_in_eth": "Volume In, {currency}",
+    "volume_out_eth": "Volume Out, {currency}",
     "day": "Day",
-    "volume_eth": "Volume, ETH",
+    "volume_eth": "Volume, {currency}",
     "transactions_count": "Transactions Count",
     "calls_count": "Calls Count"
   },
