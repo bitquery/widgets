@@ -13,9 +13,17 @@
     "volume_in_eth": "Volume In, {currency}",
     "volume_out_eth": "Volume Out, {currency}",
     "day": "Day",
+    "month": "Month",
     "volume_eth": "Volume, {currency}",
     "transactions_count": "Transactions Count",
-    "calls_count": "Calls Count"
+    "calls_count": "Calls Count",
+    "trades": "Trades Count",
+    "trades_as_buyer": "Trades as buyer",
+    "trades_as_seller": "Trades as seller",
+    "pair": "Pair",
+    "buy": "Buy",
+    "sell": "Sell",
+    "trade": "Trades"
   },
   "show_line": "The first {count} row displayed | The first {count} row displayed | The first {count} rows displayed | The first {count} rows displayed",
   "show_line_total": "Total {count} row | Total {count} row | Total {count} rows | Total {count} rows",
@@ -29,6 +37,7 @@
   "errors": "Errors",
   "network": "Network",
   "redirect": "Found. Redirect...",
+  "search_snippet_title": "{network} address {address}",
   "not_found": "On request \"{query}\" returned no results.",
   "please": "Please clarify the request and try again."
 }

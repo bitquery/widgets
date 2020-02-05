@@ -1,13 +1,13 @@
 <template>
-    <errors :errors="errors" obj="calls_by_time" func="calls_by_time" :exclude="['csv']" title="Calls By Time" v-if="error"></errors>
+    <errors :errors="errors" obj="calls_by_time" func="trades_by_time" :exclude="['csv']" title="Trades By Time" v-if="error"></errors>
     <div v-else>
         <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
-        <links obj="calls_by_time" func="calls_by_time" :exclude="['csv']" title="Calls By Time"></links>
+        <links obj="trades_by_time" func="trades_by_time" :exclude="['csv']" title="Trades By Time"></links>
     </div>
 </template>
 <script>
     export default {
-        name: 'calls_by_time',
+        name: 'trades_by_time',
         data () {
             let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
             let variables = this.$parent.$options.context.query.variables;
@@ -33,7 +33,7 @@
                     },
                     vAxes: {
                         '0': {
-                            title: this._i18n.t("title.calls_count"),
+                            title: this._i18n.t("title.trades"),
                             format: '#,###',
                             textStyle: {
                                 color: theme.text
@@ -45,16 +45,16 @@
                                 min: 0
                             }
                         },
-                        // '1': {
-                        //     title: this._i18n.t("title.volume_eth"),
-                        //     format: 'decimal',
-                        //     textStyle: {
-                        //         color: 'green'
-                        //     },
-                        //     viewWindow: {
-                        //         min: 0
-                        //     }
-                        // }
+                        '1': {
+                            title: this._i18n.t("title.trades"),
+                            format: '#,###',
+                            textStyle: {
+                                color: 'green'
+                            },
+                            viewWindow: {
+                                min: 0
+                            }
+                        }
                     },
                     hAxis: {
                         title: this._i18n.t("title.month"),
@@ -68,7 +68,7 @@
                     seriesType: 'bars',
                     series: {
                         '0': { color: 'lightblue' },
-                        // '1': { color: 'lightgreen' },
+                        '1': { color: 'lightgreen' },
                         // '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
                         // '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
                     }
@@ -83,9 +83,9 @@
                 return Array.isArray(this.errors) && this.errors.length > 0;
             },
             chartData: function(){
-                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.calls_count")]];
+                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.trades_as_buyer"), this._i18n.t("title.trades_as_seller")]];
                 _.each(this.data.result, function (item) {
-                    data_arr.push([(item.date.month || item.date.day), item.count]);
+                    data_arr.push([(item.date.month || item.date.day), item.trades_as_buyer, item.trades_as_seller]);
                 });
                 return data_arr;
             }

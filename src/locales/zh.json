@@ -13,9 +13,17 @@
     "volume_in_eth": "音量輸入, {currency}",
     "volume_out_eth": "傳入數量, {currency}",
     "day": "天",
+    "month": "Month",
     "volume_eth": "卷, {currency}",
     "transactions_count": "事務計數",
-    "calls_count": "通話次數"
+    "calls_count": "通話次數",
+    "trades": "交易計數",
+    "trades_as_buyer": "作為買方的交易",
+    "trades_as_seller": "賣方交易",
+    "pair": "對",
+    "buy": "購買",
+    "sell": "賣",
+    "trade": "交易"
   },
   "show_line": "前{count}行顯示 | 前{count}行顯示 | 前{count}行顯示 | 前{count}行顯示 ",
   "show_line_total": "共{count}行 | 共{count}行 | 共{count}行 | 共{count}行",
@@ -29,6 +37,7 @@
   "errors": "失误",
   "network": "网络",
   "redirect": "找到了. 重新導向...",
+  "search_snippet_title": "{network} 地址 {address}",
   "not_found": "應要求“{query}”未返回任何結果。",
   "please": "请澄清请求，然后重试。"
 }

@@ -48,7 +48,7 @@
                         },
                         '1': {
                             title: this._i18n.t("title.volume_eth", {currency: variables.currency}),
-                            format: 'decimal',
+                            format: '#,###',
                             textStyle: {
                                 color: theme.text
                             },
@@ -61,7 +61,7 @@
                         }
                     },
                     hAxis: {
-                        title: this._i18n.t("title.day"),
+                        title: this._i18n.t("title.month"),
                         textStyle: {
                             color: theme.text
                         },

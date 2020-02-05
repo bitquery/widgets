@@ -13,9 +13,17 @@
     "volume_in_eth": "Объем входящих, {currency}",
     "volume_out_eth": "Объем исходящих, {currency}",
     "day": "День",
+    "month": "Месяц",
     "volume_eth": "Объем, {currency}",
     "transactions_count": "Количество транзакций",
-    "calls_count": "Количество вызовов"
+    "calls_count": "Количество вызовов",
+    "trades": "Количество сделок",
+    "trades_as_buyer": "Сделок от покупателей",
+    "trades_as_seller": "Сделок от продавцов",
+    "pair": "Пара",
+    "buy": "Куплено",
+    "sell": "Продано",
+    "trade": "Сделки"
   },
   "show_line": "Показаны первые {count} строк | Показана {count} строка | Показаны первые {count} строки | Показаны первые {count} строк",
   "show_line_total": "Показаны {count} строк | Показана {count} строка | Показаны {count} строки | Показаны {count} строк",
@@ -29,6 +37,7 @@
   "errors": "Ошибки",
   "network": "Сеть",
   "redirect": "Найдено. Переадресация...",
+  "search_snippet_title": "{network} адрес {address}",
   "not_found": "По запросу \"{query}\" ничего не найдено.",
   "please": "Пожалуйста, уточните запрос и повторите попытку"
 }
