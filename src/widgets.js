@@ -225,8 +225,8 @@ export function transfers_by_time(selector, query, path = 'transfers'){
     return component('transfers_by_time', selector, query, path);
 }
 
-export function trades_by_time(selector, query, path = 'trades'){
-    return component('trades_by_time', selector, query, path);
+export function transaction_by_time(selector, query, path = 'transfers'){
+    return component('transaction_by_time', selector, query, path);
 }
 
 export function calls_by_time(selector, query, path = 'calls'){
