@@ -33,7 +33,7 @@
                     },
                     vAxes: {
                         '0': {
-                            title: this._i18n.t("title.tx_count"),
+                            title: this._i18n.t("title.transfers_count"),
                             format: '#,###',
                             textStyle: {
                                 color: theme.text
@@ -67,7 +67,7 @@
                     },
                     seriesType: 'bars',
                     series: {
-                        '0': { color: 'lightblue' },
+                        '0': { color: 'lightblue', type: 'line' },
                         // '1': { color: 'lightgreen' },
                         // '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
                         // '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
@@ -83,7 +83,7 @@
                 return Array.isArray(this.errors) && this.errors.length > 0;
             },
             chartData: function(){
-                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.tx_count")]];
+                let data_arr = [[this._i18n.t("date"), this._i18n.t("title.transfers_count")]];
                 _.each(this.data.result, function (item) {
                     data_arr.push([(item.date.month || item.date.day), item.count]);
                 });

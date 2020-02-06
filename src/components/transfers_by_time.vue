@@ -34,7 +34,7 @@
                     },
                     vAxes: {
                         '0': {
-                            title: this._i18n.t("title.transactions_count"),
+                            title: this._i18n.t("title.tx_count"),
                             format: '#,###',
                             textStyle: {
                                 color: theme.text
