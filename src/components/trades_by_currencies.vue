@@ -50,7 +50,6 @@
     export default {
         name: 'trades_by_currencies',
         data () {
-            console.log(this.$parent._data.result);
             return this.$parent._data;
         },
         computed: {
