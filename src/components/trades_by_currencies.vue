@@ -5,7 +5,7 @@
             <thead>
             <tr>
                 <th>{{ $t("title.pair") }}</th>
-                <th>side</th>
+                <th></th>
                 <th></th>
                 <th class="text-right">{{ $t("title.buy") }}</th>
                 <th class="text-left"></th>
@@ -17,8 +17,8 @@
             </thead>
             <tbody>
             <template v-for="item in result">
-                <tr>
-                    <td rowspan="2" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
+                <tr v-if="item.trades_as_buyer > 0">
+                    <td :rowspan="item.trades_as_buyer > 0 && item.trades_as_seller >0 ? 2 : 1" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
                     <td>{{ $t("title.buy") }}</td>
                     <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
                     <td class="text-right"><amount-display :amount="item.buyQuoteAmount"></amount-display></td>
@@ -28,7 +28,8 @@
                     <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
                     <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_buyer" address="test"></trades-count></td>
                 </tr>
-                <tr>
+                <tr v-if="item.trades_as_seller > 0">
+                    <td v-if="item.trades_as_buyer == 0" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
                     <td>{{ $t("title.sell") }}</td>
                     <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
                     <td class="text-right"><amount-display :amount="item.sellBaseAmount"></amount-display></td>
