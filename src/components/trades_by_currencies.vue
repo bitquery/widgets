@@ -1,28 +1,44 @@
 <template>
     <errors :errors="errors" obj="trades_by_currencies" func="trades_by_currencies" :exclude="['csv']" title="Trades By Currencies" v-if="error"></errors>
     <div class="table-responsive" v-else>
-        <table :class="'table table-striped table-hover table-sm widgets-table ' + theme_class">
+        <table :class="'table table-sm widgets-table ' + theme_class">
             <thead>
             <tr>
                 <th>{{ $t("title.pair") }}</th>
+                <th>side</th>
                 <th></th>
                 <th class="text-right">{{ $t("title.buy") }}</th>
-                <th class="text-right">{{ $t("title.trade") }}</th>
+                <th class="text-left"></th>
                 <th class="text-right">{{ $t("title.sell") }}</th>
+                <th class="text-left"></th>
                 <th></th>
                 <th class="text-right">{{ $t("title.trade") }}</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="item in result">
-                <td><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
-                <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
-                <td class="text-right"><amount-display :amount="item.buyAmount"></amount-display></td>
-                <td class="text-right">{{item.trades_as_buyer}}</td>
-                <td class="text-right"><amount-display :amount="item.sellAmount"></amount-display></td>
-                <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
-                <td class="text-right">{{item.trades_as_seller}}</td>
-            </tr>
+            <template v-for="item in result">
+                <tr>
+                    <td rowspan="2" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
+                    <td>{{ $t("title.buy") }}</td>
+                    <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
+                    <td class="text-right"><amount-display :amount="item.buyQuoteAmount"></amount-display></td>
+                    <td class="text-left">{{item.quoteCurrency.symbol}}</td>
+                    <td class="text-right"><amount-display :amount="item.buyBaseAmount"></amount-display></td>
+                    <td class="text-left">{{item.baseCurrency.symbol}}</td>
+                    <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
+                    <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_buyer" address="test"></trades-count></td>
+                </tr>
+                <tr>
+                    <td>{{ $t("title.sell") }}</td>
+                    <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
+                    <td class="text-right"><amount-display :amount="item.sellBaseAmount"></amount-display></td>
+                    <td class="text-left">{{item.baseCurrency.symbol}}</td>
+                    <td class="text-right"><amount-display :amount="item.sellQuoteAmount"></amount-display></td>
+                    <td class="text-left">{{item.quoteCurrency.symbol}}</td>
+                    <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
+                    <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_seller" address="test"></trades-count></td>
+                </tr>
+            </template>
             </tbody>
         </table>
         <more-text :count="result.length" :load_count="100" :path="path"></more-text>
@@ -33,6 +49,7 @@
     export default {
         name: 'trades_by_currencies',
         data () {
+            console.log(this.$parent._data.result);
             return this.$parent._data;
         },
         computed: {
