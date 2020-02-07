@@ -111,7 +111,7 @@ let props = {
         'light': {
             html_class: '',
             text: '#343a40',
-            background: '#ffffff'
+            background: 'transparent'
         },
         'dark': {
             html_class: 'dark',
