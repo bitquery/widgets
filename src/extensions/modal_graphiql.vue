@@ -1,14 +1,14 @@
 <template>
     <span v-if="defined">
         <a class="badge badge-secondary" v-on:click="showWidgetsModal">{{ link }}</a>
-        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
+        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-'+obj+rand" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
             <div class="widgets-modal-dialog">
                 <div class="widgets-modal-content">
                     <div class="widgets-modal-header">
                         <button type="button" class="widgets-modal-close" v-on:click="closeWidgetsModal">&times;</button>
                         <h4 class="widgets-modal-title">{{ title }}</h4>
                     </div>
-                    <div class="widgets-modal-body" :id="'widgets-modal-graphigl-'+obj">
+                    <div class="widgets-modal-body" :id="'widgets-modal-graphigl-'+obj+rand">
                         {{ $t("loading") }}
                     </div>
                     <div class="widgets-modal-footer">
@@ -34,12 +34,15 @@
             },
             defined: function () {
                 return this.$root.$options.context.widgetsGraphiq
+            },
+            rand: function () {
+                return Math.floor(Math.random() * Math.floor(100000));
             }
         },
         methods: {
             showWidgetsModal: function(e){
                 let _$ = utils.select;
-                let element = _$('#widgets-modal-'+this.obj);
+                let element = _$('#widgets-modal-'+this.obj+this.rand);
                 element.addClass('widgets-modal-show');
                 _$('body').addClass('widgets-modal-open');
 
@@ -50,7 +53,7 @@
                 };
 
                 utils.widgetsPluginLoader('widgetsGraphiql', context.currentScriptPath+'widgetsGraphiql.js').then(loader => {
-                    widgetsGraphiql.render(document.getElementById('widgets-modal-graphigl-'+this.obj),{
+                    widgetsGraphiql.render(document.getElementById('widgets-modal-graphigl-'+this.obj+this.rand),{
                         url: context.url,
                         query: context.cache.query,
                         variables: context.cache.variables,
@@ -69,14 +72,14 @@
             },
             closeWidgetsModal: function(e){
                 let _$ = utils.select;
-                let element = _$('#widgets-modal-'+this.obj+'.widgets-modal-show');
+                let element = _$('#widgets-modal-'+this.obj+this.rand+'.widgets-modal-show');
                 element.removeClass('widgets-modal-show');
                 _$('body').removeClass('widgets-modal-open');
                 this.$root.$options.context.cache = {}
             },
             closeWidgetsModalApply: function(e){
                 let _$ = utils.select;
-                let element = _$('#widgets-modal-'+this.obj+'.widgets-modal-show');
+                let element = _$('#widgets-modal-'+this.obj+this.rand+'.widgets-modal-show');
                 element.removeClass('widgets-modal-show');
                 _$('body').removeClass('widgets-modal-open');
 

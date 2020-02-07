@@ -1,7 +1,7 @@
 <template>
     <span>
         <a class="badge badge-secondary" v-on:click="showWidgetsModal">{{ link }}</a>
-        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-js-'+obj" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
+        <div :class="'widgets-modal ' + theme_class" :id="'widgets-modal-js-'+obj+rand" tabindex="-1" v-on:keyup.esc="closeWidgetsModal">
             <div class="widgets-modal-dialog">
                 <div class="widgets-modal-content">
                     <div class="widgets-modal-header">
@@ -55,12 +55,15 @@
             version: function () {
                 let ver = version.split('.');
                 return ver[0]+'.'+ver[1];
+            },
+            rand: function () {
+                return Math.floor(Math.random() * Math.floor(100000));
             }
         },
         methods: {
             showWidgetsModal: function(e){
                 let _$ = utils.select;
-                let element = _$('#widgets-modal-js-'+this.obj);
+                let element = _$('#widgets-modal-js-'+this.obj+this.rand);
                 element.addClass('widgets-modal-show');
                 _$('body').addClass('widgets-modal-open');
 
@@ -68,7 +71,7 @@
             },
             closeWidgetsModal: function(e){
                 let _$ = utils.select;
-                let element = _$('#widgets-modal-js-'+this.obj+'.widgets-modal-show');
+                let element = _$('#widgets-modal-js-'+this.obj+this.rand+'.widgets-modal-show');
                 element.removeClass('widgets-modal-show');
                 _$('body').removeClass('widgets-modal-open');
             }
