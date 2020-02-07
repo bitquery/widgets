@@ -53,7 +53,8 @@
                 return '{'+var_arr.join(', ')+'}';
             },
             version: function () {
-                return version;
+                let ver = version.split('.');
+                return ver[0]+'.'+ver[1];
             }
         },
         methods: {
