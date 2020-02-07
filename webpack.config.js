@@ -36,7 +36,7 @@ module.exports = function(paths){
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: 'http://localhost:63342/widgets/dist/',
+                                publicPath: 'https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.0.54/',
                                 minimize: true
                             },
                         },
