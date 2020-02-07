@@ -56,4 +56,4 @@ This project is licensed under the terms of the **MIT** license.
 
 ## Credits
 
-The project is developing with the [Binance](https://binance.com) fellowship program support.
+The project is developing with the [Binance fellowship program](https://binancex.dev/fellowship_fellows.html)  support.
