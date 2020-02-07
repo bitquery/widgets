@@ -10,15 +10,12 @@
                     </div>
                     <div class="widgets-modal-body">
 <textarea style="width: 100%; height: 100%;">
-<link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/assets/css/widgets.css">
-<script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/widgets.js"></script>
-<script>
-    widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
-    var query = new widgets.query(`{{ context.query.query }}
-    }`);
-</script>
+<link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@v{{version}}/dist/assets/css/widgets.css">
+<script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v{{version}}/dist/widgets.js"></script>
 <div id="{{ context.selector.replace('#', '') }}"></div>
 <script>
+    widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
+    var query = new widgets.query(`{{ context.query.query }}`);
     var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}');
     query.request({{variables}});
 </script>
@@ -51,9 +48,9 @@
                 let context = this.$root.$options.context;
                 let var_arr = [];
                 _.each(context.query.variables, function(value, key){
-                    var_arr.push('"'+key+'": "'+value+'"');
+                    var_arr.push('"'+key+'": '+(typeof value === 'string' ? '"'+value+'"' : value));
                 });
-                return '{'+var_arr.join(',')+'}';
+                return '{'+var_arr.join(', ')+'}';
             },
             version: function () {
                 return version;
