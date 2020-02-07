@@ -10,6 +10,9 @@
                     </div>
                     <div class="widgets-modal-body">
 <textarea style="width: 100%; height: 100%;">
+    {{version}}
+<link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/assets/css/widgets.css">
+<script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/widgets.js"></script>
 <script>
     widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}
@@ -17,7 +20,7 @@
 </script>
 <div id="{{ context.selector.replace('#', '') }}"></div>
 <script>
-    var tbc = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}');
+    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}');
     query.request({{variables}});
 </script>
 </textarea>
@@ -32,6 +35,7 @@
 </template>
 <script>
     import utils from '../lib/utils'
+    import {version} from '../../package';
 
     export default {
         name: 'modal-js',
@@ -51,6 +55,9 @@
                     var_arr.push('"'+key+'": "'+value+'"');
                 });
                 return '{'+var_arr.join(',')+'}';
+            },
+            version: function () {
+                return version;
             }
         },
         methods: {
