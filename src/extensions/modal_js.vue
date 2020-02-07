@@ -10,7 +10,6 @@
                     </div>
                     <div class="widgets-modal-body">
 <textarea style="width: 100%; height: 100%;">
-    {{version}}
 <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/assets/css/widgets.css">
 <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@{{version}}/dist/widgets.js"></script>
 <script>
