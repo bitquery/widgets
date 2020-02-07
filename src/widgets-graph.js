@@ -12,7 +12,7 @@ export function init(selector, address, nodes, expand_path){
                     group: 'system',
                     title: node.address.string,
                     link: ''
-                }
+                };
             } else {
                 return {
                     id: node.address.string,
@@ -20,11 +20,11 @@ export function init(selector, address, nodes, expand_path){
                     group: 'address',
                     title: node.address.string,
                     link: ''
-                }
+                };
             }
         }
 
-        let prepared = [];
+        var prepared = [];
         _.each(nodes, function(node){
             if (_.find(prepared, {id: node.address.string}) == undefined){
                 prepared.push(prepareNode(node));
@@ -53,7 +53,7 @@ export function init(selector, address, nodes, expand_path){
                     select_type: 'select_transfers',
                     hidden: false,
                     // id: this.hashCode([e.select_type, e.from, e.to, e.label])
-                }
+                };
             } else {
                 return {
                     from: address,
@@ -67,12 +67,12 @@ export function init(selector, address, nodes, expand_path){
                     select_type: 'select_transfers',
                     hidden: false,
                     // id: this.hashCode([e.select_type, e.from, e.to, e.label])
-                }
+                };
             }
 
         }
 
-        let prepared = [];
+        var prepared = [];
         _.each(edges, function(edge){
             prepared.push(prepareEdge(edge));
         });
@@ -433,4 +433,4 @@ export function init(selector, address, nodes, expand_path){
     //     });
     // };
 
-}
+};

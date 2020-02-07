@@ -1,19 +1,21 @@
 const _ = require('lodash');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = function(paths){
     return {
         entry: {
             'widgets': './src/widgets.js',
             'widgetsGraphiql': './src/widgets-graphiql.js',
-            'widgetsGraph': './src/widgets-graph.js'
+            'widgetsGraph': './src/widgets-graph.js',
         },
         output: {
             filename: '[name].js',
             // globalObject: 'this',
             libraryTarget: 'window',
-            library: '[name]',
+            library: '[name]'
         },
         resolve: {
             alias: {
@@ -27,37 +29,35 @@ module.exports = function(paths){
                     test: /\.vue$/,
                     loader: 'vue-loader'
                 },
-                // {
-                //     test: /\.s[ac]ss$/i,
-                //     use: [
-                //         // Creates `style` nodes from JS strings
-                //         'style-loader',
-                //         // Translates CSS into CommonJS
-                //         'css-loader',
-                //         // Compiles Sass to CSS
-                //         'sass-loader',
-                //     ],
-                // },
-                // {
-                //     test: /\.css$/i,
-                //     use: [
-                //         // Creates `style` nodes from JS strings
-                //         'style-loader',
-                //         // Translates CSS into CommonJS
-                //         'css-loader',
-                //         // Compiles Sass to CSS
-                //         // 'sass-loader',
-                //     ],
-                // },
-
                 {
                     test: /\.s[ac]ss$/i,
                     include: paths,
-                    use: ExtractTextPlugin.extract({
-                        publicPath: 'http://localhost:63342/widgets/dist/',
-                        fallback: 'style-loader',
-                        use: ['css-loader', 'sass-loader']
-                    })
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: 'http://localhost:63342/widgets/dist/',
+                                minimize: true
+                            },
+                        },
+                        'css-loader',
+                        'sass-loader'
+                    ]
+                    //MiniCssExtractPlugin.extract({
+                        //publicPath: 'http://localhost:63342/widgets/dist/',
+                        //fallback: 'style-loader',
+                        //use: ['css-loader', 'sass-loader']
+                        //     [{
+                        //     loader: 'css-loader',
+                        //     options: {
+                        //         minimize: true
+                        //     }
+                        // },
+                        //     {
+                        //         loader: 'sass-loader'
+                        //     }
+                        // ]
+                    // })
                 },
 
                 {
@@ -70,8 +70,25 @@ module.exports = function(paths){
                 }
             ]
         },
+        optimization: {
+            minimize: true,
+            removeAvailableModules: true,
+            minimizer: [new TerserPlugin({
+                terserOptions: {
+                    output: {
+                        comments: false,
+                    },
+                },
+                extractComments: false,
+                test: /\.js$/,
+            }),
+                new OptimizeCSSAssetsPlugin({})
+            ],
+        },
         plugins: [
             new VueLoaderPlugin(),
-            new ExtractTextPlugin('assets/css/widgets.css')
+            new MiniCssExtractPlugin({
+                filename: 'assets/css/widgets.css'
+            })
         ]
     }};

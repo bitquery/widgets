@@ -6,8 +6,9 @@ npm install --save graphql apollo-boost vue vue-i18n vue-google-charts vue-loade
 npm install --save-dev sass-loader node-sass style-loader css-loader file-loader
 npm install --save vis numeral
 npm install --save react react-dom isomorphic-fetch graphiql
-npm install --save-dev extract-text-webpack-plugin@next
-
+npm install --save-dev terser-webpack-plugin
+npm install --save-dev mini-css-extract-plugin
+npm install --save-dev optimize-css-assets-webpack-plugin
 For install
 -----------
 npm install
