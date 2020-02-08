@@ -4,9 +4,28 @@ Blockchain Visualization Widgets
 Library of visual components to build data visualization interface to the blockchain data.
 Universal tool across all major blockchains ( ethereum, tron, bitcoin, zcash, many more...).
 
-![Screen Preview](https://raw.githubusercontent.com/bitquery/widgets/master/doc/files/screen1.png)
+TLDR; Try [https://explorer.bitquery.io]()
 
----
+![Screen Preview](https://raw.githubusercontent.com/bitquery/widgets/master/doc/files/screen2.png)
+
+
+
+Every widget is a reusable visualization component to display the data from blockchain.
+Typically every widget is displaying a result set from GraphQL request.
+
+## Usage
+
+You can use widgets for:
+
+- build your own blockchain explorer. As starting point, [https://explorer.bitquery.io]() would help
+- embed data from blockchain on your website or page. This can show activity of your project,
+metrics trends or staked funds
+- create a dashboard of data related to a specific blockchain / protocol / project.
+This can be used to show some case, trends or serve explorational, scientific goals
+
+To start with, look our [wiki](https://github.com/bitquery/widgets/wiki). You do not need programming skills
+to use and embed widgets, most tasks can be done by examples. To use specialized filtering and data querying
+you will need basic understanding of [GraphQL language](https://graphql.org/).
 
 ## Setup
 
@@ -17,9 +36,7 @@ Clone this repo to your desktop and run
 to install all the dependencies.
 
 
-## Usage
 
-Will follow up soon
 
 For widget developers
 -----------
