@@ -15,14 +15,6 @@ Typically every widget is displaying a result set from GraphQL request.
 
 ## Usage
 
-You can use widgets for:
-
-- build your own blockchain explorer. As starting point, [https://explorer.bitquery.io]() would help
-- embed data from blockchain on your website or page. This can show activity of your project,
-metrics trends or staked funds
-- create a dashboard of data related to a specific blockchain / protocol / project.
-This can be used to show some case, trends or serve explorational, scientific goals
-
 To start with, look our [wiki](https://github.com/bitquery/widgets/wiki). You do not need programming skills
 to use and embed widgets, most tasks can be done by examples. To use specialized filtering and data querying
 you will need basic understanding of [GraphQL language](https://graphql.org/).
