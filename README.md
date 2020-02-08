@@ -6,6 +6,7 @@ Universal tool across all major blockchains ( ethereum, tron, bitcoin, zcash, ma
 
 TLDR; Try [https://explorer.bitquery.io](https://explorer.bitquery.io) which is 
 [open sourced](https://github.com/bitquery/explorer) and completely built using widgets.
+Javascript programmers may start with [JSFiddle examples](https://github.com/bitquery/widgets/wiki/JSFiddle).
 
 ![Screen Preview](https://raw.githubusercontent.com/bitquery/widgets/master/doc/files/screen2.png)
 
