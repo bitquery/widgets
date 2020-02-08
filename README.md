@@ -4,7 +4,8 @@ Blockchain Visualization Widgets
 Library of visual components to build data visualization interface to the blockchain data.
 Universal tool across all major blockchains ( ethereum, tron, bitcoin, zcash, many more...).
 
-TLDR; Try [https://explorer.bitquery.io]()
+TLDR; Try [https://explorer.bitquery.io](https://explorer.bitquery.io) which is 
+[open sourced](https://github.com/bitquery/explorer).
 
 ![Screen Preview](https://raw.githubusercontent.com/bitquery/widgets/master/doc/files/screen2.png)
 
