@@ -5,7 +5,7 @@ Library of visual components to build data visualization interface to the blockc
 Universal tool across all major blockchains ( ethereum, tron, bitcoin, zcash, many more...).
 
 TLDR; Try [https://explorer.bitquery.io](https://explorer.bitquery.io) which is 
-[open sourced](https://github.com/bitquery/explorer).
+[open sourced](https://github.com/bitquery/explorer) and completely built using widgets.
 
 ![Screen Preview](https://raw.githubusercontent.com/bitquery/widgets/master/doc/files/screen2.png)
 
