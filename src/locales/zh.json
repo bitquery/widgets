@@ -14,7 +14,7 @@
     "volume_in": "音量輸入, {currency}",
     "volume_out": "傳入數量, {currency}",
     "day": "天",
-    "month": "Month",
+    "month": "月",
     "volume": "卷, {currency}",
     "calls_count": "通話次數",
     "trades": "交易計數",
