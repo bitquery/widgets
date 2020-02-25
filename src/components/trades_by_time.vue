@@ -67,7 +67,7 @@
                     },
                     seriesType: 'bars',
                     series: {
-                        '0': { color: 'lightblue' },
+                        '0': { color: '#9bc2cf' },
                         '1': { color: 'lightgreen' },
                         // '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
                         // '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
