@@ -1,8 +1,10 @@
 <template>
     <errors :errors="errors" obj="search" func="search" :exclude="['csv']" title="Search" v-if="error"></errors>
     <div v-else-if="count == 0">
-        <h4>{{ $t("not_found", {query: query}) }}</h4>
-        <p>{{ $t("please") }}</p>
+        <p>
+            <strong class="word-wrap">{{ $t("not_found", {query: query}) }}</strong><br>
+            {{ $t("please") }}
+        </p>
     </div>
     <div v-else>
         <div v-for="item in result">

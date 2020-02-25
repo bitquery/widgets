@@ -7,9 +7,9 @@
             {{search_address_snippet}}
         </div>
         <div v-else>
-            <h4><a :href='search_address_path' v-if="search_address_path">{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</a><span v-else>{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</span></h4>
+            <h4><a class="word-wrap" :href='search_address_path' v-if="search_address_path">{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</a><span class="word-wrap" v-else>{{$t("search_snippet_title", {"network": item.network.network, "address": item.subject.address})}}</span></h4>
             <p>{{item.subject.annotation}}</p>
-            <a :href="search_address_path" v-if="search_address_path">{{search_address_address}}</a>
+            <a :href="search_address_path" class="word-wrap" v-if="search_address_path">{{search_address_address}}</a>
         </div>
     </div>
 </template>
