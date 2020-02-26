@@ -12,6 +12,24 @@
   word-wrap: break-word;
 }
 
+.ellipsis {
+  position: relative;
+
+  &:before {
+    content: '&nbsp;';
+    visibility: hidden;
+  }
+
+  span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .widgets-table{
   &.dark{
     color: #fff;
