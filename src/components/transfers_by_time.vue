@@ -1,7 +1,8 @@
 <template>
-    <errors :errors="errors" obj="transfers_by_time" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time" v-if="error"></errors>
-    <div v-else>
-        <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
+    <div>
+        <errors :errors="data.errors" v-if="is_error"></errors>
+        <nodata v-else-if="is_no_data"></nodata>
+        <GChart type="ComboChart" :data="chartData" :options="chartOptions" v-else />
         <links obj="transfers_by_time" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time"></links>
     </div>
 </template>
@@ -80,11 +81,11 @@
             };
         },
         computed: {
-            errors: function(){
-                return this.$root.$options.context.query.errors
+            is_error: function(){
+                return Array.isArray(this.data.errors) && this.data.errors.length > 0;
             },
-            error: function(){
-                return Array.isArray(this.errors) && this.errors.length > 0;
+            is_no_data: function(){
+                return Array.isArray(this.data.result) && this.data.result.length < 1;
             },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.receive_count"), this._i18n.t("title.send_count"), this._i18n.t("title.volume_in", {currency: this.variables.currency}), this._i18n.t("title.volume_out", {currency: this.variables.currency})]];

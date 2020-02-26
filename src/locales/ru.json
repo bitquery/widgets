@@ -35,9 +35,12 @@
   "fullscreen": "На весь экран",
   "exit_fullscreen": "Выход",
   "errors": "Ошибки",
+  "invalid_request": "Неверный запрос",
   "network": "Сеть",
   "redirect": "Найдено. Переадресация...",
   "search_snippet_title": "{network} адрес {address}",
   "not_found": "По запросу \"{query}\" ничего не найдено.",
-  "please": "Пожалуйста, уточните запрос и повторите попытку"
+  "please": "Пожалуйста, уточните запрос и повторите попытку",
+  "no_data": "Нет данных",
+  "response_is_empty": "Пустой ответ"
 }

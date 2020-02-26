@@ -35,9 +35,12 @@
   "fullscreen": "全屏",
   "exit_fullscreen": "全屏退出",
   "errors": "失误",
+  "invalid_request": "非法請求",
   "network": "网络",
   "redirect": "找到了. 重新導向...",
   "search_snippet_title": "{network} 地址 {address}",
   "not_found": "應要求“{query}”未返回任何結果。",
-  "please": "请澄清请求，然后重试。"
+  "please": "请澄清请求，然后重试",
+  "no_data": "沒有數據",
+  "response_is_empty": "回應為空"
 }

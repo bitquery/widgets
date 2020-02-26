@@ -159,7 +159,8 @@ export function query(query){
             .query({
                 query: it['gql'],
                 variables: it.variables,
-                errorPolicy: 'all'
+                errorPolicy: 'all',
+                fetchPolicy: 'no-cache',
             })
             .then(function(result){
                 it.data = result.data;
@@ -197,13 +198,15 @@ export function component(name, selector, query, path){
                     data: {
                         locale: it.vmi18n.locale,
                         path: it.path,
-                        result: query.data == undefined ? undefined : _.get(query.data, it.path, query.data)
+                        result: _.get(query.data, it.path, query.data),
+                        errors: _.get(query.errors, '', query.errors)
                     },
                     render: h => h(Components[it.name])
                 });
             } else {
                 it.vm.locale = it.vmi18n.locale = it.locale;
-                it.vm.result = query.data == undefined ? undefined : _.get(query.data, it.path, query.data);
+                it.vm.result = _.get(query.data, it.path, query.data);
+                it.vm.errors = _.get(query.errors, '', query.errors);
             }
         }
     };

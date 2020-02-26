@@ -35,9 +35,12 @@
   "fullscreen": "Fullscreen",
   "exit_fullscreen": "Exit fullscreen",
   "errors": "Errors",
+  "invalid_request": "Invalid request",
   "network": "Network",
   "redirect": "Found. Redirect...",
   "search_snippet_title": "{network} address {address}",
   "not_found": "On request \"{query}\" returned no results.",
-  "please": "Please clarify the request and try again."
+  "please": "Please clarify the request and try again",
+  "no_data": "No data",
+  "response_is_empty": "Response is empty"
 }
