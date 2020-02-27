@@ -22,6 +22,7 @@
 </textarea>
                     </div>
                     <div class="widgets-modal-footer">
+                        <button type="button" class="btn btn-secondary" v-on:click="closeWidgetsModalRevert" v-if="!is_original">{{ $t("revert_changes") }}</button>
                         <button type="button" class="btn btn-default" v-on:click="closeWidgetsModal">{{ $t("close") }}</button>
                     </div>
                 </div>
@@ -31,6 +32,7 @@
 </template>
 <script>
     import utils from '../lib/utils'
+    import gql from 'graphql-tag';
     import {version} from '../../package';
 
     export default {
@@ -40,6 +42,9 @@
             return {context: this.$root.$options.context}
         },
         computed: {
+            is_original: function(){
+              return this.context.query.query == this.context.query.original.query && _.isEqual(this.context.query.variables, this.context.query.original.variables)
+            },
             theme_class: function(){
                 let theme = this.context.themes[this.context.theme];
                 return theme.html_class
@@ -71,6 +76,13 @@
                 let element = _$('#widgets-modal-js-'+this.obj+this.rand+'.widgets-modal-show');
                 element.removeClass('widgets-modal-show');
                 _$('body').removeClass('widgets-modal-open');
+            },
+            closeWidgetsModalRevert: function(e){
+                this.context.query.gql = gql(this.context.query.original.query);
+                this.context.query.query = this.context.query.original.query;
+                this.context.query.request(this.context.query.original.variables);
+                this.closeWidgetsModal();
+                this.showWidgetsModal();
             }
         }
     }

@@ -13,7 +13,7 @@
                     </div>
                     <div class="widgets-modal-footer">
                         <button type="button" class="btn btn-primary" v-on:click="closeWidgetsModalApply">{{ $t("apply_changes") }}</button>
-                        <button type="button" class="btn btn-secondary" v-on:click="closeWidgetsModalRevert">{{ $t("revert_changes") }}</button>
+                        <button type="button" class="btn btn-secondary" v-on:click="closeWidgetsModalRevert" v-if="!is_original">{{ $t("revert_changes") }}</button>
                         <button type="button" class="btn btn-default" v-on:click="closeWidgetsModal">{{ $t("close") }}</button>
                     </div>
                 </div>
@@ -29,6 +29,10 @@
         name: 'modal-graphiql',
         props: ['title', 'obj', 'link'],
         computed: {
+            is_original: function(){
+                let context = this.$root.$options.context;
+                return context.query.query == context.query.original.query && _.isEqual(context.query.variables, context.query.original.variables)
+            },
             theme_class: function(){
                 let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
                 return theme.html_class
