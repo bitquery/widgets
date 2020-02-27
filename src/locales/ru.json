@@ -31,6 +31,7 @@
   "show_more": "Показать больше...",
   "show_query": "Показать запрос",
   "apply_changes": "Применить изменения",
+  "revert_changes": "Отменить изменения",
   "close": "Закрыть",
   "fullscreen": "На весь экран",
   "exit_fullscreen": "Выход",

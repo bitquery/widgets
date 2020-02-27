@@ -32,7 +32,7 @@
                             <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_buyer" address="test"></trades-count></td>
                         </tr>
                         <tr v-if="item.trades_as_seller > 0">
-                            <td v-if="item.trades_as_buyer == 0" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
+                            <td v-if="item.trades_as_buyer == 0" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td><td v-else class="d-none"></td>
                             <td>{{ $t("title.sell") }}</td>
                             <td class="text-right"><i class="fa fa-sign-in text-success"></i></td>
                             <td class="text-right"><amount-display :amount="item.sellBaseAmount"></amount-display></td>

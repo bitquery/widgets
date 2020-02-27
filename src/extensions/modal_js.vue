@@ -44,12 +44,7 @@
                 let theme = this.context.themes[this.context.theme];
                 return theme.html_class
             },
-            // query: function(){
-            //     return this.context.query.query
-            // },
             variables: function(){
-                // console.log(this.context.query.variables);
-                // console.log(this.context.query.query);
                     let var_arr = [];
                     _.each(this.context.query.variables, function(value, key){
                         var_arr.push('"'+key+'": '+(typeof value === 'string' ? '"'+value+'"' : value));

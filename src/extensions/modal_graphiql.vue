@@ -13,6 +13,7 @@
                     </div>
                     <div class="widgets-modal-footer">
                         <button type="button" class="btn btn-primary" v-on:click="closeWidgetsModalApply">{{ $t("apply_changes") }}</button>
+                        <button type="button" class="btn btn-secondary" v-on:click="closeWidgetsModalRevert">{{ $t("revert_changes") }}</button>
                         <button type="button" class="btn btn-default" v-on:click="closeWidgetsModal">{{ $t("close") }}</button>
                     </div>
                 </div>
@@ -78,15 +79,19 @@
                 this.$root.$options.context.cache = {}
             },
             closeWidgetsModalApply: function(e){
-                let _$ = utils.select;
-                let element = _$('#widgets-modal-'+this.obj+this.rand+'.widgets-modal-show');
-                element.removeClass('widgets-modal-show');
-                _$('body').removeClass('widgets-modal-open');
-
                 let context = this.$root.$options.context;
                 this.$root.$options.context.query.gql = gql(context.cache.query);
                 this.$root.$options.context.query.query = context.cache.query;
                 this.$root.$options.context.query.request(JSON.parse(context.cache.variables));
+                this.closeWidgetsModal();
+            },
+            closeWidgetsModalRevert: function(e){
+                let context = this.$root.$options.context;
+                this.$root.$options.context.query.gql = gql(context.query.original.query);
+                this.$root.$options.context.query.query = context.query.original.query;
+                this.$root.$options.context.query.request(context.query.original.variables);
+                this.closeWidgetsModal();
+                this.showWidgetsModal();
             }
         }
     }

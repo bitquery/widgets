@@ -136,6 +136,10 @@ export function callbacks(cbs = {}){
 
 export function query(query){
     let properties = {
+        original: {
+            query: query,
+            variables: undefined
+        },
         query: query,
         gql: gql(query),
         data: {},
@@ -154,6 +158,7 @@ export function query(query){
         };
 
         it.variables = _.merge(variables, it.variables, p);
+        it.original.variables == undefined ? it.original.variables = it.variables : '';
 
         apollo
             .query({
