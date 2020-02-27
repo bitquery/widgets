@@ -85,7 +85,7 @@
 
                 let context = this.$root.$options.context;
                 this.$root.$options.context.query.gql = gql(context.cache.query);
-                // this.$root.$options.context.query.variables = JSON.parse(context.cache.variables);
+                this.$root.$options.context.query.query = context.cache.query;
                 this.$root.$options.context.query.request(JSON.parse(context.cache.variables));
             }
         }

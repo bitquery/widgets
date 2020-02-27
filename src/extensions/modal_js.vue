@@ -36,25 +36,29 @@
     export default {
         name: 'modal-js',
         props: ['title', 'obj', 'link', 'func'],
+        data() {
+            return {context: this.$root.$options.context}
+        },
         computed: {
             theme_class: function(){
-                let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
+                let theme = this.context.themes[this.context.theme];
                 return theme.html_class
             },
-            context: function() {
-                return this.$root.$options.context;
-            },
+            // query: function(){
+            //     return this.context.query.query
+            // },
             variables: function(){
-                let context = this.$root.$options.context;
-                let var_arr = [];
-                _.each(context.query.variables, function(value, key){
-                    var_arr.push('"'+key+'": '+(typeof value === 'string' ? '"'+value+'"' : value));
-                });
-                return '{'+var_arr.join(', ')+'}';
+                // console.log(this.context.query.variables);
+                // console.log(this.context.query.query);
+                    let var_arr = [];
+                    _.each(this.context.query.variables, function(value, key){
+                        var_arr.push('"'+key+'": '+(typeof value === 'string' ? '"'+value+'"' : value));
+                    });
+                    return '{'+var_arr.join(', ')+'}';
             },
             version: function () {
                 let ver = version.split('.');
-                return ver[0]+'.'+ver[1];
+                return ver[0]+'.'+ver[1]+'.'+ver[2];
             },
             rand: function () {
                 return Math.floor(Math.random() * Math.floor(100000));
@@ -66,8 +70,6 @@
                 let element = _$('#widgets-modal-js-'+this.obj+this.rand);
                 element.addClass('widgets-modal-show');
                 _$('body').addClass('widgets-modal-open');
-
-                let context = this.$root.$options.context;
             },
             closeWidgetsModal: function(e){
                 let _$ = utils.select;
