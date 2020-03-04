@@ -13,10 +13,10 @@
         },
         computed: {
             is_more: function(){
-                if (this.context.is_request == true){
+                if (this.count == (this.context.query.variables.limit + this.context.query.variables.offset) || this.context.is_request == true){
                     return true;
                 } else {
-                    return this.count == this.context.query.variables.limit + this.context.query.variables.offset ? true : false
+                    return false;
                 }
             }
         },
@@ -31,7 +31,7 @@
                     let req_result = _.get(data, his.path, data);
                     his.context.vm.result = cur_result.concat(req_result);
                     e.path[0].innerText = his._i18n.t("show_more");
-                    his.context.is_request = undefined;
+                    his.context.is_request = false;
                 });
             }
         }
