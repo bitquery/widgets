@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <errors :errors="data.errors" v-if="is_error"></errors>
+        <nodata v-else-if="is_no_data"></nodata>
+        <component :is="componentName" :data="data" :variables="variables" :theme="theme" :context="context" :componentName="componentName" v-else></component>
+        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
+    </div>
+</template>
+<script>
+    export default {
+        name: 'base',
+        data () {
+            let context = this.$root.$options.context;
+            return {
+                title: context.options.title,
+                exclude: context.options.excludeButtons,
+                componentName: context.name,
+                func: context.funcName,
+                context: context,
+                theme: context.themes[context.theme],
+                variables: context.query.variables,
+                data: this.$parent._data
+            }
+        },
+        computed: {
+            is_error: function(){
+                return Array.isArray(this.data.errors) && this.data.errors.length > 0;
+            },
+            is_no_data: function(){
+                if(this.context.options.disableNodata){
+                    return false
+                } else {
+                    return Array.isArray(this.data.result) && this.data.result.length < 1;
+                }
+            }
+        }
+    }
+</script>

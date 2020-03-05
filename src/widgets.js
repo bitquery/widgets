@@ -79,6 +79,10 @@ requireComponents.keys().forEach(fileName => {
     const component = requireComponents(fileName);
     const componentName = component.default.name;
     Components[componentName] = component.default || component;
+    Vue.component(
+        componentName,
+        component.default || component
+    )
 });
 
 VueI18n.prototype.getChoiceIndex = function (choice, choicesLength) {
@@ -181,9 +185,14 @@ export function query(query){
     return properties;
 }
 
-export function component(name, selector, query, path){
+export function component(name, funcName, selector, query, path, options={}){
     let properties = {
         name: name,
+        funcName: funcName,
+        options: {
+            title: '',
+            excludeButtons: []
+        },
         selector: selector,
         query: query,
         path: path,
@@ -206,7 +215,7 @@ export function component(name, selector, query, path){
                         result: _.get(query.data, it.path, query.data),
                         errors: _.get(query.errors, '', query.errors)
                     },
-                    render: h => h(Components[it.name])
+                    render: h => h(Components['base'])
                 });
             } else {
                 it.vm.locale = it.vmi18n.locale = it.locale;
@@ -215,44 +224,60 @@ export function component(name, selector, query, path){
             }
         }
     };
-
+    properties.options = _.merge(properties.options, options);
     properties = _.merge(properties, props);
     query.components.push(properties);
     return properties;
 }
 
-export function transfers_by_currencies(selector, query, path = 'transfers'){
-    return component('transfers_by_currencies', selector, query, path);
+export function transfers_by_currencies(selector, query, path = 'transfers', options ={}){
+    let props = {};
+    props = _.merge(props, options);
+    return component('transfers_by_currencies', 'transfers_by_currencies', selector, query, path, props);
 }
 
-export function trades_by_currencies(selector, query, path = 'trades'){
-    return component('trades_by_currencies', selector, query, path);
+export function trades_by_currencies(selector, query, path = 'trades', options ={}){
+    let props = {};
+    props = _.merge(props, options);
+    return component('trades_by_currencies', 'trades_by_currencies', selector, query, path, props);
 }
 
-export function transfers_by_time(selector, query, path = 'transfers'){
-    return component('transfers_by_time', selector, query, path);
+export function transfers_by_time(selector, query, path = 'transfers', options ={}){
+    let props = {excludeButtons: ['csv']};
+    props = _.merge(props, options);
+    return component('transfers_by_time', 'transfers_by_time', selector, query, path, props);
 }
 
-export function trades_by_time(selector, query, path = 'trades'){
-    return component('trades_by_time', selector, query, path);
+export function trades_by_time(selector, query, path = 'trades', options ={}){
+    let props = {excludeButtons: ['csv']};
+    props = _.merge(props, options);
+    return component('trades_by_time', 'trades_by_time', selector, query, path, props);
 }
 
-export function transaction_by_time(selector, query, path = 'transfers'){
-    return component('transaction_by_time', selector, query, path);
+export function transaction_by_time(selector, query, path = 'transfers', options ={}){
+    let props = {excludeButtons: ['csv']};
+    props = _.merge(props, options);
+    return component('transaction_by_time', 'transaction_by_time', selector, query, path, props);
 }
 
-export function calls_by_time(selector, query, path = 'calls'){
-    return component('calls_by_time', selector, query, path);
+export function calls_by_time(selector, query, path = 'calls', options ={}){
+    let props = {excludeButtons: ['csv']};
+    props = _.merge(props, options);
+    return component('calls_by_time','calls_by_time', selector, query, path, props);
 }
 
-export function search(selector, query, path = 'search'){
-    return component('search', selector, query, path);
+export function search(selector, query, path = 'search', options ={}){
+    let props = {excludeButtons: ['csv'], disableNodata: true};
+    props = _.merge(props, options);
+    return component('search', 'search', selector, query, path, props);
 }
 
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);
 // }
 
-export function calls_smart_contracts(selector, query, path = 'calls'){
-    return component('calls_smart_contracts', selector, query, path);
+export function calls_smart_contracts(selector, query, path = 'calls', options ={}){
+    let props = {};
+    props = _.merge(props, options);
+    return component('calls_smart_contracts', 'calls_smart_contracts', selector, query, path, props);
 }

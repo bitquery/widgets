@@ -1,21 +1,16 @@
 <template>
     <div>
-        <errors :errors="data.errors" v-if="is_error"></errors>
-        <nodata v-else-if="is_no_data"></nodata>
-        <GChart type="ComboChart" :data="chartData" :options="chartOptions" v-else />
-        <links obj="transfers_by_time" func="transfers_by_time" :exclude="['csv']" title="Transfers By Time"></links>
+        <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
     </div>
 </template>
 <script>
     export default {
         name: 'transfers_by_time',
+        props: ['data', 'variables', 'theme', 'context', 'componentName'],
         data () {
-            let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
-            let variables = this.$parent.$options.context.query.variables;
+            let theme = this.theme;
 
             return {
-                data: this.$parent._data,
-                variables: variables,
                 chartOptions: {
                     legendTextStyle: {
                         color: theme.text
@@ -48,7 +43,7 @@
                             }
                         },
                         '1': {
-                            title: this._i18n.t("title.volume", {currency: variables.currency}),
+                            title: this._i18n.t("title.volume", {currency: this.variables.currency}),
                             format: '#,###',
                             textStyle: {
                                 color: theme.text
@@ -81,12 +76,6 @@
             };
         },
         computed: {
-            is_error: function(){
-                return Array.isArray(this.data.errors) && this.data.errors.length > 0;
-            },
-            is_no_data: function(){
-                return Array.isArray(this.data.result) && this.data.result.length < 1;
-            },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.receive_count"), this._i18n.t("title.send_count"), this._i18n.t("title.volume_in", {currency: this.variables.currency}), this._i18n.t("title.volume_out", {currency: this.variables.currency})]];
                 _.each(this.data.result, function (item) {

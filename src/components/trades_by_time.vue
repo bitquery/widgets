@@ -1,20 +1,15 @@
 <template>
     <div>
-        <errors :errors="data.errors" v-if="is_error"></errors>
-        <nodata v-else-if="is_no_data"></nodata>
-        <GChart type="ComboChart" :data="chartData" :options="chartOptions" v-else />
-        <links obj="trades_by_time" func="trades_by_time" :exclude="['csv']" title="Trades By Time"></links>
+        <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
     </div>
 </template>
 <script>
     export default {
         name: 'trades_by_time',
+        props: ['data', 'variables', 'theme', 'context', 'componentName'],
         data () {
-            let theme = this.$parent.$options.context.themes[this.$parent.$options.context.theme];
-            let variables = this.$parent.$options.context.query.variables;
+            let theme = this.theme;
             return {
-                data: this.$parent._data,
-                variables: variables,
                 chartOptions: {
                     legendTextStyle: {
                         color: theme.text
@@ -77,12 +72,6 @@
             };
         },
         computed: {
-            is_error: function(){
-                return Array.isArray(this.data.errors) && this.data.errors.length > 0;
-            },
-            is_no_data: function(){
-                return Array.isArray(this.data.result) && this.data.result.length < 1;
-            },
             chartData: function(){
                 let data_arr = [[this._i18n.t("date"), this._i18n.t("title.trades_as_buyer"), this._i18n.t("title.trades_as_seller")]];
                 _.each(this.data.result, function (item) {

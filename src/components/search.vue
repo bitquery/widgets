@@ -1,42 +1,32 @@
 <template>
-    <errors :errors="errors" obj="search" func="search" :exclude="['csv']" title="Search" v-if="error"></errors>
-    <div v-else-if="count == 0">
+    <div v-if="count == 0">
         <p>
             <strong class="word-wrap">{{ $t("not_found", {query: query}) }}</strong><br>
             {{ $t("please") }}
         </p>
     </div>
     <div v-else>
-        <div v-for="item in result">
+        <div v-for="item in data.result">
             <search-currency v-if="item.subject.__typename=='Currency'" :item="item" :redirect="redirect"></search-currency>
             <search-address v-if="item.subject.__typename=='Address'" :item="item" :redirect="redirect"></search-address>
             <br>
         </div>
-        <more-text :count="result.length" :load_count="100" :path="path" v-if="count > 1"></more-text>
-        <links obj="search" func="search" :exclude="['csv']" title="Search"></links>
+        <more-text :count="data.result.length" :load_count="100" :path="data.path" v-if="count > 1"></more-text>
     </div>
 </template>
 <script>
     export default {
         name: 'search',
-        data () {
-            return this.$parent._data;
-        },
+        props: ['data', 'variables', 'theme', 'context', 'componentName'],
         computed: {
             query: function(){
-                return this.$root.$options.context.query.variables.query
+                return this.variables.query
             },
             count: function(){
-                return this.result.length;
+                return this.data.result.length;
             },
             redirect: function(){
                 return (this.count == 1 ? true : false)
-            },
-            errors: function(){
-                return this.$root.$options.context.query.errors
-            },
-            error: function(){
-                return Array.isArray(this.errors) && this.errors.length > 0;
             }
         }
     }

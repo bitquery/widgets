@@ -1,8 +1,5 @@
 <template>
     <div>
-        <errors :errors="errors" v-if="is_error"></errors>
-        <nodata v-else-if="is_no_data"></nodata>
-        <div v-else>
             <div class="table-responsive">
                 <table :class="'table table-sm widgets-table ' + theme_class">
                     <thead>
@@ -19,7 +16,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <template v-for="item in result">
+                    <template v-for="item in data.result">
                         <tr v-if="item.trades_as_buyer > 0">
                             <td :rowspan="item.trades_as_buyer > 0 && item.trades_as_seller >0 ? 2 : 1" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td>
                             <td>{{ $t("title.buy") }}</td>
@@ -29,7 +26,7 @@
                             <td class="text-right"><amount-display :amount="item.buyBaseAmount"></amount-display></td>
                             <td class="text-left">{{item.baseCurrency.symbol}}</td>
                             <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
-                            <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_buyer" address="test"></trades-count></td>
+                            <td class="text-right"><trades-count :locale="data.locale" :count="item.trades_as_buyer" address="test"></trades-count></td>
                         </tr>
                         <tr v-if="item.trades_as_seller > 0">
                             <td v-if="item.trades_as_buyer == 0" style="vertical-align: middle"><a :href='trades_pair_path' v-if="trades_pair_path">{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</a><span v-else>{{item.baseCurrency.symbol}}/{{item.quoteCurrency.symbol}}</span></td><td v-else class="d-none"></td>
@@ -40,39 +37,28 @@
                             <td class="text-right"><amount-display :amount="item.sellQuoteAmount"></amount-display></td>
                             <td class="text-left">{{item.quoteCurrency.symbol}}</td>
                             <td class="text-left"><i class="fa fa-sign-out text-warning"></i></td>
-                            <td class="text-right"><trades-count :locale="locale" :count="item.trades_as_seller" address="test"></trades-count></td>
+                            <td class="text-right"><trades-count :locale="data.locale" :count="item.trades_as_seller" address="test"></trades-count></td>
                         </tr>
                     </template>
                     </tbody>
                 </table>
             </div>
-            <more-text :count="result.length" :load_count="100" :path="path"></more-text>
-        </div>
-        <links obj="trades_by_currencies" func="trades_by_currencies" title="Trades By Currencies"></links>
+            <more-text :count="data.result.length" :load_count="100" :path="path"></more-text>
     </div>
 </template>
 <script>
     export default {
         name: 'trades_by_currencies',
-        data () {
-            return this.$parent._data;
-        },
+        props: ['data', 'variables', 'theme', 'context', 'componentName'],
         computed: {
-            is_error: function(){
-                return Array.isArray(this.errors) && this.errors.length > 0;
-            },
-            is_no_data: function(){
-                return Array.isArray(this.result) && this.result.length < 1;
-            },
             theme_class: function(){
-                let theme = this.$root.$options.context.themes[this.$root.$options.context.theme];
-                return theme.html_class
+                return this.theme.html_class
             },
             callbacks: function(){
-                return this.$root.$options.context.callbacks
+                return this.context.callbacks
             },
             trades_pair_path: function(){
-                return  this.callbacks.trades_pair_path == undefined ? false : this.callbacks.trades_pair_path(item.baseCurrency.symbol+"/"+item.quoteCurrency.symbol, this.$root.locale)
+                return  this.callbacks.trades_pair_path == undefined ? false : this.callbacks.trades_pair_path(item.baseCurrency.symbol+"/"+item.quoteCurrency.symbol, this.data.locale)
             }
         }
     }
