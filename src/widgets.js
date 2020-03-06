@@ -140,6 +140,7 @@ export function callbacks(cbs = {}){
 
 export function query(query){
     let properties = {
+        is_request: false,
         original: {
             query: query,
             variables: undefined
@@ -155,7 +156,7 @@ export function query(query){
         },
         request: function(p = {}, thenResult = function(result, it){}){
         var it = this;
-
+        it.is_request = true;
         let variables = {
             "limit": 10,
             "offset": 0
@@ -172,6 +173,7 @@ export function query(query){
                 fetchPolicy: 'no-cache',
             })
             .then(function(result){
+                it.is_request = false;
                 it.data = result.data;
                 it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];
                 _.each(it.components,function(component){

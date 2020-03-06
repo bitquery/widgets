@@ -1,8 +1,11 @@
 <template>
-    <div>
-        <errors :errors="data.errors" v-if="is_error"></errors>
-        <nodata v-else-if="is_no_data"></nodata>
-        <component :is="componentName" :data="data" :variables="variables" :theme="theme" :context="context" :componentName="componentName" v-else></component>
+    <div style="position: relative">
+        <loading v-if="context.query.is_request" :theme="theme"></loading>
+        <div :class="context.query.is_request ? 'widgets-blur': ''">
+            <errors :errors="data.errors" v-if="is_error"></errors>
+            <nodata v-else-if="is_no_data"></nodata>
+            <component :is="componentName" :data="data" :variables="variables" :theme="theme" :context="context" :componentName="componentName" v-else></component>
+        </div>
         <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
     </div>
 </template>
