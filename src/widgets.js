@@ -245,29 +245,6 @@ export function trades_by_currencies(selector, query, path = 'trades', options =
     return component('trades_by_currencies', 'trades_by_currencies', selector, query, path, props);
 }
 
-export function transfers_by_time(selector, query, path = 'transfers', options ={}){
-    let props = {excludeButtons: ['csv']};
-    props = _.merge(props, options);
-    return component('transfers_by_time', 'transfers_by_time', selector, query, path, props);
-}
-
-export function trades_by_time(selector, query, path = 'trades', options ={}){
-    let props = {excludeButtons: ['csv']};
-    props = _.merge(props, options);
-    return component('trades_by_time', 'trades_by_time', selector, query, path, props);
-}
-
-export function transaction_by_time(selector, query, path = 'transfers', options ={}){
-    let props = {excludeButtons: ['csv']};
-    props = _.merge(props, options);
-    return component('transaction_by_time', 'transaction_by_time', selector, query, path, props);
-}
-
-export function calls_by_time(selector, query, path = 'calls', options ={}){
-    let props = {excludeButtons: ['csv']};
-    props = _.merge(props, options);
-    return component('calls_by_time','calls_by_time', selector, query, path, props);
-}
 
 export function search(selector, query, path = 'search', options ={}){
     let props = {excludeButtons: ['csv'], disableNodata: true};
