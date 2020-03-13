@@ -4,7 +4,7 @@
         <div :class="context.query.is_request ? 'widgets-blur': ''">
             <errors :errors="data.errors" v-if="is_error"></errors>
             <nodata v-else-if="is_no_data"></nodata>
-            <component :is="componentName" :data="data" :variables="variables" :theme="theme" :context="context" :componentName="componentName" v-else></component>
+            <component :is="componentName" :data="data" :variables="variables" :options="options" :theme="theme" :context="context" :componentName="componentName" v-else></component>
         </div>
         <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
     </div>
@@ -15,6 +15,7 @@
         data () {
             let context = this.$root.$options.context;
             return {
+                options: context.options,
                 title: context.options.title,
                 exclude: context.options.excludeButtons,
                 componentName: context.name,

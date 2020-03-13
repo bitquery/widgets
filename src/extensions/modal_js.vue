@@ -16,7 +16,7 @@
 <script>
     widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}`);
-    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}');
+    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', '{{ context.initialOptions }}');
     query.request({{variables}});
 </script>
 </textarea>

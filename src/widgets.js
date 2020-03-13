@@ -187,10 +187,11 @@ export function query(query){
     return properties;
 }
 
-export function component(name, funcName, selector, query, path, options={}){
+export function component(name, funcName, selector, query, path, options={},initialOptions={}){
     let properties = {
         name: name,
         funcName: funcName,
+        initialOptions: initialOptions,
         options: {
             title: '',
             excludeButtons: []
@@ -282,4 +283,10 @@ export function calls_smart_contracts(selector, query, path = 'calls', options =
     let props = {};
     props = _.merge(props, options);
     return component('calls_smart_contracts', 'calls_smart_contracts', selector, query, path, props);
+}
+
+export function chart_by_time(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}};
+    props = _.merge(props, options);
+    return component('chart_by_time','chart_by_time', selector, query, path, props, options);
 }
