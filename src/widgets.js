@@ -233,16 +233,10 @@ export function component(name, funcName, selector, query, path, options={},init
     return properties;
 }
 
-export function transfers_by_currencies(selector, query, path = 'transfers', options ={}){
+export function table_trades(selector, query, path = 'trades', options ={}){
     let props = {};
     props = _.merge(props, options);
-    return component('transfers_by_currencies', 'transfers_by_currencies', selector, query, path, props);
-}
-
-export function trades_by_currencies(selector, query, path = 'trades', options ={}){
-    let props = {};
-    props = _.merge(props, options);
-    return component('trades_by_currencies', 'trades_by_currencies', selector, query, path, props);
+    return component('table_trades', 'table_trades', selector, query, path, props);
 }
 
 
@@ -252,18 +246,18 @@ export function search(selector, query, path = 'search', options ={}){
     return component('search', 'search', selector, query, path, props);
 }
 
+export function chart(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}};
+    props = _.merge(props, options);
+    return component('chart','chart', selector, query, path, props, options);
+}
+
+export function table(selector, query, path = '', options ={}){
+    let props = {tableOptions: {}, dataOptions: {}};
+    props = _.merge(props, options);
+    return component('table_component','table', selector, query, path, props, options);
+}
+
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);
 // }
-
-export function calls_smart_contracts(selector, query, path = 'calls', options ={}){
-    let props = {};
-    props = _.merge(props, options);
-    return component('calls_smart_contracts', 'calls_smart_contracts', selector, query, path, props);
-}
-
-export function chart_by_time(selector, query, path = '', options ={}){
-    let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}};
-    props = _.merge(props, options);
-    return component('chart_by_time','chart_by_time', selector, query, path, props, options);
-}

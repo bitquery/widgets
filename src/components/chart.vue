@@ -5,7 +5,7 @@
 </template>
 <script>
     export default {
-        name: 'chart_by_time',
+        name: 'chart',
         props: ['data', 'variables', 'options', 'theme', 'context', 'componentName'],
         data () {
             let theme = this.theme;
