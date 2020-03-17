@@ -4,7 +4,7 @@
             <table :class="'table table-striped table-hover table-sm widgets-table ' + theme_class">
                 <thead>
                 <tr>
-                    <th v-for="(title, i) in tableOptions.title" :class="params(i).thClass">{{ title }}</th>
+                    <th v-for="(title, i) in tableOptions.title" :class="params(i).thClass" v-html="title"></th>
                 </tr>
                 </thead>
                 <tbody>
