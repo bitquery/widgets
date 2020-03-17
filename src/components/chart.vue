@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GChart type="ComboChart" :data="chartData" :options="chartOptions" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" />
     </div>
 </template>
 <script>
@@ -21,7 +21,7 @@
                     animation: {
                         duration: 400
                     },
-                    isStacked: true,
+                    isStacked: false,
                     legend: {
                         position: 'top',
                         alignment: 'center',
@@ -59,6 +59,9 @@
             };
         },
         computed: {
+            chartType: function(){
+                return this.options.chartType ? this.options.chartType : 'ComboChart'
+            },
             chartData: function(){
                 let options = this.options;
                 let data = [];
