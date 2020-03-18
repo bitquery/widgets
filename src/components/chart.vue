@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GChart :type="chartType" :data="chartData" :options="chartOptions" :settings="chartSettings" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" />
     </div>
 </template>
 <script>
@@ -66,6 +66,7 @@
                 return this.options.chartType ? this.options.chartType : 'ComboChart'
             },
             chartData: function(){
+                let it = this;
                 let options = this.options;
                 let data = [];
 
@@ -76,11 +77,20 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        datas.push(_.get(item, v.path));
+                        let d = it.renderCallback(v.renderCallbackName, item) ? it.renderCallback(v.renderCallbackName, item) : v.data;
+                        datas.push(d ? d : _.get(item, v.path));
                         return datas;
                     },[]));
                 });
                 return data;
+            },
+            callbacks: function(){
+                return this.$root.$options.context.callbacks
+            }
+        },
+        methods: {
+            renderCallback: function (name, item){
+                return  this.callbacks[name] ? this.callbacks[name](item) : false
             }
         }
     }
