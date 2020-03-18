@@ -9,9 +9,9 @@
         computed: {
             parseAmount: function (){
                 let data = this.renderCallback ? this.renderCallback : this.params.data;
-                let amount = _.get(this.item, this.params.path);
+                let amount = _.get(this.item, this.params.path, 0);
                 if(parseInt(amount) == 0){
-                    return data ? data.replace('%{DATA}', (this.params.path ? '-' : '')) : (this.params.path ? '-' : '');
+                    return data ? (''+data).replace('%{DATA}', (this.params.path ? '-' : '')) : (this.params.path ? '-' : '');
                 } else {
                     let amt = amount;
                     let unit = '';
@@ -34,7 +34,7 @@
                     } else {
                         unit = '';
                     }
-                    return data ? data.replace('%{DATA}', (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '')) : (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '');
+                    return data ? (''+data).replace('%{DATA}', (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '')) : (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '');
                 }
             },
             renderCallback: function (){
