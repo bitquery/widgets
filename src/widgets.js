@@ -258,6 +258,12 @@ export function table(selector, query, path = '', options ={}){
     return component('table_component','table', selector, query, path, props, options);
 }
 
+export function text(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], textOptions: {}};
+    props = _.merge(props, options);
+    return component('text_component','text', selector, query, path, props, options);
+}
+
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);
 // }
