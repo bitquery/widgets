@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GChart :type="chartType" :data="chartData" :options="chartOptions" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" :settings="chartSettings" />
     </div>
 </template>
 <script>
@@ -59,6 +59,9 @@
             };
         },
         computed: {
+            chartSettings: function(){
+                return _.merge({}, this.options.chartSettings);
+            },
             chartType: function(){
                 return this.options.chartType ? this.options.chartType : 'ComboChart'
             },

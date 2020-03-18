@@ -9,7 +9,7 @@
         computed: {
             text: function(){
                 let it = this;
-                let params_data = this.params.data;
+                let params_data = this.renderCallback ? this.renderCallback : this.params.data;
                 let data;
 
                 if (Array.isArray(this.params.path)) {
@@ -24,6 +24,9 @@
             },
             urlCallback: function (){
                 return  this.callbacks[this.params.urlCallbackName] ? this.callbacks[this.params.urlCallbackName](this.item) : false
+            },
+            renderCallback: function (){
+                return  this.callbacks[this.params.renderCallbackName] ? this.callbacks[this.params.renderCallbackName](this.item) : false
             }
         }
     }
