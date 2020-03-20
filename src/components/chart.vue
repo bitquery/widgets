@@ -51,10 +51,7 @@
                             color: theme.text
                         },
                     },
-                    seriesType: 'bars',
-                    series: {
-                        '0': { color: '#9bc2cf' }
-                    }
+                    seriesType: 'bars'
                 }, this.options.chartOptions)
             };
         },
@@ -77,7 +74,7 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        let d = it.renderCallback(v.renderCallbackName, item) ? it.renderCallback(v.renderCallbackName, item) : v.data;
+                        let d = v.renderCallbackName ? it.renderCallback(v.renderCallbackName, item) : v.data;
                         datas.push(d ? d : _.get(item, v.path));
                         return datas;
                     },[]));

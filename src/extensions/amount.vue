@@ -8,7 +8,7 @@
         props: ['item', 'params', 'callbacks'],
         computed: {
             parseAmount: function (){
-                let data = this.renderCallback ? this.renderCallback : this.params.data;
+                let data = this.params.renderCallbackName ? this.renderCallback : this.params.data;
                 let amount = _.get(this.item, this.params.path, 0);
                 if(parseInt(amount) == 0){
                     return data ? (''+data).replace('%{DATA}', (this.params.path ? '-' : '')) : (this.params.path ? '-' : '');
