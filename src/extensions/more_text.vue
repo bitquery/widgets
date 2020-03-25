@@ -23,14 +23,14 @@
         methods: {
             more: function(e){
                 var his = this;
-                e.path[0].innerText = his._i18n.t("loading");
+                e.target.innerText = his._i18n.t("loading");
                 let load_count = his.load_count;
                 var cur_result = his.context.vm.result;
                 his.context.is_request = true;
                 this.context.query.request({limit: load_count, offset: (this.context.query.variables.limit + this.context.query.variables.offset)}, function (data, it) {
                     let req_result = _.get(data, his.path, data);
                     his.context.vm.result = cur_result.concat(req_result);
-                    e.path[0].innerText = his._i18n.t("show_more");
+                    e.target.innerText = his._i18n.t("show_more");
                     his.context.is_request = false;
                 });
             }
