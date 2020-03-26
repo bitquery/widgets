@@ -201,6 +201,7 @@ export function component(name, funcName, selector, query, path, options={},init
         path: path,
         render: function(){
             var it = this;
+            let result_data = typeof options.renderData === 'function' ? options.renderData(_.get(query.data, it.path, query.data)) : _.get(query.data, it.path, query.data);
 
             if (it.vm == undefined){
                 it.vmi18n = new VueI18n({
@@ -215,14 +216,14 @@ export function component(name, funcName, selector, query, path, options={},init
                     data: {
                         locale: it.vmi18n.locale,
                         path: it.path,
-                        result: _.get(query.data, it.path, query.data),
+                        result: result_data,
                         errors: _.get(query.errors, '', query.errors)
                     },
                     render: h => h(Components['base'])
                 });
             } else {
                 it.vm.locale = it.vmi18n.locale = it.locale;
-                it.vm.result = _.get(query.data, it.path, query.data);
+                it.vm.result = result_data;
                 it.vm.errors = _.get(query.errors, '', query.errors);
             }
         }

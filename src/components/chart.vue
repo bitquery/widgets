@@ -74,20 +74,11 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        let d = v.renderCallbackName ? it.renderCallback(v.renderCallbackName, item) : v.data;
-                        datas.push(d ? d : _.get(item, v.path));
+                        datas.push(v.data ? v.data : _.get(item, v.path));
                         return datas;
                     },[]));
                 });
                 return data;
-            },
-            callbacks: function(){
-                return this.$root.$options.context.callbacks
-            }
-        },
-        methods: {
-            renderCallback: function (name, item){
-                return  this.callbacks[name] ? this.callbacks[name](item) : false
             }
         }
     }

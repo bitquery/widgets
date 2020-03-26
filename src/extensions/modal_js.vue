@@ -16,7 +16,7 @@
 <script>
     widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}`);
-    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', '{{ context.initialOptions }}');
+    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', {{ options }});
     query.request({{variables}});
 </script>
 </textarea>
@@ -42,6 +42,16 @@
             return {context: this.$root.$options.context}
         },
         computed: {
+            options: function(){
+                if(typeof this.context.initialOptions.renderData === 'function'){
+                    let render_data_str = this.context.initialOptions.renderData.toString();
+                    let str = JSON.stringify(_.merge(this.context.initialOptions, {renderData: "%{RENDER_DATA}"}), null, ' ');
+                    str = str.replace('"%{RENDER_DATA}"', render_data_str);
+                    return str;
+                } else {
+                    return this.context.initialOptions;
+                }
+            },
             is_original: function(){
               return this.context.query.query == this.context.query.original.query && _.isEqual(this.context.query.variables, this.context.query.original.variables)
             },
