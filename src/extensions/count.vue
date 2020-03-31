@@ -8,15 +8,25 @@
         props: ['item', 'params', 'callbacks'],
         computed: {
             count: function(){
-                let data = this.renderCallback ? this.renderCallback : this.params.data;
-                let count = _.get(this.item, this.params.path, 0);
-                return data ? (''+data).replace('%{DATA}', (this.params.path ? (parseInt(count) == 0 ? '-' : count) : '')) : (this.params.path ? (parseInt(count) == 0 ? '-' : count) : '');
+                let it = this;
+
+                if(typeof it.params.renderCallback === 'function'){
+                    return it.params.renderCallback(it.item)
+                } else {
+                    let data;
+                    if (Array.isArray(it.params.path)){
+                        _.each(it.params.path, function(p){
+                            data = _.get(it.item, p);
+                            return data ? false : true;
+                        });
+                    } else {
+                        data =  _.get(it.item, it.params.path, 0);
+                    }
+                    return it.params.data ? it.params.data.replace('%{DATA}', (parseInt(data) == 0 ? '-' : data)) : (parseInt(data) == 0 ? '-' : data);
+                }
             },
             urlCallback: function (){
                 return  this.params.urlCallbackName ? this.callbacks[this.params.urlCallbackName](this.item) : false
-            },
-            renderCallback: function (){
-                return  this.callbacks[this.params.renderCallbackName] ? this.callbacks[this.params.renderCallbackName](this.item) : false
             }
         }
     }

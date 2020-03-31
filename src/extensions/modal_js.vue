@@ -43,14 +43,44 @@
         },
         computed: {
             options: function(){
-                if(typeof this.context.initialOptions.renderData === 'function'){
-                    let render_data_str = this.context.initialOptions.renderData.toString();
-                    let str = JSON.stringify(_.merge(this.context.initialOptions, {renderData: "%{RENDER_DATA}"}), null, ' ');
-                    str = str.replace('"%{RENDER_DATA}"', render_data_str);
-                    return str;
-                } else {
-                    return this.context.initialOptions;
+                let o = this.context.initialOptions;
+                let rc = {};
+                let dataOptions = [];
+                let tableOptionsData = [];
+                if (o.dataOptions){
+                    _.each(o.dataOptions, function(option, i){
+                        if (typeof option.renderCallback === 'function'){
+                            rc["%{RENDER_CALLBACK_"+i+"}"] = option.renderCallback.toString();
+                            option.renderCallback = "%{RENDER_CALLBACK_"+i+"}";
+                        }
+                        dataOptions.push(option);
+                    });
+                    o.dataOptions = dataOptions;
                 }
+
+                if (o.tableOptions){
+                    _.each(o.tableOptions.data, function(option, i){
+                        if (typeof option.renderCallback === 'function'){
+                            rc["%{RENDER_CALLBACK_"+i+"}"] = option.renderCallback.toString();
+                            option.renderCallback = "%{RENDER_CALLBACK_"+i+"}";
+                        }
+                        tableOptionsData.push(option);
+                    });
+                    o.tableOptions.data = tableOptionsData;
+                }
+
+                if(typeof o.renderData === 'function'){
+                    let render_data_str = o.renderData.toString();
+                    o.renderData = "%{RENDER_DATA}";
+                    rc["%{RENDER_DATA}"] = render_data_str;
+                }
+
+                let str = JSON.stringify(o, null, ' ');
+
+                _.each(rc, function(value, key){
+                    str = str.replace('"'+key+'"', value);
+                });
+                return str;
             },
             is_original: function(){
               return this.context.query.query == this.context.query.original.query && _.isEqual(this.context.query.variables, this.context.query.original.variables)

@@ -8,37 +8,43 @@
         props: ['item', 'params', 'callbacks'],
         computed: {
             parseAmount: function (){
-                let data = this.params.renderCallbackName ? this.renderCallback : this.params.data;
-                let amount = _.get(this.item, this.params.path, 0);
-                if(parseInt(amount) == 0){
-                    return data ? (''+data).replace('%{DATA}', (this.params.path ? '-' : '')) : (this.params.path ? '-' : '');
+                let it = this;
+
+                if(typeof it.params.renderCallback === 'function'){
+                    return it.params.renderCallback(it.item);
                 } else {
-                    let amt = amount;
+                    let data;
+                    if (Array.isArray(it.params.path)){
+                        _.each(it.params.path, function(p){
+                            data = _.get(it.item, p);
+                            return data ? false : true;
+                        });
+                    } else {
+                        data =  _.get(it.item, it.params.path, 0);
+                    }
+
+                    let amt = data;
                     let unit = '';
 
-                    if (amount > 1e18){
-                        amt = amount/1e18;
+                    if (data > 1e18){
+                        amt = data/1e18;
                         unit = "Q";
-                    } else if (amount > 1e12){
-                        amt = amount/1e12;
+                    } else if (data > 1e12){
+                        amt = data/1e12;
                         unit = "T";
-                    } else if (amount > 1e9){
-                        amt = amount/1e9;
+                    } else if (data > 1e9){
+                        amt = data/1e9;
                         unit = "G";
-                    } else if (amount > 1e6){
-                        amt = amount/1e6;
+                    } else if (data > 1e6){
+                        amt = data/1e6;
                         unit = "M";
-                    } else if (amount < 1e-3 && amount > 0){
-                        amt = amount*1e3;
+                    } else if (data < 1e-3 && data > 0){
+                        amt = data*1e3;
                         unit = "m";
-                    } else {
-                        unit = '';
                     }
-                    return data ? (''+data).replace('%{DATA}', (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '')) : (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '');
+
+                    return it.params.data ? it.params.data.replace('%{DATA}', (parseInt(amt) == 0 ? '-' : (utils.delimeter(amt, {precision: 2})+unit))) : (parseInt(amt) == 0 ? '-' : (utils.delimeter(amt, {precision: 2})+unit));
                 }
-            },
-            renderCallback: function (){
-                return  this.callbacks[this.params.renderCallbackName] ? this.callbacks[this.params.renderCallbackName](this.item) : false
             }
         }
     }

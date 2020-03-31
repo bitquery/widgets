@@ -265,7 +265,7 @@ export function text(selector, query, path = '', options ={}){
     return component('text_component','text', selector, query, path, props, options);
 }
 
-export var __ = _;
+export var lodash = _;
 
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);

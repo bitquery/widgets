@@ -74,7 +74,8 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        datas.push(v.data ? v.data : _.get(item, v.path));
+                        let d = typeof v.renderCallback === 'function' ? v.renderCallback(item) : v.data;
+                        datas.push(d ? d : _.get(item, v.path));
                         return datas;
                     },[]));
                 });
