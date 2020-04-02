@@ -14,10 +14,12 @@
 <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v{{version}}/dist/widgets.js"></script>
 <div id="{{ context.selector.replace('#', '') }}"></div>
 <script>
+    (function(){
     widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}`);
     var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', {{ options }});
     query.request({{variables}});
+    })()
 </script>
 </textarea>
                     </div>
