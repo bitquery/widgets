@@ -256,13 +256,6 @@ export function table_trades(selector, query, path = 'trades', options ={}){
     return component('table_trades', 'table_trades', selector, query, path, props);
 }
 
-
-export function search(selector, query, path = 'search', options ={}){
-    let props = {excludeButtons: ['csv'], disableNodata: true};
-    props = _.merge(props, options);
-    return component('search', 'search', selector, query, path, props);
-}
-
 export function chart(selector, query, path = '', options ={}){
     let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
     props = _.merge(props, options);

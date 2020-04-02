@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <ul :class="'list-group list-group-flush '+options.html_class">
+            <ul :class="'list-group list-group-flush '+(options.html_class ? options.html_class : '')">
                 <li v-for="item in data.result" :class="'list-group-item '+params.html_class">
                     <component :is="params.component" :item="item" :params="params" :callbacks="callbacks" v-if="params"></component>
                 </li>
