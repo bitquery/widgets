@@ -1,6 +1,6 @@
 <template>
-    <span v-if="urlCallback"><a :href='urlCallback' v-html="text"></a></span>
-    <span v-else v-html="text"></span>
+    <span v-if="urlCallback"><a :href='urlCallback' v-html="text" :class="params.html_class"></a></span>
+    <span v-else v-html="text" :class="params.html_class"></span>
 </template>
 <script>
     export default {

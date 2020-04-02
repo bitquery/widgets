@@ -9,7 +9,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="item in data.result">
-                    <td v-for="(data, i) in tableOptions.data" :class="params(i).tdClass">
+                    <td v-for="(data, i) in tableOptions.dataOptions" :class="params(i).tdClass">
                         <component :is="params(i).component" :item="item" :params="params(i)" :callbacks="callbacks" v-if="params(i)"></component>
                     </td>
                 </tr>
@@ -36,7 +36,7 @@
         },
         methods: {
             params: function(i) {
-                let data = this.tableOptions.data[i];
+                let data = this.tableOptions.dataOptions[i];
                 switch(data.type){
                     case 'string-ellipsis':
                         return _.merge({component: 'string', thClass: '', tdClass: 'ellipsis '+ (data.html_class ? data.html_class : '')}, data);

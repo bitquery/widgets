@@ -21,24 +21,24 @@ import VueGoogleCharts from 'vue-google-charts'
 
 
 
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData: {
-        __schema: {
-            types: [
-                {
-                    kind: 'UNION',
-                    name: 'SearchResultItem',
-                    possibleTypes: [
-                        { name: 'Address' },
-                        { name: 'Currency' }
-                    ],
-                },
-            ],
-        },
-    },
-});
-
-const cache = new InMemoryCache({ fragmentMatcher });
+// let fragmentMatcher = new IntrospectionFragmentMatcher({
+//     introspectionQueryResultData: {
+//         __schema: {
+//             types: [
+//                 {
+//                     kind: 'UNION',
+//                     name: 'SearchResultItem',
+//                     possibleTypes: [
+//                         { name: 'Address' },
+//                         { name: 'Currency' }
+//                     ],
+//                 },
+//             ],
+//         },
+//     },
+// });
+//
+// const cache = new InMemoryCache({ fragmentMatcher });
 
 let Locales = {};
 
@@ -129,7 +129,7 @@ export function init(url, apikey, options = {}){
     options['url'] = url;
     options['apikey'] = apikey;
     props = _.merge(props, options);
-    apollo = new ApolloClient({uri: options['url'], cache});
+    // apollo = new ApolloClient({uri: options['url']});
     return props
 }
 
@@ -138,7 +138,22 @@ export function callbacks(cbs = {}){
     return props.callbacks
 }
 
-export function query(query){
+export function query(query, schema = undefined){
+
+    if (schema){
+        let fragmentMatcher = new IntrospectionFragmentMatcher({
+            introspectionQueryResultData: {
+                __schema: schema,
+            },
+        });
+
+        let cache = new InMemoryCache({ fragmentMatcher });
+        apollo.cache = cache;
+        apollo = new ApolloClient({uri: props['url'], cache});
+    } else {
+        apollo = new ApolloClient({uri: props['url']});
+    }
+
     let properties = {
         is_request: false,
         original: {
@@ -170,7 +185,7 @@ export function query(query){
                 query: it['gql'],
                 variables: it.variables,
                 errorPolicy: 'all',
-                fetchPolicy: 'no-cache',
+                // fetchPolicy: 'no-cache',
             })
             .then(function(result){
                 it.is_request = false;
@@ -184,6 +199,7 @@ export function query(query){
         return this;
     }
     };
+
     return properties;
 }
 
@@ -263,6 +279,12 @@ export function text(selector, query, path = '', options ={}){
     let props = {excludeButtons: ['csv'], textOptions: {}};
     props = _.merge(props, options);
     return component('text_component','text', selector, query, path, props, options);
+}
+
+export function list(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], textOptions: {}};
+    props = _.merge(props, options);
+    return component('list_component','list', selector, query, path, props, options);
 }
 
 export var lodash = _;

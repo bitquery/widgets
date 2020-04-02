@@ -1,13 +1,18 @@
 <template>
-    <div :class="options.html_class">
-        <compotent v-for="item in data.result">
-            <component :is="params.component" :item="item" :params="params" :callbacks="callbacks" v-if="params"></component>
-        </compotent>
+    <div>
+        <div>
+            <ul :class="'list-group list-group-flush '+options.html_class">
+                <li v-for="item in data.result" :class="'list-group-item '+params.html_class">
+                    <component :is="params.component" :item="item" :params="params" :callbacks="callbacks" v-if="params"></component>
+                </li>
+            </ul>
+        </div>
+        <more-text :count="data.result.length" :load_count="100" :path="data.path"></more-text>
     </div>
 </template>
 <script>
     export default {
-        name: 'text_component',
+        name: 'list_component',
         props: ['data', 'variables', 'options', 'theme', 'context', 'componentName'],
         computed: {
             callbacks: function(){

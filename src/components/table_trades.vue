@@ -97,7 +97,7 @@
                 return _.merge(params,{path: path})
             },
             params: function(i) {
-                let data = this.tableOptions.data[i];
+                let data = this.tableOptions.dataOptions[i];
                 switch(data.type){
                     case 'string-ellipsis':
                         return _.merge({component: 'string', thClass: '', tdClass: 'ellipsis '+ (data.html_class ? data.html_class : '')}, data);

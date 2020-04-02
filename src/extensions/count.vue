@@ -1,6 +1,6 @@
 <template>
-    <a :href='urlCallback' v-if="urlCallback" v-html="count"><span class="fa fa-list"></span></a>
-    <span v-else v-html="count"></span>
+    <a :href='urlCallback' v-if="urlCallback" v-html="count" :class="params.html_class"><span class="fa fa-list"></span></a>
+    <span v-else v-html="count" :class="params.html_class"></span>
 </template>
 <script>
     export default {

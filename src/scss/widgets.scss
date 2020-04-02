@@ -2,6 +2,7 @@
 @import '~graphiql/graphiql.css';
 
 .more-text{
+  margin-top: 10px;
   a:not([href]):not([tabindex]).more-link{
     color: #007bff;
     cursor: pointer;

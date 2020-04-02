@@ -1,5 +1,5 @@
 <template>
-    <span v-html="parseAmount"></span>
+    <span v-html="parseAmount" :class="params.html_class"></span>
 </template>
 <script>
     import utils from '../lib/utils'
@@ -14,7 +14,7 @@
                     return it.params.renderCallback(it.item);
                 } else {
                     let data;
-                    if (Array.isArray(it.params.path)){
+                    if (Array.is$root(it.params.path)){
                         _.each(it.params.path, function(p){
                             data = _.get(it.item, p);
                             return data ? false : true;
