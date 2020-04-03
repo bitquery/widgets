@@ -74,18 +74,18 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        let data;
+                        let tmp_data;
                         if(typeof v.renderCallback === 'function'){
                             datas.push(v.renderCallback(item));
                         } else {
-                            let data;
+                            let tmp_data;
                             if (Array.isArray(v.path)){
                                 _.each(v.path, function(p){
-                                    data = _.get(item, p);
-                                    return data ? false : true;
+                                    tmp_data = _.get(item, p);
+                                    return tmp_data ? false : true;
                                 });
                             } else {
-                                data =  _.get(item, v.path);
+                                tmp_data =  _.get(item, v.path);
                             }
 
                             if(v.title && v.title.type){
@@ -93,7 +93,7 @@
                                     case 'date':
                                     case 'datetime':
                                         // ISO 8601 — 2014-12-06T10:30:00-0800
-                                        data = new Date(data);
+                                        tmp_data = new Date(tmp_data);
                                         break;
                                     case 'timeofday':
                                         // 8:30am would be: [8, 30, 0, 0]
@@ -103,7 +103,7 @@
                                 }
                             }
 
-                            datas.push(v.data ? v.data.replace('%{DATA}', data) : data)
+                            datas.push(v.data ? v.data.replace('%{DATA}', tmp_data) : tmp_data)
                         }
                         return datas;
                     },[]));
