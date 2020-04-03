@@ -9,6 +9,12 @@
   }
 }
 
+.list-group{
+  .list-group-item{
+    background-color: transparent;
+  }
+}
+
 .word-wrap{
   word-wrap: break-word;
 }
@@ -19,6 +25,7 @@
     -ms-filter: blur(5px);
     filter: blur(5px);
 }
+
 .widgets-loading{
   position: absolute;
   top: 0;
