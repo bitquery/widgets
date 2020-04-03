@@ -14,7 +14,7 @@
                     return it.params.renderCallback(it.item);
                 } else {
                     let data;
-                    if (Array.is$root(it.params.path)){
+                    if (Array.isArray(it.params.path)){
                         _.each(it.params.path, function(p){
                             data = _.get(it.item, p);
                             return data ? false : true;
