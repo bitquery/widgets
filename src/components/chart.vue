@@ -36,9 +36,6 @@
                             },
                             titleTextStyle: {
                                 color: theme.text
-                            },
-                            viewWindow: {
-                                min: 0
                             }
                         },
                     },

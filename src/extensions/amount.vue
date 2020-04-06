@@ -43,7 +43,7 @@
                         unit = "m";
                     }
 
-                    return it.params.data ? it.params.data.replace('%{DATA}', (parseInt(amt) == 0 ? '-' : (utils.delimeter(amt, {precision: 2})+unit))) : (parseInt(amt) == 0 ? '-' : (utils.delimeter(amt, {precision: 2})+unit));
+                    return it.params.data ? it.params.data.replace('%{DATA}', (utils.delimeter(amt, {precision: 2})+unit)) : (utils.delimeter(amt, {precision: 2})+unit);
                 }
             }
         }
