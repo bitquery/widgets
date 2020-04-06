@@ -185,7 +185,7 @@ export function query(query, schema = undefined){
                 query: it['gql'],
                 variables: it.variables,
                 errorPolicy: 'all',
-                // fetchPolicy: 'no-cache',
+                fetchPolicy: 'no-cache',
             })
             .then(function(result){
                 it.is_request = false;
