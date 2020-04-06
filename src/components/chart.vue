@@ -29,8 +29,6 @@
                     },
                     vAxes: {
                         '0': {
-                            title: this._i18n.t("title.calls_count"),
-                            format: '#,###',
                             textStyle: {
                                 color: theme.text
                             },
@@ -38,9 +36,16 @@
                                 color: theme.text
                             }
                         },
+                        '1': {
+                            textStyle: {
+                                color: theme.text
+                            },
+                            titleTextStyle: {
+                                color: theme.text
+                            }
+                        }
                     },
                     hAxis: {
-                        title: this._i18n.t("title.month"),
                         textStyle: {
                             color: theme.text
                         },
