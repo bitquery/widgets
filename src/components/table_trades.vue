@@ -4,7 +4,7 @@
             <table :class="'table table-hover table-sm widgets-table ' + theme_class">
                 <thead>
                 <tr>
-                    <th v-for="(title, i) in tableOptions.title" :class="params(i).thClass">{{ title }}</th>
+                    <th v-for="(data, i) in dataOptions" :class="params(i).thClass" v-html="data.title ? data.title : ''"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,8 +82,8 @@
             theme_class: function(){
                 return this.theme.html_class
             },
-            tableOptions: function(){
-                return this.options.tableOptions
+            dataOptions: function(){
+                return this.options.dataOptions
             },
             callbacks: function(){
                 return this.$root.$options.context.callbacks
@@ -97,7 +97,7 @@
                 return _.merge(params,{path: path})
             },
             params: function(i) {
-                let data = this.tableOptions.dataOptions[i];
+                let data = this.dataOptions[i];
                 switch(data.type){
                     case 'string-ellipsis':
                         return _.merge({component: 'string', thClass: '', tdClass: 'ellipsis '+ (data.html_class ? data.html_class : '')}, data);
