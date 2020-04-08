@@ -3,7 +3,7 @@ function delimeter(number, p = {}){ // object p (delimiter, separator, precision
 
     if (!p.delimiter) {p.delimiter  = ',';}
     if (!p.separator) {p.separator = '.';}
-    if (!p.precision) {p.precision = 4;}
+    if (!p.precision) {p.precision = 6;}
 
     let numarr = parseFloat(number).toFixed(p.precision).split('.');
     num = numarr[0];

@@ -25,25 +25,31 @@
 
                     let amt = data;
                     let unit = '';
+                    let precision = 6;
 
                     if (data > 1e18){
                         amt = data/1e18;
                         unit = "Q";
+                        precision = 2;
                     } else if (data > 1e12){
                         amt = data/1e12;
                         unit = "T";
+                        precision = 2;
                     } else if (data > 1e9){
                         amt = data/1e9;
                         unit = "G";
+                        precision = 2;
                     } else if (data > 1e6){
                         amt = data/1e6;
                         unit = "M";
+                        precision = 2;
                     } else if (data < 1e-3 && data > 0){
                         amt = data*1e3;
                         unit = "m";
+                        precision = 2;
                     }
 
-                    return it.params.data ? it.params.data.replace('%{DATA}', (utils.delimeter(amt, {precision: 2})+unit)) : (utils.delimeter(amt, {precision: 2})+unit);
+                    return it.params.data ? it.params.data.replace('%{DATA}', (utils.delimeter(amt, {precision: precision})+unit)) : (utils.delimeter(amt, {precision: precision})+unit);
                 }
             }
         }
