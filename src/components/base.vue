@@ -3,7 +3,7 @@
         <loading v-if="context.query.is_request" :theme="theme"></loading>
         <div :class="context.query.is_request ? 'widgets-blur': ''">
             <errors :errors="data.errors" v-if="is_error"></errors>
-            <nodata v-else-if="is_no_data"></nodata>
+            <nodata v-else-if="is_no_data" :options="options"></nodata>
             <component :is="componentName" :data="data" :variables="variables" :options="options" :theme="theme" :context="context" :componentName="componentName" v-else></component>
         </div>
         <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
@@ -31,11 +31,7 @@
                 return Array.isArray(this.data.errors) && this.data.errors.length > 0;
             },
             is_no_data: function(){
-                if(this.context.options.disableNodata){
-                    return false
-                } else {
-                    return Array.isArray(this.data.result) && this.data.result.length < 1;
-                }
+                return Array.isArray(this.data.result) && this.data.result.length < 1;
             }
         }
     }

@@ -263,19 +263,19 @@ export function chart(selector, query, path = '', options ={}){
 }
 
 export function table(selector, query, path = '', options ={}){
-    let props = {tableOptions: {}, dataOptions: {}};
+    let props = {dataOptions: {}};
     props = _.merge(props, options);
     return component('table_component','table', selector, query, path, props, options);
 }
 
 export function text(selector, query, path = '', options ={}){
-    let props = {excludeButtons: ['csv'], textOptions: {}};
+    let props = {excludeButtons: ['csv'], dataOptions: {}};
     props = _.merge(props, options);
     return component('text_component','text', selector, query, path, props, options);
 }
 
 export function list(selector, query, path = '', options ={}){
-    let props = {excludeButtons: ['csv'], textOptions: {}};
+    let props = {excludeButtons: ['csv'], dataOptions: {}};
     props = _.merge(props, options);
     return component('list_component','list', selector, query, path, props, options);
 }
