@@ -37,7 +37,7 @@
         methods: {
             params: function(i) {
                 let data = this.dataOptions[i];
-                let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')}
+                let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')};
                 switch(data.type){
                     case 'string-ellipsis':
                         parameters.tdClass = 'ellipsis '+ parameters.tdClass;
