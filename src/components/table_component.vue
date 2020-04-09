@@ -37,7 +37,7 @@
         methods: {
             params: function(i) {
                 let data = this.dataOptions[i];
-                let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.html_style ? data.html_style : '')}
+                let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')}
                 switch(data.type){
                     case 'string-ellipsis':
                         parameters.tdClass = 'ellipsis '+ parameters.tdClass;
@@ -48,10 +48,10 @@
                         return _.merge(parameters, data);
                         break;
                     case 'amount':
-                        return _.merge(parameters, {component: 'amount', thClass: 'text-right', tdClass: 'text-right '+ (data.html_class ? data.html_class : '')}, data);
+                        return _.merge(parameters, {component: 'amount', thClass: 'text-right', tdClass: 'text-right '+ parameters.tdClass}, data);
                         break;
                     case 'count':
-                        return _.merge(parameters, {component: 'count', thClass: 'text-right', tdClass: 'text-right '+ (data.html_class ? data.html_class : '')}, data);
+                        return _.merge(parameters, {component: 'count', thClass: 'text-right', tdClass: 'text-right '+ parameters.tdClass}, data);
                         break;
                     case 'string':
                     default:
