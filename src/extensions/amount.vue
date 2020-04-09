@@ -39,11 +39,11 @@
                     } else if (data > 1e6) {
                         amt = data / 1e6;
                         unit = "M";
-                    } else if (data > 1e-3 && data < 1){
+                    } else if (data >= 1e-3 && data < 1){
                         precision = 4;
                     } else if (data < 1e-3 && data > 0){
-                        amt = data*1e3;
-                        unit = "m";
+                        amt = data.toExponential(2);
+                        return it.params.data ? it.params.data.replace('%{DATA}', amt) : (amt);
                     }
 
                     return it.params.data ? it.params.data.replace('%{DATA}', (utils.delimeter(amt, {precision: precision})+unit)) : (utils.delimeter(amt, {precision: precision})+unit);
