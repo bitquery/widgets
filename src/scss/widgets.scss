@@ -91,6 +91,17 @@
     font-size: 60%;
     cursor: pointer;
 
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+
+    &.badge-secondary {
+      background-color: #6c757d;
+    }
+
     &:hover{
       color: #fff;
     }
@@ -128,7 +139,7 @@
           }
         }
         .widgets-modal-footer{
-          button.btn.btn-default{
+          .btn.btn-default{
             background-color: #212529;
             color: #fff;
           }
@@ -193,6 +204,17 @@
         padding-bottom: 16px;
         padding-left: 24px;
         height: 600px;
+      }
+
+      .widgets-modal-url{
+        padding-top: 0px;
+        padding-right: 24px;
+        padding-bottom: 16px;
+        padding-left: 24px;
+
+        input{
+          width: 100%;
+        }
       }
 
       .widgets-modal-footer{

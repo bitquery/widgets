@@ -8,6 +8,16 @@
                         <button type="button" class="widgets-modal-close" v-on:click="closeWidgetsModal">&times;</button>
                         <h4 class="widgets-modal-title">{{ title }}</h4>
                     </div>
+                    <div class="widgets-modal-url">
+                        <div class="row">
+                            <div class="col-sm-8 col-md-9 col-xl-10">
+                                <input type="text" :value="context.url" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-sm-4 col-md-3 col-xl-2">
+                                <a href="https://github.com/bitquery/graphql/wiki" class='float-right' target="_blank">Docs on Github</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="widgets-modal-body" :id="'widgets-modal-graphigl-'+obj+rand">
                         {{ $t("loading") }}
                     </div>
@@ -42,6 +52,9 @@
             },
             rand: function () {
                 return Math.floor(Math.random() * Math.floor(100000));
+            },
+            context: function(){
+                return this.$root.$options.context;
             }
         },
         methods: {
@@ -51,7 +64,7 @@
                 element.addClass('widgets-modal-show');
                 _$('body').addClass('widgets-modal-open');
 
-                let context = this.$root.$options.context;
+                let context = this.context;
                 context.cache = {
                     query: context.query.gql.loc.source.body,
                     variables: JSON.stringify(context.query.variables)
