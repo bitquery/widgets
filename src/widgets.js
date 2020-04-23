@@ -250,6 +250,8 @@ export function component(name, funcName, selector, query, path, options={},init
     return properties;
 }
 
+export var lodash = _;
+
 export function table_trades(selector, query, path = 'trades', options ={}){
     let props = {tableOptions: {}, dataOptions: {}};
     props = _.merge(props, options);
@@ -280,7 +282,11 @@ export function list(selector, query, path = '', options ={}){
     return component('list_component','list', selector, query, path, props, options);
 }
 
-export var lodash = _;
+export function pivotTable(selector, query, path = '', options ={}){
+    let props = {dataOptions: {}};
+    props = _.merge(props, options);
+    return component('table_pivot','pivotTable', selector, query, path, props, options);
+}
 
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);
