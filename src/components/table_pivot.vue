@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="table-responsive">
-            <table :class="'table table-striped table-hover table-sm widgets-table ' + theme_class">
+            <table :class="'tab12312 table table-striped table-hover table-sm widgets-table ' + theme_class">
                 <thead>
                 <tr v-for="(item, i) in generatedData.cols[0]">
                     <th v-for="col in generatedData.cols">{{col[i]}}</th>
@@ -25,6 +25,8 @@
     </div>
 </template>
 <script>
+    import utils from '../lib/utils'
+
     export default {
         name: 'table_pivot',
         props: ['data', 'variables', 'options', 'theme', 'context', 'componentName'],
@@ -39,6 +41,8 @@
                 let data = this.data.result;
                 let doRows = this.options.rows;
                 let doCols = this.options.cols;
+                let limitOptions = this.options.limit;
+                let sortOptions = this.options.sort;
                 let titles = [''];
                 let dimensions = {cols: {}, rows: {}, sort: {cols: [], rows: []}};
                 let metrics = {position: '', titles: [], data: {}};
@@ -61,11 +65,7 @@
                             titles = titles.concat(getSheet(item, option.include).titles);
                             sort = sort.concat(getSheet(item, option.include).sort);
                         } else if (option.metrics){
-                            // sheet[_.get(item, option.path)]['metrics'] = [];
-                            // sheet[_.get(item, option.path)] = {'metrics': {}};
                             _.each(option.metrics, function(metric){
-                                // sheet[_.get(item, option.path)]['metrics'].push([metric.title]);
-                                // sheet[_.get(item, option.path)][[metric.title]] = {};
                                 metrics[metric.title] = _.get(item, metric.path);
                             });
                         } else {
@@ -111,17 +111,21 @@
                 console.log('titles');
                 console.log(titles);
 
-                let sort = function(arr, direction = 'asc'){
+                let sort = function(arr, direction = 'asc', c = undefined){
                     if (direction != 'desc') {
                         arr.sort(function(a,b){
-                            if (a<b) return -1;
-                            if (a>b) return 1;
+                            let aa = c == undefined ? a : a[c];
+                            let bb = c == undefined ? b : b[c];
+                            if (aa<bb) return -1;
+                            if (aa>bb) return 1;
                             return 0;
                         });
                     } else {
                         arr.sort(function(a,b){
-                            if (a>b) return -1;
-                            if (a<b) return 1;
+                            let aa = c == undefined ? a : a[c];
+                            let bb = c == undefined ? b : b[c];
+                            if (aa>bb) return -1;
+                            if (aa<bb) return 1;
                             return 0;
                         })
                     }
@@ -151,30 +155,125 @@
                 console.log('rows');
                 console.log(rows);
 
+                if(sortOptions && sortOptions.axis == 'col'){
+                    _.each(cols, function(col){
+                        let sum = 0;
+                        _.each(metrics.data, function(col_value, col_key){
+                            _.each(col_value, function(row_value, row_key){
+                                if(col_key == col.join('.')){
+                                    sum = sum + row_value[sortOptions.metric];
+                                }
+                            });
+                        });
+                        col.push(sum);
+                    });
+                    cols = sort(cols, sortOptions.direction, cols[0].length-1);
+                    _.each(cols, function(col){
+                        col.pop();
+                    });
+                }else if(sortOptions && sortOptions.axis == 'row'){
+                    _.each(rows, function(row){
+                        let sum = 0;
+                        _.each(metrics.data, function(col_value, col_key){
+                            _.each(col_value, function(row_value, row_key){
+                                if(row_key == row.join('.')){
+                                    sum = sum + row_value[sortOptions.metric];
+                                }
+                            });
+                        });
+                        row.push(sum);
+                    });
+                    rows = sort(rows, sortOptions.direction, rows[0].length-1);
+                    _.each(rows, function(row){
+                        row.pop();
+                    });
+                }
+
                 let completeCols = [];
                 let completeRows = [];
 
                 _.each(rows, function(row, r_i){
+                    if (limitOptions && limitOptions.length && r_i >= limitOptions.length && limitOptions.axis == 'row' && limitOptions.other != true){
+                        return undefined;
+                    }
                     let cRow = [];
                     _.each(cols, function(col, c_i){
+                        if (limitOptions && limitOptions.length && c_i >= limitOptions.length && limitOptions.axis == 'col' && limitOptions.other != true){
+                            return undefined;
+                        }
                         _.each(metrics.titles, function(title, m_i){
                             if(metrics.position == 'cols'){
-                                r_i == 0 && completeCols.push(_.union(col, [title]));
-                                cRow.push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                if (limitOptions && limitOptions.length != undefined && c_i >= limitOptions.length && limitOptions.axis == 'col') {
+                                    let other = Array(col.length).fill('Other');
+                                    if (completeCols[completeCols.length - metrics.titles.length] && completeCols[completeCols.length - metrics.titles.length][0] == 'Other') {
+                                        cRow[completeCols.length - metrics.titles.length + m_i] = (cRow[completeCols.length - metrics.titles.length + m_i] || 0) + (metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                    } else {
+                                        r_i == 0 && completeCols.push(other.concat([title]));
+                                        cRow.push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                    }
+                                }else{
+                                    r_i == 0 && completeCols.push(_.union(col, [title]));
+                                    cRow.push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                }
                             } else {
-                                r_i == 0 && m_i == 0 && completeCols.push(col);
-                                if(cRow[m_i] != undefined){
-                                    cRow[m_i].push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                if (limitOptions && limitOptions.length != undefined && c_i >= limitOptions.length && limitOptions.axis == 'col') {
+                                    let other = Array(col.length).fill('Other');
+                                    if (completeCols[completeCols.length - 1] && completeCols[completeCols.length - 1][0] == 'Other') {
+                                        if(cRow[m_i] != undefined){
+                                            cRow[m_i][completeCols.length + row.length] = (cRow[m_i][completeCols.length + row.length] || 0) + (metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                        } else {
+                                            cRow[m_i] = [].concat(row, metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? [title, metrics.data[col.join('.')][row.join('.')][title]] : [title, 0]);
+                                        }
+                                    }else{
+                                        r_i == 0 && m_i == 0 && completeCols.push(other);
+                                        if(cRow[m_i] != undefined){
+                                            cRow[m_i].push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                        } else {
+                                            cRow[m_i] = [].concat(row, metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? [title, metrics.data[col.join('.')][row.join('.')][title]] : [title, 0]);
+                                        }
+                                    }
                                 } else {
-                                    cRow[m_i] = [].concat(row, metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? [title, metrics.data[col.join('.')][row.join('.')][title]] : [title, 0]);
+                                    r_i == 0 && m_i == 0 && completeCols.push(col);
+                                    if(cRow[m_i] != undefined){
+                                        cRow[m_i].push(metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? metrics.data[col.join('.')][row.join('.')][title] : 0);
+                                    } else {
+                                        cRow[m_i] = [].concat(row, metrics.data[col.join('.')][row.join('.')] && metrics.data[col.join('.')][row.join('.')][title] ? [title, metrics.data[col.join('.')][row.join('.')][title]] : [title, 0]);
+                                    }
                                 }
                             }
                         });
                     });
                     if(metrics.position == 'cols'){
-                        completeRows.push(row.concat(cRow));
+                        if(limitOptions && limitOptions.length != undefined && r_i >= limitOptions.length && limitOptions.axis == 'row'){
+                            let other = Array(row.length).fill('Other');
+                            if (completeRows[completeRows.length - 1] && completeRows[completeRows.length - 1][0] == 'Other') {
+                                _.each(cRow, function(cR, r_i){
+                                    completeRows[completeRows.length - 1][row.length+r_i] = completeRows[completeRows.length - 1][row.length+r_i] + cR;
+                                });
+                            } else {
+                                completeRows.push(other.concat(cRow));
+                            }
+                        } else {
+                            completeRows.push(row.concat(cRow));
+                        }
                     } else {
-                        completeRows = completeRows.concat(cRow);
+                        if(limitOptions && limitOptions.length != undefined && r_i >= limitOptions.length && limitOptions.axis == 'row'){
+                            let other = Array(row.length).fill('Other');
+                            if (completeRows[completeRows.length - metrics.titles.length] && completeRows[completeRows.length - metrics.titles.length][0] == 'Other') {
+                                _.each(cRow, function (cr, cr_i){
+                                    _.each(cr, function(r, i){
+                                        if(row.length >= i){return undefined;}
+                                        completeRows[completeRows.length - metrics.titles.length + cr_i][i] = (completeRows[completeRows.length - metrics.titles.length + cr_i][i] || 0) + r;
+                                    });
+                                });
+                            } else {
+                                _.each(cRow,function(cr){
+                                    completeRows.push(other.concat(cr.slice(row.length, cr.length)));
+                                });
+                            }
+                        }else{
+                            completeRows = completeRows.concat(cRow);
+                        }
                     }
                 });
 
@@ -196,7 +295,34 @@
                 return {cols: completeCols, rows: completeRows};
             }
         },
+        mounted: function(){
+            // this.colspan('.tab12312', 3);
+            let trs = this.$el.querySelectorAll('table thead tr');
+            let trTmp;
+            _.each(trs, function(tr){
+                let ths = tr.querySelectorAll('th');
+                let thTmp;
+                _.each(ths, function (th, th_i) {
+                    if (!thTmp || thTmp && thTmp.innerText != th.innerText){
+                        thTmp = th;
+                        thTmp.setAttribute('colspan', 1);
+                        th.style.display = 'table-cell';
+                    } else {
+                        thTmp.setAttribute('colspan', parseInt(thTmp.getAttribute('colspan'))+1);
+                        th.style.display = 'none';
+                    }
+                });
+            });
+        },
         methods: {
+            colspan: function(selector, titlesLength){
+                let _$ = utils.select;
+                let elements = _$(selector+' thead tr');
+                _.each(elements, function(tr){
+                   console.log(tr);
+                });
+            },
+            rowspan: function(selector, titlesLength){},
             params: function(i) {
                 // let data = this.dataOptions[i];
                 // let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')};
