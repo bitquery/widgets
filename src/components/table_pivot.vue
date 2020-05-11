@@ -292,37 +292,93 @@
                 console.log('completeRows');
                 console.log(completeRows);
 
-                return {cols: completeCols, rows: completeRows};
+                return {cols: completeCols, rows: completeRows, titlesSize: titles.length};
             }
         },
         mounted: function(){
-            // this.colspan('.tab12312', 3);
-            let trs = this.$el.querySelectorAll('table thead tr');
-            let trTmp;
-            _.each(trs, function(tr){
-                let ths = tr.querySelectorAll('th');
-                let thTmp;
-                _.each(ths, function (th, th_i) {
-                    if (!thTmp || thTmp && thTmp.innerText != th.innerText){
-                        thTmp = th;
-                        thTmp.setAttribute('colspan', 1);
-                        th.style.display = 'table-cell';
-                    } else {
-                        thTmp.setAttribute('colspan', parseInt(thTmp.getAttribute('colspan'))+1);
-                        th.style.display = 'none';
-                    }
-                });
-            });
+            // console.log(this);
+            this.theadSpan();
+            this.tbodySpan();
         },
         methods: {
-            colspan: function(selector, titlesLength){
-                let _$ = utils.select;
-                let elements = _$(selector+' thead tr');
-                _.each(elements, function(tr){
-                   console.log(tr);
+            theadSpan: function(){
+                let trs = this.$el.querySelectorAll('table thead tr');
+                let trTmp=[];
+                _.each(trs, function(tr){
+                    let ths = tr.querySelectorAll('th');
+                    let thTmp;
+                    _.each(ths, function (th, th_i) {
+                        if (!thTmp || thTmp && thTmp.innerText != th.innerText){
+                            thTmp = th;
+                            thTmp.setAttribute('colspan', 1);
+                            th.style.display = 'table-cell';
+                        } else {
+                            thTmp.setAttribute('colspan', parseInt(thTmp.getAttribute('colspan'))+1);
+                            th.style.display = 'none';
+                        }
+                    });
                 });
+
+                _.each(trs, function (tr) {
+                    let ths = tr.querySelectorAll('th');
+                    if(trTmp.length == 0){
+                        _.each(ths, function (th) {
+                            th.setAttribute('rowspan', 1);
+                            trTmp.push(th);
+                        });
+                        return undefined;
+                    }
+                    _.each(ths, function (th, th_i) {
+                        if(th.innerText != trTmp[th_i].innerText){
+                            trTmp[th_i] = th;
+                            trTmp[th_i].setAttribute('rowspan', 1);
+                        } else {
+                            trTmp[th_i].setAttribute('rowspan', parseInt(trTmp[th_i].getAttribute('rowspan'))+1);
+                            th.style.display = 'none';
+                        }
+                    });
+                })
             },
-            rowspan: function(selector, titlesLength){},
+            tbodySpan: function(){
+                let titlesSize = this.generatedData.titlesSize;
+                console.log(titlesSize);
+                let trs = this.$el.querySelectorAll('table tbody tr');
+                let trTmp=[];
+                _.each(trs, function(tr){
+                    let tds = Array.from(tr.querySelectorAll('td')).slice(0, titlesSize);
+                    let tdTmp;
+                    _.each(tds, function (td, td_i) {
+                        if (!tdTmp || tdTmp && tdTmp.innerText != td.innerText){
+                            tdTmp = td;
+                            tdTmp.setAttribute('colspan', 1);
+                            td.style.display = 'table-cell';
+                        } else {
+                            tdTmp.setAttribute('colspan', parseInt(tdTmp.getAttribute('colspan'))+1);
+                            td.style.display = 'none';
+                        }
+                    });
+                });
+
+                _.each(trs, function (tr) {
+                    let tds = Array.from(tr.querySelectorAll('td')).slice(0, titlesSize);
+                    if(trTmp.length == 0){
+                        _.each(tds, function (td) {
+                            td.setAttribute('rowspan', 1);
+                            trTmp.push(td);
+                        });
+                        return undefined;
+                    }
+                    _.each(tds, function (td, td_i) {
+                        if(td.innerText != trTmp[td_i].innerText){
+                            trTmp[td_i] = td;
+                            trTmp[td_i].setAttribute('rowspan', 1);
+                        } else {
+                            trTmp[td_i].setAttribute('rowspan', parseInt(trTmp[td_i].getAttribute('rowspan'))+1);
+                            td.style.display = 'none';
+                        }
+                    });
+                })
+            },
             params: function(i) {
                 // let data = this.dataOptions[i];
                 // let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')};
