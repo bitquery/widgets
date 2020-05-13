@@ -19,6 +19,8 @@
                             data = _.get(it.item, p);
                             return data ? false : true;
                         });
+                    } else if(it.params.forwarding == true){
+                        data = it.item;
                     } else {
                         data =  _.get(it.item, it.params.path, 0);
                     }

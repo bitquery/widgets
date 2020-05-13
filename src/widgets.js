@@ -288,6 +288,12 @@ export function pivotTable(selector, query, path = '', options ={}){
     return component('table_pivot','pivotTable', selector, query, path, props, options);
 }
 
+export function pivotChart(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
+    props = _.merge(props, options);
+    return component('chart_pivot','pivotChart', selector, query, path, props, options);
+}
+
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
 //     return component('transfers_in_out', selector, query, path);
 // }

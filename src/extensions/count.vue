@@ -12,6 +12,8 @@
 
                 if(typeof it.params.renderCallback === 'function'){
                     return it.params.renderCallback(it.item)
+                } else if(it.params.forwarding == true){
+                    return it.params.data ? it.params.data.replace('%{DATA}', it.item) : it.item;
                 } else {
                     let data;
                     if (Array.isArray(it.params.path)){
