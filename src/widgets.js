@@ -169,7 +169,7 @@ export function query(query, schema = undefined){
             properties.gql = gql(query);
             return properties;
         },
-        request: function(p = {}, thenResult = function(result, it){}){
+        request: function(p = {}, thenResult = function(result, it){}, refresh = true){
         var it = this;
         it.is_request = true;
         let variables = {
@@ -189,7 +189,22 @@ export function query(query, schema = undefined){
             })
             .then(function(result){
                 it.is_request = false;
-                it.data = result.data;
+                if(refresh == true){
+                    it.data = result.data;
+                } else if (refresh == false) {
+                    let upd = function(obj, ks = []){
+                        let k = [].concat(ks);
+                        _.each(obj, function (value, key) {
+                            if(Array.isArray(value)){
+                                _.set(it.data, k.concat([key]).join('.'), _.get(it.data, k.concat([key]).join('.'), []).concat(value));
+                            } else if (typeof value === 'object') {
+                                upd(value, k.concat([key]));
+                            }
+                        });
+                    };
+                    upd(result.data);
+                }
+
                 it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];
                 _.each(it.components,function(component){
                     component.render()
@@ -292,6 +307,12 @@ export function pivotChart(selector, query, path = '', options ={}){
     let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
     props = _.merge(props, options);
     return component('chart_pivot','pivotChart', selector, query, path, props, options);
+}
+
+export function template(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv']};
+    props = _.merge(props, options);
+    return component('template_component','template', selector, query, path, props, options);
 }
 
 // export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
