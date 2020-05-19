@@ -45,44 +45,32 @@
         },
         computed: {
             options: function(){
-                let o = this.context.initialOptions;
-                let rc = {};
-                if (o.dataOptions){
-                    if(Array.isArray(o.dataOptions)){
-                        _.each(o.dataOptions, function(option, i){
-                            if (typeof option.renderCallback === 'function'){
-                                rc["%{RENDER_CALLBACK_"+i+"}"] = option.renderCallback.toString();
-                                option.renderCallback = "%{RENDER_CALLBACK_"+i+"}";
-                            }
-                        });
-                    }else{
-                        if (typeof o.dataOptions.renderCallback === 'function'){
-                            rc["%{RENDER_CALLBACK}"] = o.dataOptions.renderCallback.toString();
-                            o.dataOptions.renderCallback = "%{RENDER_CALLBACK}";
-                        }
-                    }
-                }
-
-                if (o.tableOptions){
-                    _.each(o.tableOptions.dataOptions, function(option, i){
-                        if (typeof option.renderCallback === 'function'){
-                            rc["%{RENDER_CALLBACK_"+i+"}"] = option.renderCallback.toString();
-                            option.renderCallback = "%{RENDER_CALLBACK_"+i+"}";
+                let options = this.context.initialOptions;
+                let renderedFunctions = {};
+                let renderOptions = function(obj){
+                    let ro = {};
+                    _.each(obj, function(value, key){
+                        if (typeof value === 'function'){
+                            let rnd = Math.round(Math.random()*1000000);
+                            ro[key] = "RENDER_FUNCTION_"+rnd;
+                            renderedFunctions["RENDER_FUNCTION_"+rnd] = value.toString();
+                        }else if(Array.isArray(value)){
+                            ro[key] = value;
+                        }else if(typeof value === 'object'){
+                            ro[key] = renderOptions(value);
+                        } else {
+                            ro[key] = value;
                         }
                     });
-                }
+                    return ro;
+                };
+                let renderedOptions = renderOptions(options);
+                let str = JSON.stringify(renderedOptions, null, ' ');
 
-                if(typeof o.renderData === 'function'){
-                    let render_data_str = o.renderData.toString();
-                    o.renderData = "%{RENDER_DATA}";
-                    rc["%{RENDER_DATA}"] = render_data_str;
-                }
-
-                let str = JSON.stringify(o, null, ' ');
-
-                _.each(rc, function(value, key){
+                _.each(renderedFunctions, function(value, key){
                     str = str.replace('"'+key+'"', value);
                 });
+
                 return str;
             },
             is_original: function(){

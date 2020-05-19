@@ -189,20 +189,9 @@ export function query(query, schema = undefined){
             })
             .then(function(result){
                 it.is_request = false;
+
                 if(refresh == true){
                     it.data = result.data;
-                } else if (refresh == false) {
-                    let upd = function(obj, ks = []){
-                        let k = [].concat(ks);
-                        _.each(obj, function (value, key) {
-                            if(Array.isArray(value)){
-                                _.set(it.data, k.concat([key]).join('.'), _.get(it.data, k.concat([key]).join('.'), []).concat(value));
-                            } else if (typeof value === 'object') {
-                                upd(value, k.concat([key]));
-                            }
-                        });
-                    };
-                    upd(result.data);
                 }
 
                 it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];

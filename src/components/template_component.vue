@@ -1,6 +1,5 @@
 <template>
-    <div></div>
-<!--    <div>{{ref()}}</div>-->
+    <div>{{ref()}}</div>
 </template>
 <script>
     export default {
@@ -9,16 +8,15 @@
         mounted: function(){
             this.options.callback(this.$el, this.data.result);
         },
-        // methods: {
-        //     ref: function(){
-        //         let result = this.data.result;
-        //         if(this.$el){
-        //             console.log('refresh Ok');
-        //             this.options.callback(this.$el, this.data.result);
-        //         }
-        //         return result;
-        //     }
-        // },
+        methods: {
+            ref: function(){
+                let result = this.data.result;
+                if(this.$el){
+                    this.options.callback(this.$el, this.data.result);
+                }
+                return result;
+            }
+        },
         computed: {
             callbacks: function(){
                 return this.$root.$options.context.callbacks
