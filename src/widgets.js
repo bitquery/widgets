@@ -7,6 +7,8 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n'
 import _ from 'lodash';
 import VueGoogleCharts from 'vue-google-charts'
+import $ from 'jquery'
+import _n from 'numeral'
 
 // Запрос схемы с типами
 // __schema{
@@ -176,7 +178,7 @@ export function query(query, schema = undefined){
             "limit": 10,
             "offset": 0
         };
-
+        it.refresh = refresh;
         it.variables = _.merge(variables, it.variables, p);
         it.original.variables == undefined ? it.original.variables = it.variables : '';
 
@@ -255,6 +257,8 @@ export function component(name, funcName, selector, query, path, options={},init
 }
 
 export var lodash = _;
+export var jquery = $;
+export var numeral = _n;
 
 export function table_trades(selector, query, path = 'trades', options ={}){
     let props = {tableOptions: {}, dataOptions: {}};
@@ -303,7 +307,3 @@ export function template(selector, query, path = '', options ={}){
     props = _.merge(props, options);
     return component('template_component','template', selector, query, path, props, options);
 }
-
-// export function transfers_in_out(selector, query, path = 'address.transfersInOut'){
-//     return component('transfers_in_out', selector, query, path);
-// }

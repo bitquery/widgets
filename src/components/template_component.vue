@@ -11,7 +11,7 @@
         methods: {
             ref: function(){
                 let result = this.data.result;
-                if(this.$el){
+                if(this.$el && this.context.query.refresh){
                     this.options.callback(this.$el, this.data.result);
                 }
                 return result;

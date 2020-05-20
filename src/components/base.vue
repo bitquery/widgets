@@ -1,5 +1,6 @@
 <template>
-    <div style="position: relative">
+    <div style="position:relative;height:100%">
+<!--        <loading :theme="theme"></loading>-->
         <loading v-if="context.query.is_request" :theme="theme"></loading>
         <div :class="context.query.is_request ? 'widgets-blur': ''">
             <errors :errors="data.errors" v-if="is_error"></errors>
