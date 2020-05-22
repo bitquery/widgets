@@ -14,7 +14,6 @@
                 if(this.$el && this.context.query.refresh){
                     this.options.callback(this.$el, this.data.result);
                 }
-                return result;
             }
         },
         computed: {
