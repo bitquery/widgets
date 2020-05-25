@@ -3,7 +3,7 @@
 <!--        <a class="badge badge-secondary">JSON</a>-->
         <download-csv :obj="obj" link="CSV" :func="func" :title="title" v-if="eexclude('csv')"></download-csv>
         <modal-js :obj="obj" link="JS" :func="func" :title="title" v-if="eexclude('js')"></modal-js>
-        <modal-graphiql :obj="obj" link="GraphiQL" :title="title" v-if="eexclude('graphql')"></modal-graphiql>
+        <modal-graphiql :obj="obj" link="GraphQL" :title="title" v-if="eexclude('graphql')"></modal-graphiql>
     </div>
 </template>
 <script>

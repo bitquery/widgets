@@ -25,6 +25,7 @@
                         <button type="button" class="btn btn-primary" v-on:click="closeWidgetsModalApply">{{ $t("apply_changes") }}</button>
                         <button type="button" class="btn btn-secondary" v-on:click="closeWidgetsModalRevert" v-if="!is_original">{{ $t("revert_changes") }}</button>
                         <button type="button" class="btn btn-default" v-on:click="closeWidgetsModal">{{ $t("close") }}</button>
+                        <a href="https://github.com/graphql/graphiql" class="float-right">GraphiQL on GitHub</a>
                     </div>
                 </div>
             </div>
