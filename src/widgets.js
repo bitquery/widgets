@@ -182,14 +182,14 @@ export function query(query, schema = undefined){
         it.variables = _.merge(variables, it.variables, p);
         it.original.variables == undefined ? it.original.variables = it.variables : '';
 
-        let loading = $('<div style="margin: 10px;">' +
-            '<span style="font-size: 10px;">Loading...</span>' +
-            '<div style="background-color: #eeeeee"><div style="width: 0%; height:2px; background-color: #007bff"></div></div>' +
-            '<span style="font-size: 10px;float: left"">0</span><span style="font-size: 10px;float: right">100</span>' +
-            '</div>');
             _.each(it.components,function(component){
+                let loading = $('<div style="margin: 10px;">' +
+                    '<span>Loading...</span>' +
+                    '<div style="background-color: #eeeeee"><div style="width: 0%; height:4px; background-color: #007bff"></div></div>' +
+                    '<span style="font-size: 12px;float: left"">0</span><span style="font-size: 12px;float: right">100</span>' +
+                    '</div>');
                 $(component.selector).html(loading);
-                loading.find('div>div').animate({width: "100%"}, 2000);
+                loading.find('div>div').animate({width: (Math.floor(Math.random() * 15) + 84)+"%"}, 4000);
             });
 
             apollo
