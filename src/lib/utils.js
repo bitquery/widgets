@@ -326,6 +326,20 @@ function generatedData(it){
     return {cols: completeCols, rows: completeRows, titlesSize: titles.length};
 };
 
+function setType(variable, type){
+    switch (type && type.toLowerCase()) {
+        case 'integer':
+            return parseInt(variable, 10) || 0;
+            break;
+        case 'float':
+            return parseFloat(variable) || 0;
+            break;
+        case 'string':
+        default:
+            return variable
+    }
+}
+
 export default {
-    delimeter, select, widgetsPluginLoader, generatedData
+    delimeter, select, widgetsPluginLoader, generatedData, setType
 };

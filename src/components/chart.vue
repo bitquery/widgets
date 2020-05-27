@@ -4,6 +4,8 @@
     </div>
 </template>
 <script>
+    import utils from "../lib/utils";
+
     export default {
         name: 'chart',
         props: ['data', 'variables', 'options', 'theme', 'context', 'componentName'],
@@ -76,18 +78,17 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        let tmp_data;
                         if(typeof v.renderCallback === 'function'){
                             datas.push(v.renderCallback(item));
                         } else {
                             let tmp_data;
                             if (Array.isArray(v.path)){
                                 _.each(v.path, function(p){
-                                    tmp_data = _.get(item, p);
+                                    tmp_data = utils.setType(_.get(item, p), v.type);
                                     return tmp_data ? false : true;
                                 });
                             } else {
-                                tmp_data =  _.get(item, v.path);
+                                tmp_data =  utils.setType(_.get(item, v.path), v.type);
                             }
 
                             if(v.title && v.title.type){
