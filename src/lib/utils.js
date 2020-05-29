@@ -72,12 +72,21 @@ function generatedData(it){
         let sort = [];
         let path = '';
         _.each(sheetOptions, function (option){
-            sheet[_.get(item, option.path)] = {};
-            path = _.get(item, option.path);
+            let get_option_path;
+            if (Array.isArray(option.path)){
+                _.each(option.path, function(path){
+                    get_option_path = _.get(item, path, null);
+                    return get_option_path != null ? false : true;
+                });
+            } else {
+                get_option_path = _.get(item, option.path);
+            }
+            sheet[get_option_path] = {};
+            path = get_option_path;
             titles.push(option.title);
             sort.push(option.sort != undefined ? option.sort : 'asc');
             if (option.include){
-                sheet[_.get(item, option.path)] = getSheet(item, option.include).sheet;
+                sheet[get_option_path] = getSheet(item, option.include).sheet;
                 path = path + '.' + getSheet(item, option.include).path;
                 metrics = getSheet(item, option.include).metrics;
                 titles = titles.concat(getSheet(item, option.include).titles);
