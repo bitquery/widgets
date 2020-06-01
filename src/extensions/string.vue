@@ -28,7 +28,7 @@
                 }
             },
             urlCallback: function (){
-                return  this.params.urlCallbackName ? this.callbacks[this.params.urlCallbackName](this.item) : false
+                return  (this.params.urlCallbackName && (typeof this.callbacks[this.params.urlCallbackName] === 'function')) ? this.callbacks[this.params.urlCallbackName](this.item) : false
             }
         }
     }
