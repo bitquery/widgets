@@ -1,14 +1,32 @@
 import './scss/widgets.scss';
 import ApolloClient from 'apollo-boost';
-import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+// import { IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
+// import { InMemoryCache } from 'apollo-cache-inmemory';
 import gql from 'graphql-tag';
 import Vue from 'vue';
 import VueI18n from 'vue-i18n'
 import _ from 'lodash';
 import VueGoogleCharts from 'vue-google-charts'
-import $ from 'jquery'
+// import $ from 'jquery'
 import _n from 'numeral'
+import utils from './lib/utils'
+
+// search shema
+// {
+//     types: [
+//         {
+//             kind: 'UNION',
+//             name: 'SearchResultItem',
+//             possibleTypes: [
+//                 { name: 'Address' },
+//                 { name: 'Currency' },
+//                 { name: 'SmartContract' },
+//                 { name: 'TransactionHash' }
+//             ],
+//         },
+//     ],
+// }
+
 
 // Запрос схемы с типами
 // __schema{
@@ -143,15 +161,15 @@ export function callbacks(cbs = {}){
 export function query(query, schema = undefined){
 
     if (schema){
-        let fragmentMatcher = new IntrospectionFragmentMatcher({
-            introspectionQueryResultData: {
-                __schema: schema,
-            },
-        });
-
-        let cache = new InMemoryCache({ fragmentMatcher });
-        apollo.cache = cache;
-        apollo = new ApolloClient({uri: props['url'], cache});
+        // let fragmentMatcher = new IntrospectionFragmentMatcher({
+        //     introspectionQueryResultData: {
+        //         __schema: schema,
+        //     },
+        // });
+        //
+        // let cache = new InMemoryCache({ fragmentMatcher });
+        // apollo.cache = cache;
+        // apollo = new ApolloClient({uri: props['url'], cache});
     } else {
         apollo = new ApolloClient({uri: props['url']});
     }
@@ -182,14 +200,26 @@ export function query(query, schema = undefined){
         it.variables = _.merge(variables, it.variables, p);
         it.original.variables == undefined ? it.original.variables = it.variables : '';
 
+        let intervals = {};
             _.each(it.components,function(component){
-                let loading = $('<div style="margin: 10px;">' +
+                let loading = '<div style="margin: 10px;">' +
                     '<span>Loading...</span>' +
                     '<div style="background-color: #eeeeee"><div style="width: 0%; height:4px; background-color: #007bff"></div></div>' +
                     '<span style="font-size: 12px;float: left"">0</span><span style="font-size: 12px;float: right">100</span>' +
-                    '</div>');
-                $(component.selector).html(loading);
-                loading.find('div>div').animate({width: (Math.floor(Math.random() * 15) + 84)+"%"}, 4000);
+                    '</div>';
+                _.each(utils.select(component.selector).elements, function(element){
+                    element.innerHTML = loading;
+                    let line = utils.select(component.selector+'>div>div>div').elements[0];
+                    let i = 1;
+                    intervals[component.selector] = setInterval(function(){
+                        if (i > Math.floor(Math.random() * 15) + 84){
+                            clearInterval(intervals[component.selector]);
+                        }
+                        line.style.width = i+'%';
+                        i = i + 1;
+                    }, 40);
+
+                });
             });
 
             apollo
@@ -267,8 +297,13 @@ export function component(name, funcName, selector, query, path, options={},init
 }
 
 export var lodash = _;
-export var jquery = $;
 export var numeral = _n;
+
+export function jqueryLoading(func){
+    utils.widgetsPluginLoader('widgetsJquery', currentScriptPath.join('/')+'/'+'widgetsJquery.js').then(loader => {
+        widgetsJquery.loading(func);
+    });
+}
 
 export function table_trades(selector, query, path = 'trades', options ={}){
     let props = {tableOptions: {}, dataOptions: {}};

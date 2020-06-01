@@ -8,7 +8,8 @@ module.exports = function(paths){
     return {
         entry: {
             'widgets': './src/widgets.js',
-            'widgetsGraphiql': './src/widgets-graphiql.js'
+            'widgetsGraphiql': './src/widgets-graphiql.js',
+            'widgetsJquery': './src/widgets-jquery.js'
         },
         output: {
             filename: '[name].js',
