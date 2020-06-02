@@ -84,7 +84,8 @@ function generatedData(it){
             sheet[get_option_path] = {};
             path = get_option_path;
             titles.push(option.title);
-            sort.push(option.sort != undefined ? option.sort : 'asc');
+            // sort.push(option.sort != undefined ? option.sort : 'asc');
+            sort.push(option.sort);
             if (option.include){
                 sheet[get_option_path] = getSheet(item, option.include).sheet;
                 path = path + '.' + getSheet(item, option.include).path;
@@ -139,7 +140,7 @@ function generatedData(it){
     // console.log(titles);
 
     let sort = function(arr, direction = 'asc', c = undefined){
-        if (direction != 'desc') {
+        if (direction == 'asc') {
             arr.sort(function(a,b){
                 let aa = c == undefined ? a : a[c];
                 let bb = c == undefined ? b : b[c];
@@ -147,7 +148,7 @@ function generatedData(it){
                 if (aa>bb) return 1;
                 return 0;
             });
-        } else {
+        } else if (direction == 'desc') {
             arr.sort(function(a,b){
                 let aa = c == undefined ? a : a[c];
                 let bb = c == undefined ? b : b[c];
