@@ -77,17 +77,16 @@
                 let gdata = it.generatedData;
                 let tmpCols = [];
                 _.each(gdata.cols, function(col){
-                    tmpCols.push(_.uniq(col).join(', '));
+                    tmpCols.push(typeof _.uniq(col)[0] == "object"  ? _.uniq(col)[0] : _.uniq(col).join(', '));
                 });
 
                 let tmpRows = [];
                 _.each(gdata.rows, function (row) {
-                    tmpRows.push([row.slice(0, gdata.titlesSize).join(', ')].concat(row.slice(gdata.titlesSize, row.length)));
+                    tmpRows.push([typeof tmpCols[0] == "object" && (tmpCols[0].type == 'date' || tmpCols[0].type == 'datetime') ? new Date(row[0]) : row.slice(0, gdata.titlesSize).join(', ')].concat(row.slice(gdata.titlesSize, row.length)));
                 });
 
-                data.push([tmpCols.slice(0, gdata.titlesSize).join(', ')].concat(tmpCols.slice(gdata.titlesSize, tmpCols.length)));
+                data.push([typeof tmpCols[0] == "object" ? tmpCols[0] : tmpCols.slice(0, gdata.titlesSize).join(', ')].concat(tmpCols.slice(gdata.titlesSize, tmpCols.length)));
                 data = data.concat(tmpRows);
-
                 return data;
             }
         }
