@@ -9,6 +9,8 @@ npm install --save react react-dom isomorphic-fetch graphiql
 npm install --save-dev terser-webpack-plugin
 npm install --save-dev mini-css-extract-plugin
 npm install --save-dev optimize-css-assets-webpack-plugin
+
+
 For install
 -----------
 npm install

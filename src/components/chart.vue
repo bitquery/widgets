@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GChart :type="chartType" :data="chartData" :options="chartOptions" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" :events="chartEvents" />
     </div>
 </template>
 <script>
@@ -12,6 +12,7 @@
         data () {
             let theme = this.theme;
             return {
+                chartEvents: _.merge({}, this.options.chartEvents),
                 chartOptions: _.merge({
                     legendTextStyle: {
                         color: theme.text

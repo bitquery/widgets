@@ -352,3 +352,9 @@ export function template(selector, query, path = '', options ={}){
     props = _.merge(props, options);
     return component('template_component','template', selector, query, path, props, options);
 }
+
+export function chartByTime(selector, query, path = '', options ={}){
+    let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
+    props = _.merge(props, options);
+    return component('chart_by_time','chartByTime', selector, query, path, props, options);
+}
