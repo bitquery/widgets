@@ -94,7 +94,7 @@
                         it.dRevert.style.top = '10px';
                         it.dRevert.style.right = '10px';
                         it.dRevert.style.borderRadius = '0.25rem';
-                        it.dRevert.style.border = '1px solid black';
+                        it.dRevert.style.border = it.context.theme == 'dark' ? '1px solid #758591' : '1px solid black';
                         it.dRevert.style.padding = '0 5px';
                         it.dRevert.style.cursor = 'pointer';
                         it.$el.appendChild(it.dRevert);
@@ -351,7 +351,7 @@
                 // console.log(google);
                 let chartLayout = chart.getChartLayoutInterface();
                 let select = document.createElement('div');
-                select.style.border = "1px dashed #3366cc";
+                select.style.border = "1px solid #3366cc";
                 select.style.display = "none";
                 select.style.position = "fixed";
                 select.style.zIndex = 1000;
