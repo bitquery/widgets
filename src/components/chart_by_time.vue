@@ -378,39 +378,67 @@
                     select.style.height = y4 - y3 + 'px';
                 }
 
-                function getDataPoints(areaBoungingBox, numberOfRows){
+                function getDataPoints(areaBoungingBox, minDate, maxDate, dateFormat){
+                    let dateKey = 'months';
+                    switch(dateFormat){
+                        case '%Y':
+                            dateKey = 'years';
+                            break;
+                        case '%Y-%m':
+                            break;
+                        case '%Y-%m-%d':
+                            dateKey = 'days';
+                            break;
+                    }
+                    let numberOfRows = getNumberOfRows(minDate, maxDate, dateFormat);
                     let onePoint = areaBoungingBox.width/numberOfRows;
                     let points = [];
                     for (var row = 0; row < numberOfRows; row++){
-                        points[row] = {left: (onePoint*row)+areaBoungingBox.left, width: onePoint}
+                        let min = moment(minDate).add(row, dateKey);
+                        points[row] = {left: (onePoint*row)+areaBoungingBox.left, width: onePoint, date: min, dateFormatted: min.format('YYYY-MM-DD')}
                     }
-                    return points
+                    return points;
+                }
+
+                function getNumberOfRows(minDate, maxDate, dateFormat){
+                    switch(dateFormat){
+                        case '%Y':
+                            return maxDate.endOf('years').diff(minDate, 'years')+1;
+                            break;
+                        case '%Y-%m':
+                            return maxDate.endOf('months').diff(minDate, 'months')+1;
+                            break;
+                        case '%Y-%m-%d':
+                        default:
+                            return maxDate.endOf('days').diff(minDate, 'days')+1;
+                    }
                 }
 
                 function selectPoints() {
-                    let data = google.visualization.arrayToDataTable(it.prepareChartData(it.context.vm.result, it.options));
+                    let prepareChartData = it.prepareChartData(it.context.vm.result, it.options);
                     let xx1 = x3 - graph.getBoundingClientRect().left + parseInt(graph.getAttribute('x'));
                     let xx2 = x4 - graph.getBoundingClientRect().left + parseInt(graph.getAttribute('x'));
                     let selection = [];
-                    let dataPoints = getDataPoints(chartLayout.getChartAreaBoundingBox(), data.getNumberOfRows());
-                    for (var row = 0; row < data.getNumberOfRows(); row++) {
+                    let dataPoints = getDataPoints(
+                        chartLayout.getChartAreaBoundingBox(),
+                        moment(_.minBy(prepareChartData.slice(1), function(pcd){return pcd[0].v})[0].v),
+                        moment(_.maxBy(prepareChartData.slice(1), function(pcd){return pcd[0].v})[0].v),
+                        it.context.query.variables.dateFormat
+                    );
+                    for (var row = 0; row < dataPoints.length; row++) {
                         let point = dataPoints[row];
                         if ((point.left >= (xx1 - point.width)) && ((point.left + point.width) <= (xx2 + point.width))){
-                            selection.push(row);
+                            selection.push(point);
                         }
                     }
                     if(selection.length>0){
-                        // console.log(moment(data.getValue(selection[0], 0)).format('YYYY-MM-DD'));
-                        // console.log(it.setTill(data.getValue(selection[selection.length-1], 0), it.context.query.variables.dateFormat));
-                        // it.context.is_request = true;
                         if (Array.isArray(it.historyRequests)){
                             it.historyRequests.push(it.context.query.variables);
                         }else{
                             it.historyRequests = [it.context.query.variables];
                         }
                         it.hasInnerRequest = true;
-                        it.context.query.request({from: moment(data.getValue(selection[0], 0)).format('YYYY-MM-DD'), till: it.setTill(data.getValue(selection[selection.length-1], 0), it.context.query.variables.dateFormat)}, function (data, his) {
-                            // it.context.is_request = false;
+                        it.context.query.request({from: selection[0].date.format('YYYY-MM-DD'), till: it.setTill(selection[selection.length-1].date, it.context.query.variables.dateFormat)}, function (data, his) {
                             it.hasInnerRequest = true;
                         });
                     }
