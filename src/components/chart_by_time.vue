@@ -91,7 +91,7 @@
                         it.dRevert.innerHTML='Revert zoom';
                         it.dRevert.style.position = "absolute";
                         it.dRevert.style.zIndex = 1000;
-                        it.dRevert.style.top = '10px';
+                        it.dRevert.style.bottom = '15px';
                         it.dRevert.style.right = '10px';
                         it.dRevert.style.borderRadius = '0.25rem';
                         it.dRevert.style.border = it.context.theme == 'dark' ? '1px solid #758591' : '1px solid black';
@@ -101,7 +101,8 @@
                         it.dRevert.addEventListener('click', function(e){
                             it.hasInnerRequest = true;
                             //                         last
-                            it.context.query.request(_.first(it.historyRequests), function (data, his) {
+                            let firstHistoryRequest = _.first(it.historyRequests);
+                            it.context.query.request({from: firstHistoryRequest.from, till: firstHistoryRequest.till}, function (data, his) {
                                 it.hasInnerRequest = true;
                                 // it.historyRequests.pop();
                                 it.historyRequests = [];
@@ -133,15 +134,17 @@
                             "</select>";
                         it.dFormat.style.position = "absolute";
                         it.dFormat.style.zIndex = 1000;
-                        it.dFormat.style.top = '10px';
-                        it.dFormat.style.left = '10px';
+                        it.dFormat.style.bottom = '15px';
+                        it.dFormat.style.left = '0';
+                        it.dFormat.style.width = '100%';
+                        it.dFormat.style.textAlign = 'center';
                         it.$el.appendChild(it.dFormat);
                         it.dFormat.querySelector('select').addEventListener('change', function(e){
-                            if (Array.isArray(it.historyRequests)){
-                                it.historyRequests.push(it.context.query.variables);
-                            }else{
-                                it.historyRequests = [it.context.query.variables];
-                            }
+                            // if (Array.isArray(it.historyRequests)){
+                            //     it.historyRequests.push(it.context.query.variables);
+                            // }else{
+                            //     it.historyRequests = [it.context.query.variables];
+                            // }
                             it.hasInnerRequest = true;
                             it.context.query.request({dateFormat: e.target.value}, function (data, his) {
                                 it.hasInnerRequest = true;
@@ -180,7 +183,7 @@
                                     case 'datetime':
                                         // ISO 8601 — 2014-12-06T10:30:00-0800
                                         // tmp_data = moment(tmp_data);
-                                        tmp_data = {v: new Date(tmp_data), f: it.setPattern(tmp_data, it.context.query.variables.dateFormat)};
+                                        tmp_data = it.setPattern(tmp_data, it.context.query.variables.dateFormat);
                                         break;
                                     case 'timeofday':
                                         // 8:30am would be: [8, 30, 0, 0]
@@ -200,14 +203,14 @@
             setPattern: function(date, dateFormat){
                 switch(dateFormat){
                     case '%Y':
-                        return moment(date).format('YYYY');
+                        return {v: moment(date).toDate(), f: moment.utc(date).format('YYYY')};
                         break;
                     case '%Y-%m':
-                        return moment(date).format('MMM YYYY');
+                        return {v: moment(date).toDate(), f: moment.utc(date).format('MMM YYYY')};
                         break;
                     case '%Y-%m-%d':
                     default:
-                        return moment(date).format('MMM DD, YYYY');
+                        return {v: moment(date).toDate(), f: moment(date).format('MMM DD, YYYY')};
                 }
             },
             setTill: function(till, dateFormat){
@@ -228,10 +231,10 @@
                     case '%Y':
                         return {
                             hAxis:{
-                                title: 'Years',
+                                // title: 'Years',
                                 format: 'yyyy',
                                 gridlines: {
-                                    interval: [1],
+                                    // interval: [1],
                                     units: {
                                         years: {format: ['yyyy']},
                                         // months: {format: ['MM/yy']},
@@ -244,7 +247,7 @@
                                         months: {format: [' ']},
                                         days: {format: [' ']},
                                     },
-                                    color: 'grey',
+                                    color: 'transparent',
                                 }
                             }
                         };
@@ -252,22 +255,22 @@
                     case '%Y-%m-%d':
                         return {
                             hAxis:{
-                                title: 'Days',
+                                // title: 'Days',
                                 format: 'dd/MM/yy',
                                 gridlines: {
                                     units: {
                                         years: {format: ['yyyy']},
                                         months: {format: ['MM/yy']},
-                                        days: {format: ['dd']},
+                                        days: {format: ['dd/MM/yy']},
                                     },
                                 },
                                 minorGridlines: {
                                     units: {
-                                        years: {format: ['yyyy']},
-                                        months: {format: ['MM']},
-                                        days: {format: ['dd']},
+                                        years: {format: [' ']},
+                                        months: {format: [' ']},
+                                        days: {format: [' ']},
                                     },
-                                    color: 'grey',
+                                    color: 'transparent',
                                 }
                             }
                         };
@@ -275,7 +278,7 @@
                     case '%Y-%m-%dT%H':
                         return {
                             hAxis:{
-                                title: 'Hours'
+                                // title: 'Hours'
                             }
                         };
                         break;
@@ -283,22 +286,22 @@
                     default:
                         return {
                             hAxis:{
-                                title: 'Months',
-                                format: 'dd/MM/yy',
+                                // title: 'Months',
+                                format: 'MM/yy',
                                 gridlines: {
                                     units: {
                                         years: {format: ['yyyy']},
                                         months: {format: ['MM/yy']},
-                                        days: {format: ['dd']},
+                                        days: {format: [' ']},
                                     },
                                 },
                                 minorGridlines: {
                                     units: {
-                                        years: {format: ['yyyy']},
-                                        months: {format: ['MM']},
-                                        days: {format: ['dd']},
+                                        years: {format: [' ']},
+                                        months: {format: [' ']},
+                                        days: {format: [' ']},
                                     },
-                                    color: 'grey',
+                                    color: 'transparent',
                                 }
                             }
                         };
