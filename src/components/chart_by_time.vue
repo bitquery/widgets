@@ -1,7 +1,7 @@
 <template>
     <div>
         <GChart :type="chartType" :data="chartData" :options="chartOptions" :events="chartEvents" @ready="onReady" />
-{{setZoom()}}
+{{setUnits()}}
 {{setRevert()}}
     </div>
 </template>
@@ -79,7 +79,7 @@
             }
         },
         mounted: function(){
-            this.setZoom();
+            this.setUnits();
             this.setRevert();
         },
         methods: {
@@ -121,23 +121,19 @@
                     }
                 }
             },
-            setZoom: function(){
+            setUnits: function(){
                 let it = this;
                 if(it.$el && it.context.query.refresh){
                     if(!it.dFormat){
                         it.dFormat = document.createElement('div');
-                        it.dFormat.innerHTML = "Time units <select>" +
+                        // opacity: 0
+                        it.dFormat.innerHTML = "<span></span><select>" +
                             // "<option value='%Y-%m-%dT%H'>Hours</option>" +
                             "<option value='%Y-%m-%d'>Days</option>" +
-                            "<option value='%Y-%m'>Month</option>" +
+                            "<option value='%Y-%m'>Months</option>" +
                             "<option value='%Y'>Years</option>" +
                             "</select>";
-                        it.dFormat.style.position = "absolute";
-                        it.dFormat.style.zIndex = 1000;
-                        it.dFormat.style.bottom = '15px';
-                        it.dFormat.style.left = '0';
-                        it.dFormat.style.width = '100%';
-                        it.dFormat.style.textAlign = 'center';
+                        it.dFormat.classList.add('widgets-set-units');
                         it.$el.appendChild(it.dFormat);
                         it.dFormat.querySelector('select').addEventListener('change', function(e){
                             // if (Array.isArray(it.historyRequests)){
@@ -152,6 +148,7 @@
                         });
                     }
                     it.dFormat.querySelector('select').value = it.context.query.variables.dateFormat;
+                    it.dFormat.querySelector('span').innerText = it.dFormat.querySelector('select>option:checked').text;
                 }
             },
             prepareChartData: function(result, options){

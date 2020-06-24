@@ -287,3 +287,29 @@
 .widgets-errors{
   color: red;
 }
+
+.widgets-set-units{
+  position: absolute;
+  z-index: 1000;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  span{
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-underline-position: under;
+    cursor: pointer;
+  }
+
+  select{
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+  }
+}
