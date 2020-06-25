@@ -96,7 +96,7 @@
                             it.hasInnerRequest = true;
                             //                         last
                             let firstHistoryRequest = _.first(it.historyRequests);
-                            it.context.query.request({from: firstHistoryRequest.from, till: firstHistoryRequest.till}, function (data, his) {
+                            it.context.query.request({from: (firstHistoryRequest.from || null), till: (firstHistoryRequest.till || null)}, function (data, his) {
                                 it.hasInnerRequest = true;
                                 // it.historyRequests.pop();
                                 it.historyRequests = [];
