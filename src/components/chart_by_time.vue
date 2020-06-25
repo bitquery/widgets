@@ -89,14 +89,8 @@
                     if(!it.dRevert){
                         it.dRevert = document.createElement('div');
                         it.dRevert.innerHTML='Revert zoom';
-                        it.dRevert.style.position = "absolute";
-                        it.dRevert.style.zIndex = 1000;
-                        it.dRevert.style.bottom = '15px';
-                        it.dRevert.style.right = '10px';
-                        it.dRevert.style.borderRadius = '0.25rem';
                         it.dRevert.style.border = it.context.theme == 'dark' ? '1px solid #758591' : '1px solid black';
-                        it.dRevert.style.padding = '0 5px';
-                        it.dRevert.style.cursor = 'pointer';
+                        it.dRevert.classList.add('widgets-revert-zoom');
                         it.$el.appendChild(it.dRevert);
                         it.dRevert.addEventListener('click', function(e){
                             it.hasInnerRequest = true;

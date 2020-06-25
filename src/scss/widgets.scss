@@ -313,3 +313,13 @@
     opacity: 0;
   }
 }
+
+.widgets-revert-zoom{
+  position: absolute;
+  z-index: 1000;
+  bottom: 15px;
+  right: 10px;
+  border-radius: 0.25rem;
+  padding: 0 5px;
+  cursor: pointer;
+}
