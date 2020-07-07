@@ -170,6 +170,9 @@
 
                             if(v.title && v.title.type){
                                 switch(v.title.type){
+                                    case 'number':
+                                        tmp_data = v.type == 'float' ? parseFloat(tmp_data) : parseInt(tmp_data);
+                                        break;
                                     case 'date':
                                     case 'datetime':
                                         // ISO 8601 — 2014-12-06T10:30:00-0800
