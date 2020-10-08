@@ -1,6 +1,6 @@
 <template>
     <div>
-        <GChart :type="chartType" :data="chartData" :options="chartOptions" :events="chartEvents" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" :events="chartEvents" :settings="{ packages: ['corechart', 'table', 'geochart'] }" />
     </div>
 </template>
 <script>
