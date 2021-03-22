@@ -171,7 +171,12 @@ export function query(query, schema = undefined){
         // apollo.cache = cache;
         // apollo = new ApolloClient({uri: props['url'], cache});
     } else {
-        apollo = new ApolloClient({uri: props['url']});
+        apollo = new ApolloClient({
+          uri: props['url'],
+          headers: {
+            'X-API-KEY': props['apikey']
+          },
+        });
     }
 
     let properties = {
