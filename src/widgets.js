@@ -145,9 +145,9 @@ let props = {
     }
 };
 
-export function init(url, apikey, options = {}){
-    options['url'] = url;
-    options['apikey'] = apikey;
+export function init(graphqlUrl, ideUrl, options = {}){
+    options['graphqlUrl'] = graphqlUrl;
+    options['ideUrl'] = ideUrl;
     props = _.merge(props, options);
     // apollo = new ApolloClient({uri: options['url']});
     return props
@@ -172,10 +172,7 @@ export function query(query, schema = undefined){
         // apollo = new ApolloClient({uri: props['url'], cache});
     } else {
         apollo = new ApolloClient({
-          uri: props['url'],
-          headers: {
-            'X-API-KEY': props['apikey']
-          },
+          uri: props['graphqlUrl'],
         });
     }
 
@@ -284,7 +281,8 @@ export function component(name, funcName, selector, query, path, options={},init
                         locale: it.vmi18n.locale,
                         path: it.path,
                         result: result_data,
-                        errors: _.get(query.errors, '', query.errors)
+                        errors: _.get(query.errors, '', query.errors),
+                        ideUrl: props['ideUrl']
                     },
                     render: h => h(Components['base'])
                 });

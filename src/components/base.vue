@@ -7,7 +7,11 @@
             <nodata v-else-if="is_no_data" :options="options"></nodata>
             <component :is="componentName" :data="data" :variables="variables" :options="options" :theme="theme" :context="context" :componentName="componentName" v-else></component>
         </div>
-        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
+<!--        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>-->
+        <div style="margin-top: 5px;float: right; cursor: pointer;">
+          <a v-on:click="handleOpenIde" class="badge badge-secondary open-btn">Open GraphQL IDE</a>
+        </div>
+
     </div>
 </template>
 <script>
@@ -24,7 +28,7 @@
                 context: context,
                 theme: context.themes[context.theme],
                 variables: context.query.variables,
-                data: this.$parent._data
+                data: this.$parent._data,
             }
         },
         computed: {
@@ -34,6 +38,29 @@
             is_no_data: function(){
                 return Array.isArray(this.data.result) && this.data.result.length < 1;
             }
+        },
+        methods: {
+          handleOpenIde: function() {
+            fetch(this.data.ideUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              body: JSON.stringify({
+                query: this.context.query.query,
+                variables: JSON.stringify(this.context.query.variables),
+              }),
+            })
+                .then((res) => {
+                  if (res.status === 200 || res.status === 302) {
+                    window.open(res.url, '_blank').focus()
+                    // res.redirect(302, res.url)
+                  } else {
+                    console.log(res.message)
+                  }
+                })
+          }
         }
     }
 </script>

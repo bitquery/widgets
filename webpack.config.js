@@ -3,6 +3,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const path = require('path')
 
 module.exports = function(paths){
     return {
@@ -13,6 +14,7 @@ module.exports = function(paths){
         },
         output: {
             filename: '[name].js',
+            // path: path.resolve(__dirname, '../explorer/app/javascript/packs'),
             // globalObject: 'this',
             libraryTarget: 'window',
             library: '[name]'
