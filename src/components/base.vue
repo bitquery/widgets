@@ -41,6 +41,7 @@
         },
         methods: {
           handleOpenIde: function() {
+            let wwindow = window.open()
             fetch(this.data.ideUrl, {
               method: 'POST',
               headers: {
@@ -54,7 +55,8 @@
             })
                 .then((res) => {
                   if (res.status === 200 || res.status === 302) {
-                    window.open(res.url, '_blank').focus()
+                    wwindow.location.href = res.url
+                    // window.open(res.url, '_blank').focus()
                     // res.redirect(302, res.url)
                   } else {
                     console.log(res.message)
