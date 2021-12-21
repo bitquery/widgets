@@ -40,7 +40,6 @@ import utils from './lib/utils'
 // }
 
 
-
 // let fragmentMatcher = new IntrospectionFragmentMatcher({
 //     introspectionQueryResultData: {
 //         __schema: {
@@ -106,14 +105,21 @@ requireComponents.keys().forEach(fileName => {
 });
 
 VueI18n.prototype.getChoiceIndex = function (choice, choicesLength) {
-    if (this.locale !== 'ru') {}
-    if (choice === 0) {return 0;}
+    if (this.locale !== 'ru') {
+    }
+    if (choice === 0) {
+        return 0;
+    }
 
     const teen = choice > 10 && choice < 20;
     const endsWithOne = choice % 10 === 1;
 
-    if (!teen && endsWithOne) {return 1;}
-    if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {return 2;}
+    if (!teen && endsWithOne) {
+        return 1;
+    }
+    if (!teen && choice % 10 >= 2 && choice % 10 <= 4) {
+        return 2;
+    }
     return (choicesLength < 4) ? 2 : 3;
 };
 Vue.use(VueGoogleCharts);
@@ -127,7 +133,7 @@ currentScriptPath.pop();
 
 let props = {
     locale: 'en',
-    currentScriptPath: currentScriptPath.join('/')+'/',
+    currentScriptPath: currentScriptPath.join('/') + '/',
     widgetsGraphiq: true,
     callbacks: {},
     theme: 'light',
@@ -145,22 +151,23 @@ let props = {
     }
 };
 
-export function init(graphqlUrl, ideUrl, options = {}){
+export function init(graphqlUrl, ideUrl, csrfToken, options = {}) {
     options['graphqlUrl'] = graphqlUrl;
     options['ideUrl'] = ideUrl;
+    options['csrfToken'] = csrfToken;
     props = _.merge(props, options);
     // apollo = new ApolloClient({uri: options['url']});
     return props
 }
 
-export function callbacks(cbs = {}){
+export function callbacks(cbs = {}) {
     props.callbacks = _.merge(props.callbacks, cbs);
     return props.callbacks
 }
 
-export function query(query, schema = undefined){
+export function query(query, schema = undefined) {
 
-    if (schema){
+    if (schema) {
         // let fragmentMatcher = new IntrospectionFragmentMatcher({
         //     introspectionQueryResultData: {
         //         __schema: schema,
@@ -172,7 +179,11 @@ export function query(query, schema = undefined){
         // apollo = new ApolloClient({uri: props['url'], cache});
     } else {
         apollo = new ApolloClient({
-          uri: props['graphqlUrl'],
+            uri: props['graphqlUrl'],
+            credentials: 'same-origin',
+            headers: {
+                'X-CSRF-Token': props['csrfToken']
+            }
         });
     }
 
@@ -186,38 +197,39 @@ export function query(query, schema = undefined){
         gql: gql(query),
         data: {},
         components: [],
-        set: function(query){
+        set: function (query) {
             properties.query = query;
             properties.gql = gql(query);
             return properties;
         },
-        request: function(p = {}, thenResult = function(result, it){}, refresh = true){
-        var it = this;
-        it.is_request = true;
-        let variables = {
-            "limit": 10,
-            "offset": 0
-        };
-        it.refresh = refresh;
-        it.variables = _.merge(variables, it.variables, p);
-        it.original.variables == undefined ? it.original.variables = it.variables : '';
+        request: function (p = {}, thenResult = function (result, it) {
+        }, refresh = true) {
+            var it = this;
+            it.is_request = true;
+            let variables = {
+                "limit": 10,
+                "offset": 0
+            };
+            it.refresh = refresh;
+            it.variables = _.merge(variables, it.variables, p);
+            it.original.variables == undefined ? it.original.variables = it.variables : '';
 
-        let intervals = {};
-            _.each(it.components,function(component){
+            let intervals = {};
+            _.each(it.components, function (component) {
                 let loading = '<div style="margin: 10px;">' +
                     '<span>Loading...</span>' +
                     '<div style="background-color: #eeeeee"><div style="width: 0%; height:4px; background-color: #007bff"></div></div>' +
                     '<span style="font-size: 12px;float: left"">0</span><span style="font-size: 12px;float: right">100</span>' +
                     '</div>';
-                _.each(utils.select(component.selector).elements, function(element){
+                _.each(utils.select(component.selector).elements, function (element) {
                     element.innerHTML = loading;
-                    let line = utils.select(component.selector+'>div>div>div').elements[0];
+                    let line = utils.select(component.selector + '>div>div>div').elements[0];
                     let i = 1;
-                    intervals[component.selector] = setInterval(function(){
-                        if (i > Math.floor(Math.random() * 15) + 84){
+                    intervals[component.selector] = setInterval(function () {
+                        if (i > Math.floor(Math.random() * 15) + 84) {
                             clearInterval(intervals[component.selector]);
                         }
-                        line.style.width = i+'%';
+                        line.style.width = i + '%';
                         i = i + 1;
                     }, 40);
 
@@ -225,33 +237,33 @@ export function query(query, schema = undefined){
             });
 
             apollo
-            .query({
-                query: it['gql'],
-                variables: it.variables,
-                errorPolicy: 'all',
-                fetchPolicy: 'no-cache',
-            })
-            .then(function(result){
-                it.is_request = false;
+                .query({
+                    query: it['gql'],
+                    variables: it.variables,
+                    errorPolicy: 'all',
+                    fetchPolicy: 'no-cache',
+                })
+                .then(function (result) {
+                    it.is_request = false;
 
-                if(refresh == true){
-                    it.data = result.data;
-                }
+                    if (refresh == true) {
+                        it.data = result.data;
+                    }
 
-                it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];
-                _.each(it.components,function(component){
-                    component.render()
+                    it.errors = Array.isArray(result.errors) && result.errors.length > 0 ? result.errors : [];
+                    _.each(it.components, function (component) {
+                        component.render()
+                    });
+                    thenResult(result.data, it);
                 });
-                thenResult(result.data, it);
-            });
-        return this;
-    }
+            return this;
+        }
     };
 
     return properties;
 }
 
-export function component(name, funcName, selector, query, path, options={},initialOptions={}){
+export function component(name, funcName, selector, query, path, options = {}, initialOptions = {}) {
     let properties = {
         name: name,
         funcName: funcName,
@@ -263,11 +275,11 @@ export function component(name, funcName, selector, query, path, options={},init
         selector: selector,
         query: query,
         path: path,
-        render: function(){
+        render: function () {
             var it = this;
             let result_data = typeof options.renderData === 'function' ? options.renderData(_.get(query.data, it.path, query.data)) : _.get(query.data, it.path, query.data);
 
-            if (it.vm == undefined){
+            if (it.vm == undefined) {
                 it.vmi18n = new VueI18n({
                     locale: it.locale,
                     fallbackLocale: 'en',
@@ -302,62 +314,62 @@ export function component(name, funcName, selector, query, path, options={},init
 export var lodash = _;
 export var numeral = _n;
 
-export function jqueryLoading(func){
-    utils.widgetsPluginLoader('widgetsJquery', currentScriptPath.join('/')+'/'+'widgetsJquery.js').then(loader => {
+export function jqueryLoading(func) {
+    utils.widgetsPluginLoader('widgetsJquery', currentScriptPath.join('/') + '/' + 'widgetsJquery.js').then(loader => {
         widgetsJquery.loading(func);
     });
 }
 
-export function table_trades(selector, query, path = 'trades', options ={}){
+export function table_trades(selector, query, path = 'trades', options = {}) {
     let props = {tableOptions: {}, dataOptions: {}};
     props = _.merge(props, options);
     return component('table_trades', 'table_trades', selector, query, path, props);
 }
 
-export function chart(selector, query, path = '', options ={}){
+export function chart(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
     props = _.merge(props, options);
-    return component('chart','chart', selector, query, path, props, options);
+    return component('chart', 'chart', selector, query, path, props, options);
 }
 
-export function table(selector, query, path = '', options ={}){
+export function table(selector, query, path = '', options = {}) {
     let props = {dataOptions: {}};
     props = _.merge(props, options);
-    return component('table_component','table', selector, query, path, props, options);
+    return component('table_component', 'table', selector, query, path, props, options);
 }
 
-export function text(selector, query, path = '', options ={}){
+export function text(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv'], dataOptions: {}};
     props = _.merge(props, options);
-    return component('text_component','text', selector, query, path, props, options);
+    return component('text_component', 'text', selector, query, path, props, options);
 }
 
-export function list(selector, query, path = '', options ={}){
+export function list(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv'], dataOptions: {}};
     props = _.merge(props, options);
-    return component('list_component','list', selector, query, path, props, options);
+    return component('list_component', 'list', selector, query, path, props, options);
 }
 
-export function pivotTable(selector, query, path = '', options ={}){
+export function pivotTable(selector, query, path = '', options = {}) {
     let props = {dataOptions: {}};
     props = _.merge(props, options);
-    return component('table_pivot','pivotTable', selector, query, path, props, options);
+    return component('table_pivot', 'pivotTable', selector, query, path, props, options);
 }
 
-export function pivotChart(selector, query, path = '', options ={}){
+export function pivotChart(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
     props = _.merge(props, options);
-    return component('chart_pivot','pivotChart', selector, query, path, props, options);
+    return component('chart_pivot', 'pivotChart', selector, query, path, props, options);
 }
 
-export function template(selector, query, path = '', options ={}){
+export function template(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv']};
     props = _.merge(props, options);
-    return component('template_component','template', selector, query, path, props, options);
+    return component('template_component', 'template', selector, query, path, props, options);
 }
 
-export function chartByTime(selector, query, path = '', options ={}){
+export function chartByTime(selector, query, path = '', options = {}) {
     let props = {excludeButtons: ['csv'], chartOptions: {}, dataOptions: {}, chartSettings: {}};
     props = _.merge(props, options);
-    return component('chart_by_time','chartByTime', selector, query, path, props, options);
+    return component('chart_by_time', 'chartByTime', selector, query, path, props, options);
 }
