@@ -9,7 +9,7 @@
         </div>
 <!--        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>-->
         <div style="margin-top: 5px;float: right; cursor: pointer;">
-          <a v-on:click="handleOpenIde" class="badge badge-secondary open-btn">Open GraphQL IDE</a>
+          <a v-on:click="handleOpenIde" class="badge badge-secondary open-btn">Get API</a>
         </div>
 
     </div>
