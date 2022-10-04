@@ -26,12 +26,21 @@
 
                   function escapeHtml(unsafe)
                   {
-                    return unsafe
-                        .replace(/&/g, "&amp;")
-                        .replace(/</g, "&lt;")
-                        .replace(/>/g, "&gt;")
-                        .replace(/"/g, "&quot;")
-                        .replace(/'/g, "&#039;");
+                    let str = String(unsafe);
+                    switch(str){
+                      case 'undefined':
+                      case 'null':
+                      case 'NaN':
+                        return '';
+                        break;
+                      default:
+                        return str
+                            .replace(/&/g, "&amp;")
+                            .replace(/</g, "&lt;")
+                            .replace(/>/g, "&gt;")
+                            .replace(/"/g, "&quot;")
+                            .replace(/'/g, "&#039;");
+                    }
                   }
                     return it.params.data ? it.params.data.replace('%{DATA}', escapeHtml(data)) : escapeHtml(data);
                 }
