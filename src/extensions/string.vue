@@ -26,20 +26,24 @@
 
                   function escapeHtml(unsafe)
                   {
-                    let str = String(unsafe);
-                    switch(str){
-                      case 'undefined':
-                      case 'null':
-                      case 'NaN':
-                        return '';
-                        break;
-                      default:
-                        return str
-                            .replace(/&/g, "&amp;")
-                            .replace(/</g, "&lt;")
-                            .replace(/>/g, "&gt;")
-                            .replace(/"/g, "&quot;")
-                            .replace(/'/g, "&#039;");
+                    if (it.params.escape === false){
+                      return unsafe
+                    }else{
+                      let str = String(unsafe);
+                      switch(str){
+                        case 'undefined':
+                        case 'null':
+                        case 'NaN':
+                          return '';
+                          break;
+                        default:
+                          return str
+                              .replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;")
+                              .replace(/"/g, "&quot;")
+                              .replace(/'/g, "&#039;");
+                      }
                     }
                   }
                     return it.params.data ? it.params.data.replace('%{DATA}', escapeHtml(data)) : escapeHtml(data);
