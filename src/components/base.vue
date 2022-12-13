@@ -41,27 +41,40 @@
         },
         methods: {
           handleOpenIde: function() {
-            let wwindow = window.open()
-            fetch(this.data.ideUrl, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-              },
-              body: JSON.stringify({
-                query: this.context.query.query,
-                variables: JSON.stringify(this.context.query.variables),
-              }),
-            })
-                .then((res) => {
-                  if (res.status === 200 || res.status === 302) {
-                    wwindow.location.href = res.url
-                    // window.open(res.url, '_blank').focus()
-                    // res.redirect(302, res.url)
-                  } else {
-                    console.log(res.message)
-                  }
-                })
+            let form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', this.data.ideUrl);
+            form.setAttribute('target', '_blank');
+
+            let formData = new FormData();
+            formData.append('query', this.data.query);
+            formData.append('variables', JSON.stringify(this.data.variables));
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+
+            // let wwindow = window.open()
+            // fetch(this.data.ideUrl, {
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json',
+            //     Accept: 'application/json',
+            //   },
+            //   body: JSON.stringify({
+            //     query: this.context.query.query,
+            //     variables: JSON.stringify(this.context.query.variables),
+            //   }),
+            // })
+            //     .then((res) => {
+            //       if (res.status === 200 || res.status === 302) {
+            //         wwindow.location.href = res.url
+            //         // window.open(res.url, '_blank').focus()
+            //         // res.redirect(302, res.url)
+            //       } else {
+            //         console.log(res.message)
+            //       }
+            //     })
           }
         }
     }
