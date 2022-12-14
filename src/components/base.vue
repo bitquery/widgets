@@ -53,6 +53,7 @@
             form.setAttribute('method', 'post');
             form.setAttribute('action', this.data.ideUrl);
             form.setAttribute('target', '_blank');
+            form.setAttribute('enctype', 'application/json');
             form.appendChild(createHiddenField('query', JSON.stringify(this.context.query.query)));
             form.appendChild(createHiddenField('variables', JSON.stringify(this.context.query.variables)));
             document.body.appendChild(form);
