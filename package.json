@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "apollo-boost": "^0.4.9",
-    "graphiql": "^0.16.0",
+    "graphiql": "^1.4.7",
     "graphql": "^14.7.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.5.1",
