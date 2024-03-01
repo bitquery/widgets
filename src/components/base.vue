@@ -71,7 +71,7 @@
             form.setAttribute('enctype', 'application/json');
             form.appendChild(createHiddenField('query', JSON.stringify(this.context.query.query)));
             form.appendChild(createHiddenField('variables', JSON.stringify(this.context.query.variables)));
-            form.appendChild(createHiddenField('endpointURL', JSON.stringify('https://graphql.bitquery.io')));
+            form.appendChild(createHiddenField('endpointURL', JSON.stringify('https://graphql.bitquery.io')))
             document.body.appendChild(form);
             form.submit();
             document.body.removeChild(form);
