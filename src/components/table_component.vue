@@ -48,10 +48,10 @@
                         return _.merge(parameters, data);
                         break;
                     case 'amount':
-                        return _.merge(parameters, {component: 'amount', thClass: 'text-end', tdClass: 'text-end '+ parameters.tdClass}, data);
+                        return _.merge(parameters, {component: 'amount', thClass: 'text-end word-no-wrap', tdClass: 'text-end '+ parameters.tdClass}, data);
                         break;
                     case 'count':
-                        return _.merge(parameters, {component: 'count', thClass: 'text-end', tdClass: 'text-end '+ parameters.tdClass}, data);
+                        return _.merge(parameters, {component: 'count', thClass: 'text-end word-no-wrap', tdClass: 'text-end '+ parameters.tdClass}, data);
                         break;
                     case 'string':
                     default:

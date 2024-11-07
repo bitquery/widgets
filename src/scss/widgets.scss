@@ -17,6 +17,11 @@
 .word-wrap{
   word-wrap: break-word;
 }
+
+.word-no-wrap{
+  white-space: nowrap;
+}
+
 .widgets-blur{
     -webkit-filter: blur(5px);
     -moz-filter: blur(5px);
