@@ -1,6 +1,6 @@
 <template>
-    <a :href='urlCallback' v-if="urlCallback" v-html="count"><span class="fa fa-list"></span></a>
-    <span v-else v-html="count"></span>
+    <a :href='urlCallback' v-if="urlCallback" v-html="count" :class="params.html_class"><span class="fa fa-list"></span></a>
+    <span v-else v-html="count" :class="params.html_class"></span>
 </template>
 <script>
     export default {
@@ -8,15 +8,27 @@
         props: ['item', 'params', 'callbacks'],
         computed: {
             count: function(){
-                let data = this.renderCallback ? this.renderCallback : this.params.data;
-                let count = _.get(this.item, this.params.path);
-                return data ? data.replace('%{DATA}', (this.params.path ? (parseInt(count) == 0 ? '-' : count) : '')) : (this.params.path ? (parseInt(count) == 0 ? '-' : count) : '');
+                let it = this;
+
+                if(typeof it.params.renderCallback === 'function'){
+                    return it.params.renderCallback(it.item)
+                } else if(it.params.forwarding == true){
+                    return it.params.data ? it.params.data.replace('%{DATA}', it.item) : it.item;
+                } else {
+                    let data;
+                    if (Array.isArray(it.params.path)){
+                        _.each(it.params.path, function(p){
+                            data = _.get(it.item, p);
+                            return data ? false : true;
+                        });
+                    } else {
+                        data =  _.get(it.item, it.params.path, 0);
+                    }
+                    return it.params.data ? it.params.data.replace('%{DATA}', (parseInt(data) == 0 ? '-' : data)) : (parseInt(data) == 0 ? '-' : data);
+                }
             },
             urlCallback: function (){
-                return  this.callbacks[this.params.urlCallbackName] ? this.callbacks[this.params.urlCallbackName](this.item) : false
-            },
-            renderCallback: function (){
-                return  this.callbacks[this.params.renderCallbackName] ? this.callbacks[this.params.renderCallbackName](this.item) : false
+                return  (this.params.urlCallbackName && (typeof this.callbacks[this.params.urlCallbackName] === 'function')) ? this.callbacks[this.params.urlCallbackName](this.item) : false
             }
         }
     }

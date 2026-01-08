@@ -1,15 +1,18 @@
 <template>
     <div>
-        <GChart :type="chartType" :data="chartData" :options="chartOptions" />
+        <GChart :type="chartType" :data="chartData" :options="chartOptions" :events="chartEvents" :settings="{ packages: ['corechart', 'table', 'geochart'] }" />
     </div>
 </template>
 <script>
+    import utils from "../lib/utils";
+
     export default {
         name: 'chart',
         props: ['data', 'variables', 'options', 'theme', 'context', 'componentName'],
         data () {
             let theme = this.theme;
             return {
+                chartEvents: _.merge({}, this.options.chartEvents),
                 chartOptions: _.merge({
                     legendTextStyle: {
                         color: theme.text
@@ -29,21 +32,23 @@
                     },
                     vAxes: {
                         '0': {
-                            title: this._i18n.t("title.calls_count"),
-                            format: '#,###',
                             textStyle: {
                                 color: theme.text
                             },
                             titleTextStyle: {
                                 color: theme.text
-                            },
-                            viewWindow: {
-                                min: 0
                             }
                         },
+                        '1': {
+                            textStyle: {
+                                color: theme.text
+                            },
+                            titleTextStyle: {
+                                color: theme.text
+                            }
+                        }
                     },
                     hAxis: {
-                        title: this._i18n.t("title.month"),
                         textStyle: {
                             color: theme.text
                         },
@@ -51,10 +56,7 @@
                             color: theme.text
                         },
                     },
-                    seriesType: 'bars',
-                    series: {
-                        '0': { color: '#9bc2cf' }
-                    }
+                    seriesType: 'bars'
                 }, this.options.chartOptions)
             };
         },
@@ -77,20 +79,43 @@
 
                 _.each(this.data.result, function (item) {
                     data.push(_.reduce(options.dataOptions, function(datas, v, k) {
-                        let d = it.renderCallback(v.renderCallbackName, item) ? it.renderCallback(v.renderCallbackName, item) : v.data;
-                        datas.push(d ? d : _.get(item, v.path));
+                        if(typeof v.renderCallback === 'function'){
+                            datas.push(v.renderCallback(item));
+                        } else {
+                            let tmp_data;
+                            if (Array.isArray(v.path)){
+                                _.each(v.path, function(p){
+                                    tmp_data = utils.setType(_.get(item, p), v.type);
+                                    return tmp_data ? false : true;
+                                });
+                            } else {
+                                tmp_data =  utils.setType(_.get(item, v.path), v.type);
+                            }
+
+                            if(v.title && v.title.type){
+                                switch(v.title.type){
+                                    case 'integer':
+                                        tmp_data = v.type == 'float' ? parseFloat(tmp_data) : parseInt(tmp_data);
+                                        break;
+                                    case 'date':
+                                    case 'datetime':
+                                        // ISO 8601 — 2014-12-06T10:30:00-0800
+                                        tmp_data = new Date(tmp_data);
+                                        break;
+                                    case 'timeofday':
+                                        // 8:30am would be: [8, 30, 0, 0]
+                                        break;
+                                    default:
+                                        return false;
+                                }
+                            }
+
+                            datas.push(v.data ? v.data.replace('%{DATA}', tmp_data) : tmp_data)
+                        }
                         return datas;
                     },[]));
                 });
                 return data;
-            },
-            callbacks: function(){
-                return this.$root.$options.context.callbacks
-            }
-        },
-        methods: {
-            renderCallback: function (name, item){
-                return  this.callbacks[name] ? this.callbacks[name](item) : false
             }
         }
     }

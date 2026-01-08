@@ -9,7 +9,7 @@ module.exports = function(paths){
         entry: {
             'widgets': './src/widgets.js',
             'widgetsGraphiql': './src/widgets-graphiql.js',
-            'widgetsGraph': './src/widgets-graph.js',
+            'widgetsJquery': './src/widgets-jquery.js'
         },
         output: {
             filename: '[name].js',
@@ -43,21 +43,6 @@ module.exports = function(paths){
                         'css-loader',
                         'sass-loader'
                     ]
-                    //MiniCssExtractPlugin.extract({
-                        //publicPath: 'http://localhost:63342/widgets/dist/',
-                        //fallback: 'style-loader',
-                        //use: ['css-loader', 'sass-loader']
-                        //     [{
-                        //     loader: 'css-loader',
-                        //     options: {
-                        //         minimize: true
-                        //     }
-                        // },
-                        //     {
-                        //         loader: 'sass-loader'
-                        //     }
-                        // ]
-                    // })
                 },
 
                 {

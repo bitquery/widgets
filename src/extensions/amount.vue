@@ -1,5 +1,5 @@
 <template>
-    <span v-html="parseAmount"></span>
+    <span v-html="parseAmount" :class="params.html_class"></span>
 </template>
 <script>
     import utils from '../lib/utils'
@@ -8,37 +8,48 @@
         props: ['item', 'params', 'callbacks'],
         computed: {
             parseAmount: function (){
-                let data = this.renderCallback ? this.renderCallback : this.params.data;
-                let amount = _.get(this.item, this.params.path);
-                if(parseInt(amount) == 0){
-                    return data ? data.replace('%{DATA}', (this.params.path ? '-' : '')) : (this.params.path ? '-' : '');
-                } else {
-                    let amt = amount;
-                    let unit = '';
+                let it = this;
 
-                    if (amount > 1e18){
-                        amt = amount/1e18;
-                        unit = "Q";
-                    } else if (amount > 1e12){
-                        amt = amount/1e12;
-                        unit = "T";
-                    } else if (amount > 1e9){
-                        amt = amount/1e9;
-                        unit = "G";
-                    } else if (amount > 1e6){
-                        amt = amount/1e6;
-                        unit = "M";
-                    } else if (amount < 1e-3 && amount > 0){
-                        amt = amount*1e3;
-                        unit = "m";
+                if(typeof it.params.renderCallback === 'function'){
+                    return it.params.renderCallback(it.item);
+                } else {
+                    let data;
+                    if (Array.isArray(it.params.path)){
+                        _.each(it.params.path, function(p){
+                            data = _.get(it.item, p);
+                            return data ? false : true;
+                        });
+                    } else if(it.params.forwarding == true){
+                        data = it.item;
                     } else {
-                        unit = '';
+                        data =  _.get(it.item, it.params.path, 0);
                     }
-                    return data ? data.replace('%{DATA}', (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '')) : (this.params.path ? (utils.delimeter(amt, {precision: 2})+unit) : '');
+
+                    let amt = data;
+                    let unit = '';
+                    let precision = 2;
+
+                    if (data > 1e18){
+                        amt = data/1e18;
+                        unit = "Q";
+                    } else if (data > 1e12){
+                        amt = data/1e12;
+                        unit = "T";
+                    } else if (data > 1e9){
+                        amt = data/1e9;
+                        unit = "G";
+                    } else if (data > 1e6) {
+                        amt = data / 1e6;
+                        unit = "M";
+                    } else if (data >= 1e-3 && data < 1){
+                        precision = 4;
+                    } else if (data < 1e-3 && data > 0){
+                        amt = data.toExponential(2);
+                        return it.params.data ? it.params.data.replace('%{DATA}', amt) : (amt);
+                    }
+
+                    return it.params.data ? it.params.data.replace('%{DATA}', (utils.delimeter(amt, {precision: precision})+unit)) : (utils.delimeter(amt, {precision: precision})+unit);
                 }
-            },
-            renderCallback: function (){
-                return  this.callbacks[this.params.renderCallbackName] ? this.callbacks[this.params.renderCallbackName](this.item) : false
             }
         }
     }

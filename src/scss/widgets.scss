@@ -1,10 +1,16 @@
-@import '~vis/dist/vis.min.css';
 @import '~graphiql/graphiql.css';
 
 .more-text{
+  margin-top: 10px;
   a:not([href]):not([tabindex]).more-link{
     color: #007bff;
     cursor: pointer;
+  }
+}
+
+.list-group{
+  .list-group-item{
+    background-color: transparent;
   }
 }
 
@@ -18,6 +24,7 @@
     -ms-filter: blur(5px);
     filter: blur(5px);
 }
+
 .widgets-loading{
   position: absolute;
   top: 0;
@@ -34,7 +41,7 @@
   &>div{
     width: 5rem;
     height: 5rem;
-    margin-top: 25%;
+    margin-top: 5rem;
   }
 }
 
@@ -83,6 +90,17 @@
     font-size: 60%;
     cursor: pointer;
 
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+
+    &.badge-secondary {
+      background-color: #6c757d;
+    }
+
     &:hover{
       color: #fff;
     }
@@ -120,7 +138,7 @@
           }
         }
         .widgets-modal-footer{
-          button.btn.btn-default{
+          .btn.btn-default{
             background-color: #212529;
             color: #fff;
           }
@@ -185,6 +203,17 @@
         padding-bottom: 16px;
         padding-left: 24px;
         height: 600px;
+      }
+
+      .widgets-modal-url{
+        padding-top: 0px;
+        padding-right: 24px;
+        padding-bottom: 16px;
+        padding-left: 24px;
+
+        input{
+          width: 100%;
+        }
       }
 
       .widgets-modal-footer{
@@ -257,4 +286,40 @@
 
 .widgets-errors{
   color: red;
+}
+
+.widgets-set-units{
+  position: absolute;
+  z-index: 1000;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  span{
+    text-decoration-line: underline;
+    text-decoration-style: dashed;
+    text-underline-position: under;
+    cursor: pointer;
+  }
+
+  select{
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+  }
+}
+
+.widgets-revert-zoom{
+  position: absolute;
+  z-index: 1000;
+  bottom: 15px;
+  right: 10px;
+  border-radius: 0.25rem;
+  padding: 0 5px;
+  cursor: pointer;
 }

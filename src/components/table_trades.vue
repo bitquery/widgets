@@ -4,7 +4,7 @@
             <table :class="'table table-hover table-sm widgets-table ' + theme_class">
                 <thead>
                 <tr>
-                    <th v-for="(title, i) in tableOptions.title" :class="params(i).thClass">{{ title }}</th>
+                    <th v-for="(data, i) in dataOptions" :class="params(i).thClass" v-html="data.title ? data.title : ''"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -82,8 +82,8 @@
             theme_class: function(){
                 return this.theme.html_class
             },
-            tableOptions: function(){
-                return this.options.tableOptions
+            dataOptions: function(){
+                return this.options.dataOptions
             },
             callbacks: function(){
                 return this.$root.$options.context.callbacks
@@ -97,22 +97,26 @@
                 return _.merge(params,{path: path})
             },
             params: function(i) {
-                let data = this.tableOptions.data[i];
+                let data = this.dataOptions[i];
+                let parameters = {component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : ''), tdStyle: (data.style ? data.style : '')};
                 switch(data.type){
                     case 'string-ellipsis':
-                        return _.merge({component: 'string', thClass: '', tdClass: 'ellipsis '+ (data.html_class ? data.html_class : '')}, data);
+                        parameters.tdClass = 'ellipsis '+ parameters.tdClass;
+                        return _.merge(parameters, data);
                         break;
-                    case 'string':
-                        return _.merge({component: 'string', thClass: '', tdClass: (data.html_class ? data.html_class : '')}, data);
+                    case 'string-wrap':
+                        parameters.tdClass = 'word-wrap '+ parameters.tdClass;
+                        return _.merge(parameters, data);
                         break;
                     case 'amount':
-                        return _.merge({component: 'amount', thClass: 'text-right', tdClass: 'text-right '+ (data.html_class ? data.html_class : '')}, data);
+                        return _.merge(parameters, {component: 'amount', thClass: 'text-right', tdClass: 'text-right '+ parameters.tdClass}, data);
                         break;
                     case 'count':
-                        return _.merge({component: 'count', thClass: 'text-right', tdClass: 'text-right '+ (data.html_class ? data.html_class : '')}, data);
+                        return _.merge(parameters, {component: 'count', thClass: 'text-right', tdClass: 'text-right '+ parameters.tdClass}, data);
                         break;
+                    case 'string':
                     default:
-                        return false;
+                        return _.merge(parameters, data);
                 }
             }
         }

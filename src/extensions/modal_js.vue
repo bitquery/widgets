@@ -14,10 +14,12 @@
 <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v{{version}}/dist/widgets.js"></script>
 <div id="{{ context.selector.replace('#', '') }}"></div>
 <script>
+    (function(){
     widgets.init('{{ context.url }}', '{{ context.apikey }}', {locale: '{{ context.locale }}', theme: '{{ context.theme }}'});
     var query = new widgets.query(`{{ context.query.query }}`);
-    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', '{{ context.initialOptions }}');
+    var wdts = new widgets.{{ func }}('{{ context.selector }}', query, '{{ context.path }}', {{ options }});
     query.request({{variables}});
+    })()
 </script>
 </textarea>
                     </div>
@@ -42,6 +44,35 @@
             return {context: this.$root.$options.context}
         },
         computed: {
+            options: function(){
+                let options = this.context.initialOptions;
+                let renderedFunctions = {};
+                let renderOptions = function(obj){
+                    let ro = {};
+                    _.each(obj, function(value, key){
+                        if (typeof value === 'function'){
+                            let rnd = Math.round(Math.random()*1000000);
+                            ro[key] = "RENDER_FUNCTION_"+rnd;
+                            renderedFunctions["RENDER_FUNCTION_"+rnd] = value.toString();
+                        }else if(Array.isArray(value)){
+                            ro[key] = value;
+                        }else if(typeof value === 'object'){
+                            ro[key] = renderOptions(value);
+                        } else {
+                            ro[key] = value;
+                        }
+                    });
+                    return ro;
+                };
+                let renderedOptions = renderOptions(options);
+                let str = JSON.stringify(renderedOptions, null, ' ');
+
+                _.each(renderedFunctions, function(value, key){
+                    str = str.replace('"'+key+'"', value);
+                });
+
+                return str;
+            },
             is_original: function(){
               return this.context.query.query == this.context.query.original.query && _.isEqual(this.context.query.variables, this.context.query.original.variables)
             },
