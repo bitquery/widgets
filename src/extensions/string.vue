@@ -9,7 +9,6 @@
         computed: {
             text: function(){
                 let it = this;
-
                 if(typeof it.params.renderCallback === 'function'){
                     return it.params.renderCallback(it.item)
                 } else if(it.params.forwarding == true){
@@ -24,7 +23,30 @@
                     } else {
                         data =  _.get(it.item, it.params.path);
                     }
-                    return it.params.data ? it.params.data.replace('%{DATA}', data) : data;
+
+                  function escapeHtml(unsafe)
+                  {
+                    if (it.params.escape === false){
+                      return unsafe
+                    }else{
+                      let str = String(unsafe);
+                      switch(str){
+                        case 'undefined':
+                        case 'null':
+                        case 'NaN':
+                          return '';
+                          break;
+                        default:
+                          return str
+                              .replace(/&/g, "&amp;")
+                              .replace(/</g, "&lt;")
+                              .replace(/>/g, "&gt;")
+                              .replace(/"/g, "&quot;")
+                              .replace(/'/g, "&#039;");
+                      }
+                    }
+                  }
+                    return it.params.data ? it.params.data.replace('%{DATA}', escapeHtml(data)) : escapeHtml(data);
                 }
             },
             urlCallback: function (){

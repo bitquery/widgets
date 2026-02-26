@@ -7,7 +7,11 @@
             <nodata v-else-if="is_no_data" :options="options"></nodata>
             <component :is="componentName" :data="data" :variables="variables" :options="options" :theme="theme" :context="context" :componentName="componentName" v-else></component>
         </div>
-        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>
+<!--        <links :obj="componentName" :func="func" :exclude="exclude" :title="title"></links>-->
+        <div style="margin-top: 5px;float: right; cursor: pointer;">
+          <a v-on:click="handleOpenIde" class="badge badge-secondary open-btn">Get API</a>
+        </div>
+
     </div>
 </template>
 <script>
@@ -15,6 +19,19 @@
         name: 'base',
         data () {
             let context = this.$root.$options.context;
+            let currentTabElement = document.querySelector("body > div:nth-child(6) > ul > li:nth-child(1) > a");
+            let currentTab = currentTabElement ? currentTabElement.text.toLowerCase() : 'default';
+
+            let currentUrl = window.location.href;
+
+            let networkPattern = /https?:\/\/[^\/]+\/(\w+)/;
+            let match = currentUrl.match(networkPattern);
+            let network = match ? match[1] : 'default';
+
+            let utmParameters = `?utm_source=explorer.bitquery.io&utm_medium=referral&utm_campaign=${encodeURIComponent(network)}&utm_content=${encodeURIComponent(currentTab)}`;
+
+            let ideUrlWithUtm = context.ideUrl + utmParameters;
+
             return {
                 options: context.options,
                 title: context.options.title,
@@ -24,7 +41,8 @@
                 context: context,
                 theme: context.themes[context.theme],
                 variables: context.query.variables,
-                data: this.$parent._data
+                data: this.$parent._data,
+                ideUrlWithUtm
             }
         },
         computed: {
@@ -34,6 +52,30 @@
             is_no_data: function(){
                 return Array.isArray(this.data.result) && this.data.result.length < 1;
             }
+        },
+        methods: {
+          handleOpenIde: function() {
+            
+            let createHiddenField = function(name, value) {
+              let input = document.createElement('input');
+              input.setAttribute('type', 'hidden');
+              input.setAttribute('name', name);
+              input.setAttribute('value', value);
+              return input;
+            }
+
+            let form = document.createElement('form');
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', this.ideUrlWithUtm);
+            form.setAttribute('target', '_blank');
+            form.setAttribute('enctype', 'application/json');
+            form.appendChild(createHiddenField('query', JSON.stringify(this.context.query.query)));
+            form.appendChild(createHiddenField('variables', JSON.stringify(this.context.query.variables)));
+            form.appendChild(createHiddenField('endpointURL', JSON.stringify('https://graphql.bitquery.io')))
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+          }
         }
     }
 </script>
