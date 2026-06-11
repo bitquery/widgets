@@ -5,7 +5,9 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const path = require('path')
 
-module.exports = function(paths){
+const srcPath = path.resolve(__dirname, 'src');
+
+module.exports = function(){
     return {
         entry: {
             'widgets': './src/widgets.js',
@@ -14,8 +16,7 @@ module.exports = function(paths){
         },
         output: {
             filename: '[name].js',
-            // path: path.resolve(__dirname, '../explorer/app/javascript/packs'),
-            // globalObject: 'this',
+            path: path.resolve(__dirname, 'dist'),
             libraryTarget: 'window',
             library: '[name]'
         },
@@ -33,17 +34,22 @@ module.exports = function(paths){
                 },
                 {
                     test: /\.s[ac]ss$/i,
-                    include: paths,
+                    include: srcPath,
                     use: [
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: 'https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.0.60/',
+                                publicPath: '../',
                                 minimize: true
                             },
                         },
                         'css-loader',
-                        'sass-loader'
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                implementation: require('sass')
+                            }
+                        }
                     ]
                 },
 

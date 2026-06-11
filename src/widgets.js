@@ -151,7 +151,22 @@ let props = {
     }
 };
 
+function apolloHeaders() {
+    let headers = {};
+    if (props['csrfToken']) {
+        headers['X-CSRF-Token'] = props['csrfToken'];
+    }
+    if (props['accessToken']) {
+        headers['Authorization'] = 'Bearer ' + props['accessToken'];
+    }
+    return headers;
+}
+
 export function init(graphqlUrl, ideUrl, csrfToken, options = {}) {
+    if (typeof csrfToken === 'object' && csrfToken !== null) {
+        options = csrfToken;
+        csrfToken = '';
+    }
     options['graphqlUrl'] = graphqlUrl;
     options['ideUrl'] = ideUrl;
     options['csrfToken'] = csrfToken;
@@ -180,10 +195,8 @@ export function query(query, schema = undefined) {
     } else {
         apollo = new ApolloClient({
             uri: props['graphqlUrl'],
-            credentials: 'same-origin',
-            headers: {
-                'X-CSRF-Token': props['csrfToken']
-            }
+            credentials: props['accessToken'] ? 'omit' : 'same-origin',
+            headers: apolloHeaders()
         });
     }
 
